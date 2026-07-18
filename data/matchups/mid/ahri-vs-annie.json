@@ -1,0 +1,41 @@
+{
+  "lane": "mid",
+  "me": "ahri",
+  "enemy": "annie",
+  "aiRating": 4,
+  "advantage": "有利",
+  "winRate": 52.4,
+  "summary": "射程で勝る対面。アニーのスタンゲージ（スタック）を常に数え、4スタック中は下がる。Lv6以降はRの機動力でティバーを避けながら、一方的に仕掛けられる。",
+  "gamePlan": {
+    "early": "Qの射程で先にプッシュし、CS差で圧をかける。アニーの4スタック（発光）中はEの射程外へ。プッシュ後はリバーに視界を置いてガンクを回避。",
+    "mid": "フラッシュ＋ティバーの即死コンボだけ警戒し、HP60%以下で射程内に立たない。先にプッシュしてからロームし、相手より速く動く。",
+    "late": "集団戦はRで側面から入り、ティバーとスタンを引き出してからチャームで本命を狙う。ゾーニャ完成後は先出しも可。"
+  },
+  "dangerSkills": [
+    { "slot": "Q", "name": "ディスインテグレート", "tag": "スタン起点", "description": "4スタック時は確定スタンの起点。CSを取る瞬間に合わせて撃たれる。", "icon": "AnnieQ.png" },
+    { "slot": "W", "name": "インシナレート", "tag": "範囲", "description": "扇状の範囲攻撃。ウェーブ処理と同時に被弾しない位置取りを。", "icon": "AnnieW.png" },
+    { "slot": "R", "name": "ティバー召喚", "tag": "要警戒", "description": "Lv6の全画面バースト。フラッシュ込みの射程を常に想定して立つ。", "icon": "AnnieR.png" }
+  ],
+  "powerSpike": {
+    "me": { "early": "○", "mid": "◎", "late": "○" },
+    "enemy": { "early": "◎", "mid": "○", "late": "△" },
+    "note": "最大の危険はアニーLv6直後。こちらはルーデン完成（約9分）で主導権が返る。"
+  },
+  "recommended": {
+    "runes": { "keystone": "電撃", "primary": "覇道", "secondary": "魔道", "icon": "perk-images/Styles/Domination/Electrocute/Electrocute.png" },
+    "spells": ["SummonerFlash", "SummonerDot"],
+    "build": {
+      "core": [
+        { "id": 6655, "name": "ルーデンコンパニオン" },
+        { "id": 4645, "name": "シャドウフレイム" },
+        { "id": 3089, "name": "ラバドンデスキャップ" }
+      ],
+      "boots": { "id": 3020, "name": "ソーサラーシューズ" },
+      "situational": [
+        { "item": { "id": 3157, "name": "ゾーニャの砂時計" }, "reason": "対ティバー" },
+        { "item": { "id": 3102, "name": "バンシーヴェール" }, "reason": "対スタン" }
+      ]
+    }
+  },
+  "glossaryRefs": ["stack", "push", "roam", "power-spike"]
+}

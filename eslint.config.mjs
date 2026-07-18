@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // UIプロトタイプ（デザイン資産。アプリコードではないため対象外）
+    "docs/design/**",
   ]),
 ]);
 

@@ -1,0 +1,70 @@
+{
+  "myAdc": "jinx",
+  "mySup": "thresh",
+  "enemyAdc": "caitlyn",
+  "enemySup": "lulu",
+  "aiRating": 3,
+  "advantage": "五分",
+  "winRate": 49.1,
+  "views": {
+    "adc": {
+      "summary": "序盤は射程とトラップで押されるが、スケールで勝つ組み合わせ。無理にCSを取り合わず、スレッシュのフックが通る位置へ相手を誘導。2コア完成後のオールインはこちらが上。",
+      "dangerSkills": [
+        { "slot": "W", "name": "ヨードルトラップ", "tag": "設置物", "description": "茂みと退路に設置される。踏むと即ヘッドショット圏内。", "icon": "CaitlynW.png" },
+        { "slot": "W", "name": "ウィムジー（ポリモーフ）", "tag": "無力化", "description": "オールイン開始の合図。AAもスキルも止まるため、受けたら即後退。", "icon": "LuluW.png" },
+        { "slot": "R", "name": "エース・イン・ザ・ホール", "tag": "狙撃", "description": "HP30%以下では射線を切って帰還。ミニオンでブロック可能。", "icon": "CaitlynR.png" }
+      ],
+      "powerSpike": {
+        "me": { "early": "△", "mid": "○", "late": "◎" },
+        "enemy": { "early": "◎", "mid": "○", "late": "△" },
+        "note": "15分までは「耐える時間」と割り切る。2コア完成が反撃の合図。"
+      },
+      "recommended": {
+        "runes": { "keystone": "リーサルテンポ", "primary": "栄華", "secondary": "天啓", "icon": "perk-images/Styles/Precision/LethalTempo/LethalTempoTemp.png" },
+        "spells": ["SummonerFlash", "SummonerHeal"],
+        "build": {
+          "core": [
+            { "id": 6672, "name": "クラーケンスレイヤー" },
+            { "id": 3085, "name": "ルナーンハリケーン" },
+            { "id": 3031, "name": "インフィニティエッジ" }
+          ],
+          "boots": { "id": 3006, "name": "バーサーカーブーツ" },
+          "situational": [
+            { "item": { "id": 3094, "name": "ラピッドファイアキャノン" }, "reason": "対ポーク" },
+            { "item": { "id": 3026, "name": "ガーディアンエンジェル" }, "reason": "対バースト" }
+          ]
+        }
+      },
+      "glossaryRefs": ["all-in", "poke", "scale", "freeze"]
+    },
+    "sup": {
+      "summary": "フックの本命はケイトリン。ただしルルのシールドが残っている間は止めきれないため、先にポークで使わせてからQ。Lv2先行が最大のキルチャンス。",
+      "dangerSkills": [
+        { "slot": "E", "name": "ヘルプ、ピックス！", "tag": "シールド", "description": "フックの直前に盾を合わせられる。先に使わせるのが鉄則。", "icon": "LuluE.png" },
+        { "slot": "E", "name": "90口径ネット", "tag": "機動", "description": "フック回避に使われる。撃たせた直後が仕掛けどころ。", "icon": "CaitlynE.png" },
+        { "slot": "R", "name": "ワイルドグロース", "tag": "対オールイン", "description": "オールインの返しでノックアップ＋体力増加。R保持中の深追いは禁物。", "icon": "LuluR.png" }
+      ],
+      "powerSpike": {
+        "me": { "early": "△", "mid": "○", "late": "◎" },
+        "enemy": { "early": "◎", "mid": "○", "late": "△" },
+        "note": "ペア共通: 序盤△ / 中盤○ / 終盤◎。Lv2先行とドラゴン前の視界差で例外的に仕掛けられる。"
+      },
+      "recommended": {
+        "runes": { "keystone": "アフターショック", "primary": "不滅", "secondary": "天啓", "icon": "perk-images/Styles/Resolve/VeteranAftershock/VeteranAftershock.png" },
+        "spells": ["SummonerFlash", "SummonerDot"],
+        "build": {
+          "core": [
+            { "id": 3190, "name": "ソラリのロケット" },
+            { "id": 3109, "name": "ナイトの誓い" },
+            { "id": 3107, "name": "リデンプション" }
+          ],
+          "boots": { "id": 3047, "name": "プレートスチールキャップ" },
+          "situational": [
+            { "item": { "id": 3222, "name": "ミカエルの祝福" }, "reason": "ポリモーフ解除" }
+          ]
+        }
+      },
+      "glossaryRefs": ["hook", "engage", "peel"]
+    }
+  }
+}

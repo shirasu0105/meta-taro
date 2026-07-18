@@ -1,0 +1,41 @@
+{
+  "lane": "jg",
+  "me": "leesin",
+  "enemy": "vi",
+  "aiRating": 3,
+  "advantage": "五分",
+  "winRate": 50.2,
+  "summary": "序盤の決闘はリー・シンがわずかに有利だが、ヴァイはQとRの確定CCでガンク性能が上。1v1とカウンタージャングルを押し付けつつ、味方がRで飛ばれたときのフォローを常に頭に入れておく。",
+  "gamePlan": {
+    "early": "Lv3の決闘は仕掛けてよい。ヴァイのQチャージが見えたらサイドステップかWの壁越えで外す。敵ジャングルに侵入して育つ展開が理想。",
+    "mid": "ヴァイのRは止められない。飛ばれた味方に即Wで飛びつきシールドとピールで守る。オブジェクト前は先に視界を取り、Rの蹴り込みで人数有利を作る。",
+    "late": "集団戦はキャリーを守る側に回るか、Rで敵キャリーを味方側へ蹴り込むかを状況判断。失速する時間帯なので単独で敵陣に残らない。"
+  },
+  "dangerSkills": [
+    { "slot": "Q", "name": "真っすぐいってぶっとばす", "tag": "突進", "description": "チャージ式の長距離突進。ガンク・カウンタージャングルの起点になるため、チャージモーションを見たら即回避行動。", "icon": "ViQ.png" },
+    { "slot": "E", "name": "無慈悲な連撃", "tag": "貫通", "description": "AA強化の貫通ダメージ。決闘中のDPSが見た目以上に高い。", "icon": "ViE.png" },
+    { "slot": "R", "name": "突入捜査", "tag": "確定CC", "description": "対象指定の止められないノックアップ。Lv6以降のガンクは合わせられたらほぼ確定で被害が出る。", "icon": "ViR.png" }
+  ],
+  "powerSpike": {
+    "me": { "early": "◎", "mid": "○", "late": "△" },
+    "enemy": { "early": "○", "mid": "◎", "late": "○" },
+    "note": "リー・シンは序盤最強格だが後半失速する。20分までに差を付けられないと、ヴァイの確定CCの価値が上回っていく。"
+  },
+  "recommended": {
+    "runes": { "keystone": "征服者", "primary": "栄華", "secondary": "覇道", "icon": "perk-images/Styles/Precision/Conqueror/Conqueror.png" },
+    "spells": ["SummonerFlash", "SummonerSmite"],
+    "build": {
+      "core": [
+        { "id": 6692, "name": "エクリプス" },
+        { "id": 3071, "name": "ブラッククリーバー" },
+        { "id": 6333, "name": "デスダンス" }
+      ],
+      "boots": { "id": 3047, "name": "プレートスチールキャップ" },
+      "situational": [
+        { "item": { "id": 6694, "name": "セリルダの怨恨" }, "reason": "対タンク構成" },
+        { "item": { "id": 3026, "name": "ガーディアンエンジェル" }, "reason": "対バースト" }
+      ]
+    }
+  },
+  "glossaryRefs": ["engage", "peel", "scale"]
+}
