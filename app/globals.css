@@ -1,26 +1,27 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* デザイントークン: docs/06_ui.md §2 が正 */
+@theme {
+  --color-bg: #0a1428;
+  --color-bg-header: #07101f;
+  --color-panel: #0d1b2e;
+  --color-inset: #132441;
+  --color-icon-bg: #1e2d45;
+  --color-border: #2a3b5c;
+  --color-border-subtle: #1f2f4a;
+  --color-gold: #c8aa6e;
+  --color-gold-border: #4a3f28;
+  --color-teal: #0ac8b9;
+  --color-danger: #e06c66;
+  --color-text-hi: #f0e6d2;
+  --color-text-body: #c9c5b8;
+  --color-text-muted: #a09b8c;
+  --color-text-faint: #6e7889;
+  --color-star-off: #3a4a66;
 }
 
+/* next/font のCSS変数（html要素スコープ）を参照するため inline が必要 */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  --font-sans: var(--font-noto-sans-jp), sans-serif;
+  --font-display: var(--font-cinzel), serif;
 }
