@@ -1,9 +1,11 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { DangerSkillsPanel } from "@/components/matchup/DangerSkillsPanel";
 import { EvaluationPanel } from "@/components/matchup/EvaluationPanel";
 import { GamePlanPanel } from "@/components/matchup/GamePlanPanel";
 import { GlossaryChipsRow } from "@/components/matchup/GlossaryChipsRow";
 import { MatchupHeader } from "@/components/matchup/MatchupHeader";
+import { NoDataPanel } from "@/components/matchup/NoDataPanel";
 import { PowerSpikePanel } from "@/components/matchup/PowerSpikePanel";
 import { LaneRecommended } from "@/components/matchup/RecommendedPanels";
 import { SummaryPanel } from "@/components/matchup/SummaryPanel";
@@ -37,6 +39,28 @@ function resolveParams(
   return { lane: lane as Lane, me, enemy };
 }
 
+/**
+ * データなし（null）時は noindex（06_ui §4.6 / T-207）。
+ * データあり時は仮タイトルのみ — description / OG は T-301（P3）で拡張する。
+ */
+export async function generateMetadata({
+  params,
+}: PageProps<"/matchups/[lane]/[slug]">): Promise<Metadata> {
+  const { lane, slug } = await params;
+  const resolved = resolveParams(lane, slug);
+  if (!resolved) return {}; // notFound（404）になるため metadata 不要
+  const matchup = getLaneMatchup(resolved.lane, resolved.me.id, resolved.enemy.id);
+  if (!matchup) {
+    return {
+      title: "データがありません | Metaたろう",
+      robots: { index: false, follow: false },
+    };
+  }
+  return {
+    title: `${resolved.me.name.ja} vs ${resolved.enemy.name.ja} ${resolved.lane.toUpperCase()}対面攻略 | Metaたろう`,
+  };
+}
+
 export default async function LaneMatchupPage({
   params,
 }: PageProps<"/matchups/[lane]/[slug]">) {
@@ -46,9 +70,24 @@ export default async function LaneMatchupPage({
 
   const { me, enemy } = resolved;
   const matchup = getLaneMatchup(resolved.lane, me.id, enemy.id);
-  if (!matchup) notFound(); // T-207 で「データがありません」表示に差し替える
-
   const meta = getMeta();
+
+  // データなし: 同レイアウト内に「データがありません」パネル（FR-013 / T-207）
+  if (!matchup) {
+    return (
+      <main className="mx-auto flex w-full max-w-[1180px] flex-1 flex-col gap-4 px-4 pb-10 pt-5 md:px-12 md:pt-[26px]">
+        <MatchupHeader badge={resolved.lane.toUpperCase()} meta={meta} />
+        <div className="grid gap-4 md:mx-auto md:w-[520px]">
+          <VsPanel
+            mySide={{ champions: [me], label: "あなた" }}
+            enemySide={{ champions: [enemy], label: "相手" }}
+          />
+          <NoDataPanel />
+        </div>
+      </main>
+    );
+  }
+
   const refs = getGlossary().filter((g) => matchup.glossaryRefs.includes(g.slug));
 
   return (
