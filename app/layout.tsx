@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Cinzel, Noto_Sans_JP } from "next/font/google";
+import { SiteFooter } from "@/components/layout/SiteFooter";
+import { SiteHeader } from "@/components/layout/SiteHeader";
 import "./globals.css";
 
 const notoSansJp = Noto_Sans_JP({
@@ -31,7 +33,9 @@ export default function RootLayout({
       className={`${notoSansJp.variable} ${cinzel.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-bg font-sans text-text-body">
+        <SiteHeader />
         {children}
+        <SiteFooter />
       </body>
     </html>
   );
