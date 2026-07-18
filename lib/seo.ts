@@ -53,6 +53,22 @@ export function laneMatchupSeo(
   };
 }
 
+/** 対面ページの構造化データ（Article相当、docs/04_api.md §3）。updatedAt は meta.json の週次更新日 */
+export function matchupArticleJsonLd(seo: MatchupSeo, updatedAt: string) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: seo.heading,
+    description: seo.description,
+    image: [seo.image],
+    dateModified: updatedAt,
+    inLanguage: "ja",
+    author: { "@type": "Organization", name: SITE_NAME },
+    publisher: { "@type": "Organization", name: SITE_NAME },
+    mainEntityOfPage: { "@type": "WebPage", "@id": `${siteUrl()}${seo.path}` },
+  };
+}
+
 export function botMatchupSeo(
   myAdc: Champion,
   mySup: Champion,

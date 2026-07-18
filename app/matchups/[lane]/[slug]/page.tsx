@@ -11,8 +11,9 @@ import { LaneRecommended } from "@/components/matchup/RecommendedPanels";
 import { SummaryPanel } from "@/components/matchup/SummaryPanel";
 import { VsPanel } from "@/components/matchup/VsPanel";
 import { getChampion } from "@/lib/champions";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getGlossary, getLaneMatchup, getMeta, listLaneMatchups } from "@/lib/data";
-import { laneMatchupSeo, SITE_NAME } from "@/lib/seo";
+import { laneMatchupSeo, matchupArticleJsonLd, SITE_NAME } from "@/lib/seo";
 import { buildLaneSlug, parseLaneSlug } from "@/lib/slug";
 import type { Champion, Lane } from "@/lib/types";
 
@@ -100,9 +101,11 @@ export default async function LaneMatchupPage({
   }
 
   const refs = getGlossary().filter((g) => matchup.glossaryRefs.includes(g.slug));
+  const seo = laneMatchupSeo(me, enemy, resolved.lane, matchup);
 
   return (
     <main className="mx-auto flex w-full max-w-[1180px] flex-1 flex-col gap-4 px-4 pb-10 pt-5 md:px-12 md:pt-[26px]">
+      <JsonLd data={matchupArticleJsonLd(seo, meta.updatedAt)} />
       <MatchupHeader badge={resolved.lane.toUpperCase()} meta={meta} />
 
       <div className="grid gap-4 md:grid-cols-[360px_1fr]">

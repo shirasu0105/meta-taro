@@ -11,8 +11,9 @@ import { BotRecommended } from "@/components/matchup/RecommendedPanels";
 import { SummaryPanel } from "@/components/matchup/SummaryPanel";
 import { VsPanel } from "@/components/matchup/VsPanel";
 import { getChampion } from "@/lib/champions";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getBotMatchup, getGlossary, getMeta, listBotMatchups } from "@/lib/data";
-import { botMatchupSeo, SITE_NAME } from "@/lib/seo";
+import { botMatchupSeo, matchupArticleJsonLd, SITE_NAME } from "@/lib/seo";
 import { buildBotSlug, parseBotSlug } from "@/lib/slug";
 import type { BotViewAdvice, Champion, GlossaryEntry } from "@/lib/types";
 
@@ -126,9 +127,11 @@ export default async function BotMatchupPage({ params }: PageProps<"/matchups/bo
   }
 
   const glossary = getGlossary();
+  const seo = botMatchupSeo(myAdc, mySup, enemyAdc, enemySup, matchup);
 
   return (
     <main className="mx-auto flex w-full max-w-[1180px] flex-1 flex-col gap-4 px-4 pb-10 pt-5 md:px-12 md:pt-[26px]">
+      <JsonLd data={matchupArticleJsonLd(seo, meta.updatedAt)} />
       <MatchupHeader badge="BOT 2v2" meta={meta} />
 
       <div className="grid gap-4 md:grid-cols-[420px_1fr]">
