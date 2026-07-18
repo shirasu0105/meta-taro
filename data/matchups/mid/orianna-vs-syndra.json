@@ -1,0 +1,41 @@
+{
+  "lane": "mid",
+  "me": "orianna",
+  "enemy": "syndra",
+  "aiRating": 3,
+  "advantage": "五分",
+  "winRate": 50.8,
+  "summary": "シンドラのバーストを受けきれるかが全ての対面。Qポークはミニオンの裏で避け、球が近くにあるときだけEスタンの射程が伸びる点を意識。Lv6以降はRの即死圏に入らないHP管理を徹底し、こちらは集団戦の衝撃波で回収する。",
+  "gamePlan": {
+    "early": "ポーク合戦は五分だが、Q＋Eのスタン連携だけは絶対に受けない。ミニオンを盾にしながらCSを取り、球を消費した直後の短いトレードで差をつける。",
+    "mid": "シンドラRの即死圏（HP依存）を常に計算し、体力が減ったら射程外へ。集団戦はボールを味方前衛に付けて運び、複数を巻き込む衝撃波の機会を待つ。",
+    "late": "一撃の衝撃波が勝敗を決める。側面からのフラッシュ＋Rも視野に、シンドラより先に位置取りで仕事をする。"
+  },
+  "dangerSkills": [
+    { "slot": "Q", "name": "ダークスフィア", "tag": "ポーク", "description": "設置される球は後のE・Rの弾にもなる。球が残っている間は近づかない。", "icon": "SyndraQ.png" },
+    { "slot": "E", "name": "闇の波導", "tag": "スタン", "description": "球に当てると射程が大きく伸びるスタン。球の位置とシンドラの向きで警戒度を変える。", "icon": "SyndraE.png" },
+    { "slot": "R", "name": "魔力の奔流", "tag": "即死級", "description": "球の数だけ威力が上がる単体バースト。HP60%以下では射程内に立たない。", "icon": "SyndraR.png" }
+  ],
+  "powerSpike": {
+    "me": { "early": "△", "mid": "○", "late": "◎" },
+    "enemy": { "early": "○", "mid": "◎", "late": "○" },
+    "note": "シンドラはLv6＋球3個で即死圧が最大。オリアナは2コア完成と集団戦の開始で追い抜く。"
+  },
+  "recommended": {
+    "runes": { "keystone": "サモンエアリー", "primary": "魔道", "secondary": "天啓", "icon": "perk-images/Styles/Sorcery/SummonAery/SummonAery.png" },
+    "spells": ["SummonerFlash", "SummonerTeleport"],
+    "build": {
+      "core": [
+        { "id": 6655, "name": "ルーデンコンパニオン" },
+        { "id": 4645, "name": "シャドウフレイム" },
+        { "id": 3089, "name": "ラバドンデスキャップ" }
+      ],
+      "boots": { "id": 3020, "name": "ソーサラーシューズ" },
+      "situational": [
+        { "item": { "id": 3157, "name": "ゾーニャの砂時計" }, "reason": "対シンドラR" },
+        { "item": { "id": 3102, "name": "バンシーヴェール" }, "reason": "対Eスタン" }
+      ]
+    }
+  },
+  "glossaryRefs": ["poke", "scale", "power-spike"]
+}
