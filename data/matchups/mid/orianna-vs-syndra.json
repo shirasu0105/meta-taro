@@ -12,30 +12,92 @@
     "late": "一撃の衝撃波が勝敗を決める。側面からのフラッシュ＋Rも視野に、シンドラより先に位置取りで仕事をする。"
   },
   "dangerSkills": [
-    { "slot": "Q", "name": "ダークスフィア", "tag": "ポーク", "description": "設置される球は後のE・Rの弾にもなる。球が残っている間は近づかない。", "icon": "SyndraQ.png" },
-    { "slot": "E", "name": "闇の波導", "tag": "スタン", "description": "球に当てると射程が大きく伸びるスタン。球の位置とシンドラの向きで警戒度を変える。", "icon": "SyndraE.png" },
-    { "slot": "R", "name": "魔力の奔流", "tag": "即死級", "description": "球の数だけ威力が上がる単体バースト。HP60%以下では射程内に立たない。", "icon": "SyndraR.png" }
+    {
+      "slot": "Q",
+      "name": "ダークスフィア",
+      "tag": "ポーク",
+      "description": "設置される球は後のE・Rの弾にもなる。球が残っている間は近づかない。",
+      "icon": "SyndraQ.png"
+    },
+    {
+      "slot": "E",
+      "name": "闇の波導",
+      "tag": "スタン",
+      "description": "球に当てると射程が大きく伸びるスタン。球の位置とシンドラの向きで警戒度を変える。",
+      "icon": "SyndraE.png"
+    },
+    {
+      "slot": "R",
+      "name": "魔力の奔流",
+      "tag": "即死級",
+      "description": "球の数だけ威力が上がる単体バースト。HP60%以下では射程内に立たない。",
+      "icon": "SyndraR.png"
+    }
   ],
   "powerSpike": {
-    "me": { "early": "△", "mid": "○", "late": "◎" },
-    "enemy": { "early": "○", "mid": "◎", "late": "○" },
+    "me": {
+      "early": "△",
+      "mid": "○",
+      "late": "◎"
+    },
+    "enemy": {
+      "early": "○",
+      "mid": "◎",
+      "late": "○"
+    },
     "note": "シンドラはLv6＋球3個で即死圧が最大。オリアナは2コア完成と集団戦の開始で追い抜く。"
   },
   "recommended": {
-    "runes": { "keystone": "サモンエアリー", "primary": "魔道", "secondary": "天啓", "icon": "perk-images/Styles/Sorcery/SummonAery/SummonAery.png" },
-    "spells": ["SummonerFlash", "SummonerTeleport"],
+    "runes": {
+      "keystone": "サモンエアリー",
+      "primary": "魔道",
+      "secondary": "天啓",
+      "icon": "perk-images/Styles/Sorcery/SummonAery/SummonAery.png"
+    },
+    "spells": [
+      "SummonerFlash",
+      "SummonerTeleport"
+    ],
     "build": {
       "core": [
-        { "id": 6655, "name": "ルーデンコンパニオン" },
-        { "id": 4645, "name": "シャドウフレイム" },
-        { "id": 3089, "name": "ラバドンデスキャップ" }
+        {
+          "id": 6655,
+          "name": "ルーデンコンパニオン"
+        },
+        {
+          "id": 4645,
+          "name": "シャドウフレイム"
+        },
+        {
+          "id": 3089,
+          "name": "ラバドンデスキャップ"
+        }
       ],
-      "boots": { "id": 3020, "name": "ソーサラーシューズ" },
+      "boots": {
+        "id": 3020,
+        "name": "ソーサラーシューズ"
+      },
       "situational": [
-        { "item": { "id": 3157, "name": "ゾーニャの砂時計" }, "reason": "対シンドラR" },
-        { "item": { "id": 3102, "name": "バンシーヴェール" }, "reason": "対Eスタン" }
+        {
+          "item": {
+            "id": 3157,
+            "name": "ゾーニャの砂時計"
+          },
+          "reason": "対シンドラR"
+        },
+        {
+          "item": {
+            "id": 3102,
+            "name": "バンシーヴェール"
+          },
+          "reason": "対Eスタン"
+        }
       ]
     }
   },
-  "glossaryRefs": ["poke", "scale", "power-spike"]
+  "glossaryRefs": [
+    "poke",
+    "scale",
+    "power-spike"
+  ]
 }

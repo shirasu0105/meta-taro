@@ -12,30 +12,92 @@
     "late": "ビルド完成後はEの持続ダメージで殴り合える。ただしノクサスギロチンは確定ダメージのため、HP50%以下では正面から戦わない。"
   },
   "dangerSkills": [
-    { "slot": "E", "name": "捕縛", "tag": "引き寄せ", "description": "外周ヒットで引き寄せられ、そのまま5スタックまで持ち込まれる。射程635の外に立つ。", "icon": "DariusAxeGrabCone.png" },
-    { "slot": "W", "name": "脚削ぎ", "tag": "スロウ", "description": "強スロウで追撃・逃走の起点になる。受けたら即座にQで解除して離脱。", "icon": "DariusNoxianTacticsONH.png" },
-    { "slot": "R", "name": "ノクサスギロチン", "tag": "処刑", "description": "スタック数で威力が跳ね上がる確定ダメージ。キル後リセットで連鎖する。", "icon": "DariusExecute.png" }
+    {
+      "slot": "E",
+      "name": "捕縛",
+      "tag": "引き寄せ",
+      "description": "外周ヒットで引き寄せられ、そのまま5スタックまで持ち込まれる。射程635の外に立つ。",
+      "icon": "DariusAxeGrabCone.png"
+    },
+    {
+      "slot": "W",
+      "name": "脚削ぎ",
+      "tag": "スロウ",
+      "description": "強スロウで追撃・逃走の起点になる。受けたら即座にQで解除して離脱。",
+      "icon": "DariusNoxianTacticsONH.png"
+    },
+    {
+      "slot": "R",
+      "name": "ノクサスギロチン",
+      "tag": "処刑",
+      "description": "スタック数で威力が跳ね上がる確定ダメージ。キル後リセットで連鎖する。",
+      "icon": "DariusExecute.png"
+    }
   ],
   "powerSpike": {
-    "me": { "early": "△", "mid": "○", "late": "◎" },
-    "enemy": { "early": "◎", "mid": "◎", "late": "○" },
+    "me": {
+      "early": "△",
+      "mid": "○",
+      "late": "◎"
+    },
+    "enemy": {
+      "early": "◎",
+      "mid": "◎",
+      "late": "○"
+    },
     "note": "ダリウスは序盤〜中盤の決闘最強格。ガレンはストライドブレーカー完成とLv16で逆転の目が出る。"
   },
   "recommended": {
-    "runes": { "keystone": "征服者", "primary": "栄華", "secondary": "不滅", "icon": "perk-images/Styles/Precision/Conqueror/Conqueror.png" },
-    "spells": ["SummonerFlash", "SummonerHaste"],
+    "runes": {
+      "keystone": "征服者",
+      "primary": "栄華",
+      "secondary": "不滅",
+      "icon": "perk-images/Styles/Precision/Conqueror/Conqueror.png"
+    },
+    "spells": [
+      "SummonerFlash",
+      "SummonerHaste"
+    ],
     "build": {
       "core": [
-        { "id": 6631, "name": "ストライドブレーカー" },
-        { "id": 3742, "name": "デッドマンプレート" },
-        { "id": 3065, "name": "スピリットビサージュ" }
+        {
+          "id": 6631,
+          "name": "ストライドブレーカー"
+        },
+        {
+          "id": 3742,
+          "name": "デッドマンプレート"
+        },
+        {
+          "id": 3065,
+          "name": "スピリットビサージュ"
+        }
       ],
-      "boots": { "id": 3047, "name": "プレートスチールキャップ" },
+      "boots": {
+        "id": 3047,
+        "name": "プレートスチールキャップ"
+      },
       "situational": [
-        { "item": { "id": 3075, "name": "ソーンメイル" }, "reason": "対Q回復" },
-        { "item": { "id": 3053, "name": "ステラックの籠手" }, "reason": "対ギロチン" }
+        {
+          "item": {
+            "id": 3075,
+            "name": "ソーンメイル"
+          },
+          "reason": "対Q回復"
+        },
+        {
+          "item": {
+            "id": 3053,
+            "name": "ステラックの籠手"
+          },
+          "reason": "対ギロチン"
+        }
       ]
     }
   },
-  "glossaryRefs": ["stack", "all-in", "push"]
+  "glossaryRefs": [
+    "stack",
+    "all-in",
+    "push"
+  ]
 }

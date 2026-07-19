@@ -12,30 +12,91 @@
     "late": "青ケインには単独行動を狩られる。視界の中で行動し、集団戦は草むらからのQ先制と壁抜きの奇襲警戒を両立する。"
   },
   "dangerSkills": [
-    { "slot": "W", "name": "刃影襲", "tag": "スロウ起点", "description": "遠距離のスロウ＋ノックアップ（赤）。ガンクと追撃の起点になる。", "icon": "KaynW.png" },
-    { "slot": "E", "name": "影抜き", "tag": "壁移動", "description": "地形を無視して移動する。逃げたと思っても壁の中から追撃・待ち伏せされる。", "icon": "KaynE.png" },
-    { "slot": "R", "name": "真影侵壊", "tag": "対象内潜伏", "description": "対象の体内に潜り無敵時間を得る。フォーカスが外れた直後の再エンゲージに注意。", "icon": "KaynR.png" }
+    {
+      "slot": "W",
+      "name": "刃影襲",
+      "tag": "スロウ起点",
+      "description": "遠距離のスロウ＋ノックアップ（赤）。ガンクと追撃の起点になる。",
+      "icon": "KaynW.png"
+    },
+    {
+      "slot": "E",
+      "name": "影抜き",
+      "tag": "壁移動",
+      "description": "地形を無視して移動する。逃げたと思っても壁の中から追撃・待ち伏せされる。",
+      "icon": "KaynE.png"
+    },
+    {
+      "slot": "R",
+      "name": "真影侵壊",
+      "tag": "対象内潜伏",
+      "description": "対象の体内に潜り無敵時間を得る。フォーカスが外れた直後の再エンゲージに注意。",
+      "icon": "KaynR.png"
+    }
   ],
   "powerSpike": {
-    "me": { "early": "◎", "mid": "◎", "late": "○" },
-    "enemy": { "early": "△", "mid": "○", "late": "◎" },
+    "me": {
+      "early": "◎",
+      "mid": "◎",
+      "late": "○"
+    },
+    "enemy": {
+      "early": "△",
+      "mid": "○",
+      "late": "◎"
+    },
     "note": "グレイブスは2コア完成時点が最強。ケインはフォーム完成から急激に強くなるため、それまでに差を広げる。"
   },
   "recommended": {
-    "runes": { "keystone": "フリートフットワーク", "primary": "栄華", "secondary": "天啓", "icon": "perk-images/Styles/Precision/FleetFootwork/FleetFootwork.png" },
-    "spells": ["SummonerFlash", "SummonerSmite"],
+    "runes": {
+      "keystone": "フリートフットワーク",
+      "primary": "栄華",
+      "secondary": "天啓",
+      "icon": "perk-images/Styles/Precision/FleetFootwork/FleetFootwork.png"
+    },
+    "spells": [
+      "SummonerFlash",
+      "SummonerSmite"
+    ],
     "build": {
       "core": [
-        { "id": 3142, "name": "幽夢の霊剣" },
-        { "id": 6676, "name": "コレクター" },
-        { "id": 3031, "name": "インフィニティエッジ" }
+        {
+          "id": 3142,
+          "name": "幽夢の霊剣"
+        },
+        {
+          "id": 6676,
+          "name": "コレクター"
+        },
+        {
+          "id": 3031,
+          "name": "インフィニティエッジ"
+        }
       ],
-      "boots": { "id": 3047, "name": "プレートスチールキャップ" },
+      "boots": {
+        "id": 3047,
+        "name": "プレートスチールキャップ"
+      },
       "situational": [
-        { "item": { "id": 3026, "name": "ガーディアンエンジェル" }, "reason": "対青ケイン暗殺" },
-        { "item": { "id": 3036, "name": "ドミニクリガード" }, "reason": "対タンク構成" }
+        {
+          "item": {
+            "id": 3026,
+            "name": "ガーディアンエンジェル"
+          },
+          "reason": "対青ケイン暗殺"
+        },
+        {
+          "item": {
+            "id": 3036,
+            "name": "ドミニクリガード"
+          },
+          "reason": "対タンク構成"
+        }
       ]
     }
   },
-  "glossaryRefs": ["power-spike", "scale"]
+  "glossaryRefs": [
+    "power-spike",
+    "scale"
+  ]
 }

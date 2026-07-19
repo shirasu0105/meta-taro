@@ -10,62 +10,186 @@
     "adc": {
       "summary": "レオナのエンゲージをEで外せるかが全ての対面。アッシュのボレーは受けてよいダメージではないので、ミニオン裏でQを回して応戦。Eは自分から使わず、仕掛けられてから外すための切り札として温存する。",
       "dangerSkills": [
-        { "slot": "E", "name": "ゼニスブレード", "tag": "エンゲージ", "description": "命中するとレオナが飛びついてくる。ミニオンで射線を切っていれば当たらない。", "icon": "LeonaZenithBlade.png" },
-        { "slot": "W", "name": "ボレー", "tag": "ポーク", "description": "扇状の高頻度ポーク。スロウ付きで後続のエンゲージにつながる。", "icon": "Volley.png" },
-        { "slot": "R", "name": "クリスタルアロー", "tag": "始動スタン", "description": "全マップ射程のスタン。ガンク・エンゲージの始動に使われるため、視界外からの一本を常に想定。", "icon": "EnchantedCrystalArrow.png" }
+        {
+          "slot": "E",
+          "name": "ゼニスブレード",
+          "tag": "エンゲージ",
+          "description": "命中するとレオナが飛びついてくる。ミニオンで射線を切っていれば当たらない。",
+          "icon": "LeonaZenithBlade.png"
+        },
+        {
+          "slot": "W",
+          "name": "ボレー",
+          "tag": "ポーク",
+          "description": "扇状の高頻度ポーク。スロウ付きで後続のエンゲージにつながる。",
+          "icon": "Volley.png"
+        },
+        {
+          "slot": "R",
+          "name": "クリスタルアロー",
+          "tag": "始動スタン",
+          "description": "全マップ射程のスタン。ガンク・エンゲージの始動に使われるため、視界外からの一本を常に想定。",
+          "icon": "EnchantedCrystalArrow.png"
+        }
       ],
       "powerSpike": {
-        "me": { "early": "△", "mid": "○", "late": "◎" },
-        "enemy": { "early": "◎", "mid": "○", "late": "○" },
+        "me": {
+          "early": "△",
+          "mid": "○",
+          "late": "◎"
+        },
+        "enemy": {
+          "early": "◎",
+          "mid": "○",
+          "late": "○"
+        },
         "note": "レオナのLv2〜3が最も危険。ムラマナ＋トリニティの2コア完成後は機動力でこちらが上回る。"
       },
       "recommended": {
-        "runes": { "keystone": "征服者", "primary": "栄華", "secondary": "天啓", "icon": "perk-images/Styles/Precision/Conqueror/Conqueror.png" },
-        "spells": ["SummonerFlash", "SummonerHeal"],
+        "runes": {
+          "keystone": "征服者",
+          "primary": "栄華",
+          "secondary": "天啓",
+          "icon": "perk-images/Styles/Precision/Conqueror/Conqueror.png"
+        },
+        "spells": [
+          "SummonerFlash",
+          "SummonerHeal"
+        ],
         "build": {
           "core": [
-            { "id": 3004, "name": "マナムネ" },
-            { "id": 3078, "name": "トリニティフォース" },
-            { "id": 6333, "name": "デスダンス" }
+            {
+              "id": 3004,
+              "name": "マナムネ"
+            },
+            {
+              "id": 3078,
+              "name": "トリニティフォース"
+            },
+            {
+              "id": 6333,
+              "name": "デスダンス"
+            }
           ],
-          "boots": { "id": 3158, "name": "アイオニアブーツ" },
+          "boots": {
+            "id": 3158,
+            "name": "アイオニアブーツ"
+          },
           "situational": [
-            { "item": { "id": 3139, "name": "マーキュリアルシミター" }, "reason": "対アローとスタン" },
-            { "item": { "id": 3026, "name": "ガーディアンエンジェル" }, "reason": "対キャッチ" }
+            {
+              "item": {
+                "id": 3139,
+                "name": "マーキュリアルシミター"
+              },
+              "reason": "対アローとスタン"
+            },
+            {
+              "item": {
+                "id": 3026,
+                "name": "ガーディアンエンジェル"
+              },
+              "reason": "対キャッチ"
+            }
           ]
         }
       },
-      "glossaryRefs": ["engage", "poke", "scale"]
+      "glossaryRefs": [
+        "engage",
+        "poke",
+        "scale"
+      ]
     },
     "sup": {
       "summary": "射程で完封できる相手。レオナが前に出た瞬間にQを合わせれば逆にキルチャンスになる。ただしQを外した直後だけは全力で下がる。アッシュのRは他レーンへの合図にもなるため、使われたらミニマップを確認。",
       "dangerSkills": [
-        { "slot": "E", "name": "ゼニスブレード", "tag": "エンゲージ", "description": "後衛のルクスまで届く飛びつき。レオナと同じ横軸に立たない。", "icon": "LeonaZenithBlade.png" },
-        { "slot": "Q", "name": "シールド・オブ・デイブレイク", "tag": "スタン", "description": "飛びつき後の確定スタン。連鎖CC中に溶かされるため、シールドとピールを事前に構える。", "icon": "LeonaShieldOfDaybreak.png" },
-        { "slot": "R", "name": "クリスタルアロー", "tag": "長射程スタン", "description": "壁裏や視界外から飛んでくる始動スタン。ミニオンではブロックできない。", "icon": "EnchantedCrystalArrow.png" }
+        {
+          "slot": "E",
+          "name": "ゼニスブレード",
+          "tag": "エンゲージ",
+          "description": "後衛のルクスまで届く飛びつき。レオナと同じ横軸に立たない。",
+          "icon": "LeonaZenithBlade.png"
+        },
+        {
+          "slot": "Q",
+          "name": "シールド・オブ・デイブレイク",
+          "tag": "スタン",
+          "description": "飛びつき後の確定スタン。連鎖CC中に溶かされるため、シールドとピールを事前に構える。",
+          "icon": "LeonaShieldOfDaybreak.png"
+        },
+        {
+          "slot": "R",
+          "name": "クリスタルアロー",
+          "tag": "長射程スタン",
+          "description": "壁裏や視界外から飛んでくる始動スタン。ミニオンではブロックできない。",
+          "icon": "EnchantedCrystalArrow.png"
+        }
       ],
       "powerSpike": {
-        "me": { "early": "○", "mid": "○", "late": "◎" },
-        "enemy": { "early": "◎", "mid": "○", "late": "△" },
+        "me": {
+          "early": "○",
+          "mid": "○",
+          "late": "◎"
+        },
+        "enemy": {
+          "early": "◎",
+          "mid": "○",
+          "late": "△"
+        },
         "note": "敵ペアの決定力はLv6まで。エンゲージ手段を捌くたびに、こちらのポークが一方的に刺さる時間が伸びる。"
       },
       "recommended": {
-        "runes": { "keystone": "秘儀の彗星", "primary": "魔道", "secondary": "天啓", "icon": "perk-images/Styles/Sorcery/ArcaneComet/ArcaneComet.png" },
-        "spells": ["SummonerFlash", "SummonerDot"],
+        "runes": {
+          "keystone": "秘儀の彗星",
+          "primary": "魔道",
+          "secondary": "天啓",
+          "icon": "perk-images/Styles/Sorcery/ArcaneComet/ArcaneComet.png"
+        },
+        "spells": [
+          "SummonerFlash",
+          "SummonerDot"
+        ],
         "build": {
           "core": [
-            { "id": 6655, "name": "ルーデンコンパニオン" },
-            { "id": 4645, "name": "シャドウフレイム" },
-            { "id": 3157, "name": "ゾーニャの砂時計" }
+            {
+              "id": 6655,
+              "name": "ルーデンコンパニオン"
+            },
+            {
+              "id": 4645,
+              "name": "シャドウフレイム"
+            },
+            {
+              "id": 3157,
+              "name": "ゾーニャの砂時計"
+            }
           ],
-          "boots": { "id": 3020, "name": "ソーサラーシューズ" },
+          "boots": {
+            "id": 3020,
+            "name": "ソーサラーシューズ"
+          },
           "situational": [
-            { "item": { "id": 3102, "name": "バンシーヴェール" }, "reason": "対クリスタルアロー" },
-            { "item": { "id": 3222, "name": "ミカエルの祝福" }, "reason": "対スタン" }
+            {
+              "item": {
+                "id": 3102,
+                "name": "バンシーヴェール"
+              },
+              "reason": "対クリスタルアロー"
+            },
+            {
+              "item": {
+                "id": 3222,
+                "name": "ミカエルの祝福"
+              },
+              "reason": "対スタン"
+            }
           ]
         }
       },
-      "glossaryRefs": ["poke", "engage", "peel"]
+      "glossaryRefs": [
+        "poke",
+        "engage",
+        "peel"
+      ]
     }
   }
 }
