@@ -8,8 +8,8 @@ import { splashUrl } from "@/lib/ddragon";
 const FEATURES = [
   {
     no: "01",
-    title: "AI評価と勝率を数字で先に",
-    description: "5段階のAI総合評価と統計勝率を最上部に。判断は3秒で。",
+    title: "AI評価を5段階で先に",
+    description: "5段階のAI総合評価を最上部に。判断は3秒で。",
   },
   {
     no: "02",
@@ -108,9 +108,12 @@ export default function Home() {
                     <span className="text-gold">{"★".repeat(preview.aiRating)}</span>
                     <span className="text-star-off">{"★".repeat(5 - preview.aiRating)}</span>
                   </p>
-                  <p className="mt-[3px] text-[18px] font-black leading-none text-teal">
-                    {preview.winRate}%
-                    <span className="text-[10px] font-medium text-text-muted"> 勝率</span>
+                  <p className="mt-[3px] text-[12.5px] font-extrabold leading-none text-gold">
+                    {preview.advantage}
+                    <span className="text-[10px] font-medium text-text-muted">
+                      {" "}
+                      · 5段階中{preview.aiRating}
+                    </span>
                   </p>
                 </div>
               </div>
