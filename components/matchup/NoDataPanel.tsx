@@ -7,7 +7,7 @@ export function NoDataPanel() {
     <Panel className="flex flex-col items-center gap-3 px-6 py-10 text-center">
       <p className="text-[16px] font-extrabold text-text-hi">データがありません</p>
       <p className="text-[12px] leading-[1.9] text-text-muted">
-        この対面はまだ十分な統計データがありません。
+        この対面のアドバイスはまだ用意できていません。
         <br />
         パッチ更新でデータが追加されることがあります。
       </p>

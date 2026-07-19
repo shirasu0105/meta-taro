@@ -4,7 +4,6 @@
   "enemy": "malphite",
   "aiRating": 4,
   "advantage": "有利",
-  "winRate": 53.6,
   "summary": "レーン戦はエイトロックス有利。Qのスイートスポットを当て続ければ一方的に削れる。ただしマルファイトはレーンで負けてもRだけで集団戦に貢献できるため、序盤の有利を素早くスノーボールさせることが重要。",
   "gamePlan": {
     "early": "グラナイトシールドはAA1回で割ってからトレード開始。Q3段をフルで当てる長いトレードで序盤は圧倒できる。アーマーを積まれる前が最大の勝負どころ。",
@@ -12,30 +11,92 @@
     "late": "集団戦はアンストッパブル・フォースの先手を許さない立ち位置が最優先。壁際と密集を避け、Rを吐かせてからWで拘束して反撃する。"
   },
   "dangerSkills": [
-    { "slot": "Q", "name": "サイズミックシャード", "tag": "ポーク", "description": "スロウ付きの遠距離ポーク。マナがある間は繰り返し飛んでくるため体力管理を怠らない。", "icon": "SeismicShard.png" },
-    { "slot": "E", "name": "グラウンドスラム", "tag": "AS低下", "description": "攻撃速度を大きく下げる範囲攻撃。AA主体のトレード中に受けると計算が狂う。", "icon": "Landslide.png" },
-    { "slot": "R", "name": "アンストッパブル・フォース", "tag": "エンゲージ", "description": "止められない突進ノックアップ。Lv6以降は常にフラッシュ込みの射程を想定する。", "icon": "UFSlash.png" }
+    {
+      "slot": "Q",
+      "name": "サイズミックシャード",
+      "tag": "ポーク",
+      "description": "スロウ付きの遠距離ポーク。マナがある間は繰り返し飛んでくるため体力管理を怠らない。",
+      "icon": "SeismicShard.png"
+    },
+    {
+      "slot": "E",
+      "name": "グラウンドスラム",
+      "tag": "AS低下",
+      "description": "攻撃速度を大きく下げる範囲攻撃。AA主体のトレード中に受けると計算が狂う。",
+      "icon": "Landslide.png"
+    },
+    {
+      "slot": "R",
+      "name": "アンストッパブル・フォース",
+      "tag": "エンゲージ",
+      "description": "止められない突進ノックアップ。Lv6以降は常にフラッシュ込みの射程を想定する。",
+      "icon": "UFSlash.png"
+    }
   ],
   "powerSpike": {
-    "me": { "early": "◎", "mid": "○", "late": "○" },
-    "enemy": { "early": "△", "mid": "○", "late": "◎" },
+    "me": {
+      "early": "◎",
+      "mid": "○",
+      "late": "○"
+    },
+    "enemy": {
+      "early": "△",
+      "mid": "○",
+      "late": "◎"
+    },
     "note": "序盤はエイトロックスの独壇場。マルファイトはRを覚えてから集団戦の脅威になり、終盤は止められない。"
   },
   "recommended": {
-    "runes": { "keystone": "征服者", "primary": "栄華", "secondary": "不滅", "icon": "perk-images/Styles/Precision/Conqueror/Conqueror.png" },
-    "spells": ["SummonerFlash", "SummonerTeleport"],
+    "runes": {
+      "keystone": "征服者",
+      "primary": "栄華",
+      "secondary": "不滅",
+      "icon": "perk-images/Styles/Precision/Conqueror/Conqueror.png"
+    },
+    "spells": [
+      "SummonerFlash",
+      "SummonerTeleport"
+    ],
     "build": {
       "core": [
-        { "id": 6692, "name": "エクリプス" },
-        { "id": 3071, "name": "ブラッククリーバー" },
-        { "id": 3053, "name": "ステラックの籠手" }
+        {
+          "id": 6692,
+          "name": "エクリプス"
+        },
+        {
+          "id": 3071,
+          "name": "ブラッククリーバー"
+        },
+        {
+          "id": 3053,
+          "name": "ステラックの籠手"
+        }
       ],
-      "boots": { "id": 3111, "name": "マーキュリーブーツ" },
+      "boots": {
+        "id": 3111,
+        "name": "マーキュリーブーツ"
+      },
       "situational": [
-        { "item": { "id": 6694, "name": "セリルダの怨恨" }, "reason": "対アーマー" },
-        { "item": { "id": 3156, "name": "マルモティウスの胃食" }, "reason": "対APバースト" }
+        {
+          "item": {
+            "id": 6694,
+            "name": "セリルダの怨恨"
+          },
+          "reason": "対アーマー"
+        },
+        {
+          "item": {
+            "id": 3156,
+            "name": "マルモティウスの胃食"
+          },
+          "reason": "対APバースト"
+        }
       ]
     }
   },
-  "glossaryRefs": ["engage", "scale", "push"]
+  "glossaryRefs": [
+    "engage",
+    "scale",
+    "push"
+  ]
 }

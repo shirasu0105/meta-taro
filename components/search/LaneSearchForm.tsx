@@ -50,7 +50,7 @@ export function LaneSearchForm() {
         href={href}
         enabledLabel="この対面で結果を見る"
         disabledLabel="この対面で結果を見る"
-        note="自分と相手の2体が確定すると表示できます"
+        disabledNote="自分と相手の2体が確定すると表示できます"
       />
       <RecentSearches kind="lane" />
     </div>
