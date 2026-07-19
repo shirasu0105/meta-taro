@@ -4,6 +4,7 @@ import { DangerSkillsPanel } from "@/components/matchup/DangerSkillsPanel";
 import { EvaluationPanel } from "@/components/matchup/EvaluationPanel";
 import { GamePlanPanel } from "@/components/matchup/GamePlanPanel";
 import { GlossaryChipsRow } from "@/components/matchup/GlossaryChipsRow";
+import { HistoryRecorder } from "@/components/matchup/HistoryRecorder";
 import { MatchupHeader } from "@/components/matchup/MatchupHeader";
 import { NoDataPanel } from "@/components/matchup/NoDataPanel";
 import { PowerSpikePanel } from "@/components/matchup/PowerSpikePanel";
@@ -106,6 +107,9 @@ export default async function LaneMatchupPage({
   return (
     <main className="mx-auto flex w-full max-w-[1180px] flex-1 flex-col gap-4 px-4 pb-10 pt-5 md:px-12 md:pt-[26px]">
       <JsonLd data={matchupArticleJsonLd(seo, meta.updatedAt)} />
+      <HistoryRecorder
+        entry={{ kind: "lane", lane: resolved.lane, me: me.id, enemy: enemy.id }}
+      />
       <MatchupHeader badge={resolved.lane.toUpperCase()} meta={meta} />
 
       <div className="grid gap-4 md:grid-cols-[360px_1fr]">

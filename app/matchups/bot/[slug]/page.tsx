@@ -4,6 +4,7 @@ import { BotViewToggle } from "@/components/matchup/BotViewToggle";
 import { DangerSkillsPanel } from "@/components/matchup/DangerSkillsPanel";
 import { EvaluationPanel } from "@/components/matchup/EvaluationPanel";
 import { GlossaryChipsRow } from "@/components/matchup/GlossaryChipsRow";
+import { HistoryRecorder } from "@/components/matchup/HistoryRecorder";
 import { MatchupHeader } from "@/components/matchup/MatchupHeader";
 import { NoDataPanel } from "@/components/matchup/NoDataPanel";
 import { PowerSpikePanel } from "@/components/matchup/PowerSpikePanel";
@@ -132,6 +133,15 @@ export default async function BotMatchupPage({ params }: PageProps<"/matchups/bo
   return (
     <main className="mx-auto flex w-full max-w-[1180px] flex-1 flex-col gap-4 px-4 pb-10 pt-5 md:px-12 md:pt-[26px]">
       <JsonLd data={matchupArticleJsonLd(seo, meta.updatedAt)} />
+      <HistoryRecorder
+        entry={{
+          kind: "bot",
+          myAdc: myAdc.id,
+          mySup: mySup.id,
+          enemyAdc: enemyAdc.id,
+          enemySup: enemySup.id,
+        }}
+      />
       <MatchupHeader badge="BOT 2v2" meta={meta} />
 
       <div className="grid gap-4 md:grid-cols-[420px_1fr]">
