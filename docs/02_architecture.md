@@ -60,10 +60,11 @@ app/                     ルーティング（Server Components 基本）
     [lane]/[matchup]/    通常レーン結果（lane: top | jg | mid）
     bot/[matchup]/       BOT結果（静的セグメント bot が [lane] より優先される）
   glossary/              用語集
+  legal/                 利用規約 / プライバシーポリシー / 免責事項
   sitemap.ts robots.ts   SEO（ファイル規約）
 lib/                     データアクセス・ドメインロジック（04_api.md）
 data/                    事前生成静的JSON（03_database.md）
-scripts/                 週次パイプライン（将来実装、09_data_pipeline.md）
+scripts/                 データ生成パイプライン Phase 1（Python・ローカル手動実行、09_data_pipeline.md）
 docs/                    本ドキュメント群・UIプロトタイプ
 ```
 
@@ -83,7 +84,9 @@ docs/                    本ドキュメント群・UIプロトタイプ
 
 ## 7. 外部依存
 
-- **Data Dragon CDN**（`ddragon.leagueoflegends.com`）: 画像のみ利用。`next/image` の `remotePatterns` に登録
+- **Data Dragon CDN**（`ddragon.leagueoflegends.com`）
+  - アプリ実行時: 画像のみ利用。`next/image` の `remotePatterns` に登録
+  - データ生成時（`scripts/`）: `ja_JP` のチャンピオン・アイテム・スペル・ルーンJSONを取得し、LLM出力の日本語名を正規IDへ解決する（09_data_pipeline.md §3.2）。バージョンは `lib/ddragon.ts` の `DDRAGON_VERSION` を唯一の正とする
 - **Google Fonts**: Noto Sans JP / Cinzel。`next/font` で読み込み
 - Riot公式APIはMVPでは未使用（統計取得方式は技術調査事項、[09_data_pipeline.md](./09_data_pipeline.md)）
 
