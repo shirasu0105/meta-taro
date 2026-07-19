@@ -233,7 +233,7 @@ rg -n 'winRate|勝率' app/ components/ lib/ data/
 | F-1 | **BOT結果の注記に統計の打ち消し文がない。** 通常レーンは「統計上の勝率ではありません」を含むが、BOTは「評価は4体の組み合わせに対するAIの判断です。」のみ。BOTページに直接着地したユーザーは打ち消し文を目にしない | `06_ui.md` §4.4 の規定どおりに実装した。文言追加の要否は別途判断 |
 | F-2 | **フッターの免責文が「AI・統計情報は参考情報であり」と統計に言及している。** Phase 1 は統計を持たないため、F-1 と同種の誤解を与える可能性がある | `06_ui.md` §3 L60 に規定された免責文言のため、独断で変更していない。法務観点を含むため P8（T-803）で扱うのが妥当 |
 | F-3 | P5 で積み残した D-2（`MatchupHeader` のモバイル短縮表示）/ D-4（`BotSlot` の幅捻出）は未着手 | P8（T-806 / T-807）で対応予定 |
-| F-4 | **通常レーンタブの注記が2体確定後も消えない。** `06_ui.md` §4.2 は「未確定時は注記『自分と相手の2体が確定すると表示できます』」と規定しており、確定後は非表示が正。実測で確定後も `display: block` のまま表示され続けていた。BOTタブは確定すると「残り◯体…」が消えるため、挙動が左右で一致していない | **P6以前からの既存の不具合**（P6の変更とは無関係）。P6のスコープ外のため本ブランチでは修正していない |
+| F-4 | **通常レーンタブの注記が2体確定後も消えない。** `06_ui.md` §4.2 は「未確定時は注記『自分と相手の2体が確定すると表示できます』」と規定しており、確定後は非表示が正 | **本PRで修正済み（T-809）。** `SearchSubmit` を `note`（常時）/ `disabledNote`（未確定時のみ）に分離。実測で 0体→表示 / 1体→表示 / 2体→非表示 を確認 |
 
 ---
 
@@ -248,3 +248,53 @@ rg -n 'winRate|勝率' app/ components/ lib/ data/
 | [`screenshots/p6/390-lp.png`](./screenshots/p6/390-lp.png) | LP 390px（プレビューカードの有利不利ラベル） |
 | [`screenshots/p6/1280-lp.png`](./screenshots/p6/1280-lp.png) | LP 1280px |
 | [`screenshots/p6/390-nodata.png`](./screenshots/p6/390-nodata.png) | データなし 390px（文言修正後） |
+| [`screenshots/p6/390-search-lane.png`](./screenshots/p6/390-search-lane.png) | 検索・通常レーン 390px（未確定時は注記あり） |
+| [`screenshots/p6/390-search-bot-ime.png`](./screenshots/p6/390-search-bot-ime.png) | 検索・BOTスロット 390px（IME変換中: ドロップダウン抑止 +「候補 1件」） |
+
+---
+
+## 10. 追加対応（T-801 / T-809）
+
+P6本体の完了後、ユーザー要望により以下2件を同PRで実施した。
+
+### T-801: IME対応（`ChampionPicker.tsx`）
+
+**症状**: Windows標準IMEの予測変換ウィンドウが候補ドロップダウンに重なって見えなくなる。
+
+`06_ui.md` §6.1 の仕様に従い実装。あわせて同§に**タッチ端末の例外**を追記した
+（AndroidのGBoardは英単語全体を1つのcompositionとして扱うため、抑止をそのまま適用すると
+`annie` と打っても候補が出なくなる。モバイルの候補バーはキーボード固定で衝突しないため抑止不要）。
+
+**判定は OR。** `isComposing` 単独では変換確定Enterで `false` になる組み合わせを取りこぼす。
+`composingRef` / `isComposing` / `keyCode === 229` の3層ORとした。
+
+**合成compositionイベントによる自動回帰の実測値**:
+
+| 検証 | 結果 |
+|---|---|
+| A. Chrome順序（keydown→compositionend） | 変換中 `[role=listbox]` **0件** /「候補 2件」表示 / 確定Enterで**選択されない** / 確定後に候補2件が開く |
+| A'. 確定後の意図的なEnter | **選択される**（過剰ブロックの回帰なし） |
+| B. Safari順序（compositionend→keydown・`isComposing:false`・`keyCode 229`） | **選択されない**（AND実装ならここで落ちる） |
+| C. レイアウトシフト（390px BOTスロット） | 変換前後で `top` が **351 → 351 → 351**。シフトゼロ。ラベルなしでも「候補 1件」表示 |
+| E. NFKC正規化 | `ａｎｎｉｅ` / `ｱﾆｰ` / `annie` / `アニー` の4形式すべてで「アニー」がヒット |
+
+**あわせて修正した既存の潜在バグ**: `excludeIds` で候補が減ったときの `activeIndex` 範囲外参照、
+空リストでの `ArrowDown` による `-1`、見えていない候補がEnterで選ばれる問題。
+a11y（`role="combobox"` / `listbox` / `option`、`aria-activedescendant`、`<label htmlFor>`）も付与した。
+
+### T-809: F-4修正（`SearchSubmit.tsx`）
+
+`note`（常時表示）と `disabledNote`（未確定時のみ）に分離。通常レーンは `disabledNote` へ変更、
+BOTは無改修（データ有無の但し書きは4体確定後も残るのが正しい）。
+実測: 通常レーン 0体→表示 / 1体→表示 / **2体→非表示**、BOT 4/4 でも注記は**残る**。
+
+### 未検証事項（マージ前に手動確認が必要）
+
+Playwrightは合成イベントしか送れず**OSのIMEを経由しない**ため、以下は `08_testing.md` §5 に従い
+実機での手動確認が必要:
+
+- 実際のMS-IME / Google日本語入力での `keydown` 順序と `keyCode`
+- IME予測変換ウィンドウとの重なりが実際に解消しているか（OSレベル描画のため再現不可）
+- 変換中のEscapeがIMEの変換取り消しとして働き、入力欄が空にならないこと
+- IME候補をマウスクリックしたときに `blur` が発生しないこと
+- **タッチ端末（Android GBoard / iOS）で変換中も候補が出ること**（今回入れた例外の実機確認）

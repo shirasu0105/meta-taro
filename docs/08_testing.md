@@ -48,9 +48,23 @@
 - [ ] レーン選択（TOP/JG/MID）が機能する
 - [ ] チャンピオン入力で「あに」→ アニー/アニビアが候補に出る（ひらがな検索）
 - [ ] カタカナ・英語（`annie`）でも同じ候補が出る
+- [ ] 全角英数（`ａｎｎｉｅ`）・半角カナ（`ｱﾆｰ`）でも候補が出る（NFKC正規化）
 - [ ] 2体確定で実行ボタンが活性化し、結果ページへ遷移する
+- [ ] 2体確定後に「自分と相手の2体が確定すると表示できます」が**消える**（T-809）
 - [ ] BOTタブ: 4体選択の進捗（n / 4）が表示され、4体確定まで実行できない
+- [ ] BOTの注記「該当データがない組み合わせは…」は4体確定後も**残る**（データ有無の一般的な但し書きのため）
 - [ ] BOT 4体確定で結果ページへ遷移する
+
+**IMEの近似回帰**（合成compositionイベント。`browser_evaluate` で実施。詳細は §5）:
+
+- [ ] 変換中は `[role="listbox"]` が描画されず、ラベル行に「候補 N件」が出る
+- [ ] 変換確定のEnterでチャンピオンが選択されない（Chrome順序 / Safari順序の両方）
+- [ ] 確定後の意図的なEnterではチャンピオンが選択される（過剰ブロックの回帰）
+- [ ] 変換の前後で入力欄の `getBoundingClientRect().top` が変化しない（390pxのBOTスロットで確認）
+
+> 合成イベントで値を入れる際は `Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,"value").set`
+> 経由にすること。`input.value = x` はReactのvalue trackerに吸収され `onChange` が発火しない。
+> また**タブ切替で非表示のinputがDOMに残る**ため、`getBoundingClientRect().width > 0` で可視要素を選ぶこと。
 
 ### 通常レーン結果（`/matchups/mid/ahri-vs-annie`）
 
