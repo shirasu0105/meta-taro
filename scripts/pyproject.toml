@@ -1,0 +1,21 @@
+[project]
+name = "metataro"
+version = "0.1.0"
+description = "Metaたろう データ生成パイプライン Phase 1（半自動・ローカル手動実行）"
+requires-python = ">=3.12"
+dependencies = [
+    "pydantic>=2.7",
+    "httpx>=0.27",
+    "jinja2>=3.1",
+    "pyperclip>=1.9",
+]
+
+[project.scripts]
+metataro = "metataro.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["metataro"]
