@@ -73,6 +73,10 @@ Phase 2 で手戻りなく復活できるよう、型と `WinRateBar.tsx` は残
 | T-605 | ドキュメント改訂（00 §5 / 01 §3,§5 / 03 §3 / 06 §2,§3,§4.1,§4.3,§4.4,§7 / 08 §4 / README） | 勝率の扱いが全ドキュメントで統一され、相互に矛盾しない |
 | T-606 | Playwright MCP で 390px / 1280px 再評価 → `reports/P6_evaluation.md` | 更新後の 08_testing §4 チェックリストが全項目パス |
 
+> P6 完了。評価結果は [reports/P6_evaluation.md](./reports/P6_evaluation.md)。
+> T-605 は先行コミット（PR #6）で対応済みだったため検証のみ。あわせてデータなし文言から
+> 「統計データ」を外した（06_ui §4.6）。**P7 着手前に P6 レポート §2 の申し送り（CRLF・書式・検査範囲）を読むこと。**
+
 ### P7: データ生成パイプライン Phase 1
 
 [09_data_pipeline.md](./09_data_pipeline.md) の Phase 1（半自動生成）を実装する。Python はローカル手動実行のみ。
