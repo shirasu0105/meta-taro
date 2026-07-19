@@ -80,8 +80,9 @@ type LaneMatchup = {
   me: string;              // champion id
   enemy: string;
   aiRating: 1 | 2 | 3 | 4 | 5;   // AI総合評価（星5段階で表示）
-  advantage: string;             // 表示ラベル: "有利" | "五分" | "不利" 等
-  winRate: number;               // me視点の統計勝率（例 52.4）
+  advantage: string;             // 表示ラベル: "有利" | "五分" | "不利"
+  winRate?: number;              // me視点の統計勝率（例 52.4）。統計ソース未整備のため
+                                 // Phase 1 では生成も表示もしない（09_data_pipeline §2）
   summary: string;               // 30秒要約
   gamePlan: { early: string; mid: string; late: string };  // 詳細立ち回り（序盤・中盤・終盤）
   dangerSkills: DangerSkill[];
@@ -103,7 +104,7 @@ type BotMatchup = {
   enemyAdc: string; enemySup: string;
   aiRating: 1 | 2 | 3 | 4 | 5;   // 4体の組み合わせ評価
   advantage: string;
-  winRate: number;               // ペア統計
+  winRate?: number;              // ペア統計。上に同じく Phase 1 では未使用
   views: { adc: BotViewAdvice; sup: BotViewAdvice };
 };
 
@@ -144,3 +145,12 @@ type GlossaryEntry = {
 - `champions.json` は上記登場チャンピオン + オートコンプリート検証用（アニビア等）の計15体程度
 - `glossary.json` はプロトタイプ登場用語（オールイン・ポーク・スケール・フリーズ・フック・エンゲージ・ピール・プッシュ・ローム・スタック等）約10語
 - **データなし検証用**: `mid/yasuo-vs-zed` は意図的に作成しない（08_testing のチェックで使用）
+
+## 7. 生成データの書式
+
+MVP以降、`data/matchups/` はPhase 1パイプライン（[09_data_pipeline.md](./09_data_pipeline.md)）が生成する。
+手作りモックとの書式差でdiffが荒れないよう、**全ファイルを以下に統一する**。
+
+- `json.dump(indent=2, ensure_ascii=False)` 相当（配列内オブジェクトを1行に畳まない）
+- Unicode NFC・末尾改行1つ
+- 以後はパイプラインの出力書式を唯一の正とし、手編集した場合も同書式に揃える

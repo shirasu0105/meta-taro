@@ -3,14 +3,14 @@
 League of Legends の初心者〜中級者が、チャンピオン選択〜ロード画面の短時間で対面知識を得られるAIアドバイスサービス。
 
 - 対象: 日本サーバー / ゴールド〜プラチナ / ノーマルドラフト
-- 提供: AI有利不利（星5段階）・勝率・立ち回り・注意スキル・パワースパイク・推奨ルーン/スペル/ビルド
+- 提供: AI有利不利（星5段階）・立ち回り・注意スキル・パワースパイク・推奨ルーン/スペル/ビルド
 - 検索: 通常レーン（TOP / JG / MID）と BOT（2v2・4体指定）
 
 ## アーキテクチャ概要
 
 - **Next.js 16（App Router / Cache Components）+ TypeScript + Tailwind CSS v4**
-- データベースなし。事前生成データ（統計 + AIアドバイス）を `data/` の静的JSONとしてGit管理し、全ページをビルド時にプリレンダー（SSG）
-- 週次のデータ更新はPRフローで反映（Vercel Preview → レビュー → マージ）
+- データベースなし。事前生成データ（AIアドバイス）を `data/` の静的JSONとしてGit管理し、全ページをビルド時にプリレンダー（SSG）
+- データ生成は `scripts/`（Python・ローカル手動実行）。パッチごとの更新はPRフローで反映（Vercel Preview → レビュー → マージ）
 - ホスティング: Vercel / ドメイン: Cloudflare / DNS: Hostinger
 - 画像: Riot Data Dragon CDN
 
@@ -36,7 +36,7 @@ npm run dev   # http://localhost:3000
 | [docs/06_ui.md](./docs/06_ui.md) | UI仕様（プロトタイプ準拠） |
 | [docs/07_release.md](./docs/07_release.md) | リリース・デプロイ |
 | [docs/08_testing.md](./docs/08_testing.md) | テスト・Playwright MCP評価 |
-| [docs/09_data_pipeline.md](./docs/09_data_pipeline.md) | 週次データ更新パイプライン設計 |
+| [docs/09_data_pipeline.md](./docs/09_data_pipeline.md) | データ生成パイプライン設計・運用手順 |
 | [docs/10_operations.md](./docs/10_operations.md) | 運用・コスト管理 |
 
 開発ルールは [CLAUDE.md](./CLAUDE.md)、UIプロトタイプは `docs/design/` にある。
