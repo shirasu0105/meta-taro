@@ -19,12 +19,12 @@ export function EvaluationPanel({
 }) {
   return (
     <Panel className="flex flex-col justify-center gap-3 p-[18px] md:px-6">
-      <div className="grid items-center gap-4 md:grid-cols-[1fr_1px_1.3fr] md:gap-[26px]">
+      <div className="grid grid-cols-[1fr_1px_1.3fr] items-center gap-3 md:gap-[26px]">
         <div className="flex flex-col gap-[7px]">
           <span className="text-[11px] text-text-muted">AI評価</span>
           <StarRating rating={aiRating} label={advantage} />
         </div>
-        <div className="hidden h-full w-px bg-border-subtle md:block" />
+        <div className="h-full w-px bg-border-subtle" />
         <div className="flex flex-col gap-[7px]">
           <span className="text-[11px] text-text-muted">勝率（統計）</span>
           <WinRateBar value={winRate} note={winRateNote} />

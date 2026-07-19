@@ -3,7 +3,7 @@ export function StarRating({ rating, label }: { rating: 1 | 2 | 3 | 4 | 5; label
   return (
     <div className="flex flex-col gap-[7px]">
       <div
-        className="text-[24px] leading-none tracking-[2.5px]"
+        className="text-[19px] leading-none tracking-[1.5px] md:text-[24px] md:tracking-[2.5px]"
         role="img"
         aria-label={`AI評価: 5段階中${rating}`}
       >
@@ -11,7 +11,7 @@ export function StarRating({ rating, label }: { rating: 1 | 2 | 3 | 4 | 5; label
         <span className="text-star-off">{"★".repeat(5 - rating)}</span>
       </div>
       {label && (
-        <div className="text-[12.5px] font-extrabold text-gold">
+        <div className="text-[11.5px] font-extrabold text-gold md:text-[12.5px]">
           {label} <span className="font-medium text-text-faint">· 5段階中{rating}</span>
         </div>
       )}

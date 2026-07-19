@@ -2,9 +2,9 @@
 export function WinRateBar({ value, note }: { value: number; note?: string }) {
   return (
     <div className="flex flex-col gap-[7px]">
-      <div className="text-[34px] font-black leading-none text-teal">
+      <div className="text-[28px] font-black leading-none text-teal md:text-[34px]">
         {value}
-        <span className="text-[16px]">%</span>
+        <span className="text-[14px] md:text-[16px]">%</span>
       </div>
       <div className="h-[6px] rounded-[2px] bg-inset">
         <div
