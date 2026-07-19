@@ -11,7 +11,9 @@ import { LaneRecommended } from "@/components/matchup/RecommendedPanels";
 import { SummaryPanel } from "@/components/matchup/SummaryPanel";
 import { VsPanel } from "@/components/matchup/VsPanel";
 import { getChampion } from "@/lib/champions";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getGlossary, getLaneMatchup, getMeta, listLaneMatchups } from "@/lib/data";
+import { laneMatchupSeo, matchupArticleJsonLd, SITE_NAME } from "@/lib/seo";
 import { buildLaneSlug, parseLaneSlug } from "@/lib/slug";
 import type { Champion, Lane } from "@/lib/types";
 
@@ -39,10 +41,7 @@ function resolveParams(
   return { lane: lane as Lane, me, enemy };
 }
 
-/**
- * データなし（null）時は noindex（06_ui §4.6 / T-207）。
- * データあり時は仮タイトルのみ — description / OG は T-301（P3）で拡張する。
- */
+/** データなし（null）時は noindex（06_ui §4.6 / T-207）。データあり時は固有メタデータ（T-301） */
 export async function generateMetadata({
   params,
 }: PageProps<"/matchups/[lane]/[slug]">): Promise<Metadata> {
@@ -56,8 +55,21 @@ export async function generateMetadata({
       robots: { index: false, follow: false },
     };
   }
+  const seo = laneMatchupSeo(resolved.me, resolved.enemy, resolved.lane, matchup);
   return {
-    title: `${resolved.me.name.ja} vs ${resolved.enemy.name.ja} ${resolved.lane.toUpperCase()}対面攻略 | Metaたろう`,
+    title: seo.title,
+    description: seo.description,
+    alternates: { canonical: seo.path },
+    openGraph: {
+      title: seo.heading,
+      description: seo.description,
+      url: seo.path,
+      siteName: SITE_NAME,
+      locale: "ja_JP",
+      type: "article",
+      images: [{ url: seo.image, width: 1215, height: 717, alt: seo.heading }],
+    },
+    twitter: { card: "summary_large_image" },
   };
 }
 
@@ -89,9 +101,11 @@ export default async function LaneMatchupPage({
   }
 
   const refs = getGlossary().filter((g) => matchup.glossaryRefs.includes(g.slug));
+  const seo = laneMatchupSeo(me, enemy, resolved.lane, matchup);
 
   return (
     <main className="mx-auto flex w-full max-w-[1180px] flex-1 flex-col gap-4 px-4 pb-10 pt-5 md:px-12 md:pt-[26px]">
+      <JsonLd data={matchupArticleJsonLd(seo, meta.updatedAt)} />
       <MatchupHeader badge={resolved.lane.toUpperCase()} meta={meta} />
 
       <div className="grid gap-4 md:grid-cols-[360px_1fr]">

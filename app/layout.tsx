@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cinzel, Noto_Sans_JP } from "next/font/google";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { siteUrl } from "@/lib/seo";
 import "./globals.css";
 
 const notoSansJp = Noto_Sans_JP({
@@ -17,6 +18,7 @@ const cinzel = Cinzel({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl()), // canonical / og:url の相対パス解決に必須
   title: "Metaたろう | LoL対面AIアドバイス",
   description:
     "チャンピオン選択〜ロード画面の短時間で、対面の立ち回り・注意スキル・ビルドをAIアドバイスで確認できるサービス。",

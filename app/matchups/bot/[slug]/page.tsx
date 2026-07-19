@@ -11,7 +11,9 @@ import { BotRecommended } from "@/components/matchup/RecommendedPanels";
 import { SummaryPanel } from "@/components/matchup/SummaryPanel";
 import { VsPanel } from "@/components/matchup/VsPanel";
 import { getChampion } from "@/lib/champions";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getBotMatchup, getGlossary, getMeta, listBotMatchups } from "@/lib/data";
+import { botMatchupSeo, matchupArticleJsonLd, SITE_NAME } from "@/lib/seo";
 import { buildBotSlug, parseBotSlug } from "@/lib/slug";
 import type { BotViewAdvice, Champion, GlossaryEntry } from "@/lib/types";
 
@@ -56,10 +58,7 @@ function resolveParams(
   return { myAdc, mySup, enemyAdc, enemySup };
 }
 
-/**
- * データなし（null）時は noindex（06_ui §4.6 / T-207）。
- * データあり時は仮タイトルのみ — description / OG は T-301（P3）で拡張する。
- */
+/** データなし（null）時は noindex（06_ui §4.6 / T-207）。データあり時は固有メタデータ（T-301） */
 export async function generateMetadata({
   params,
 }: PageProps<"/matchups/bot/[slug]">): Promise<Metadata> {
@@ -78,8 +77,27 @@ export async function generateMetadata({
       robots: { index: false, follow: false },
     };
   }
+  const seo = botMatchupSeo(
+    resolved.myAdc,
+    resolved.mySup,
+    resolved.enemyAdc,
+    resolved.enemySup,
+    matchup,
+  );
   return {
-    title: `${resolved.myAdc.name.ja} + ${resolved.mySup.name.ja} vs ${resolved.enemyAdc.name.ja} + ${resolved.enemySup.name.ja} BOT対面攻略 | Metaたろう`,
+    title: seo.title,
+    description: seo.description,
+    alternates: { canonical: seo.path },
+    openGraph: {
+      title: seo.heading,
+      description: seo.description,
+      url: seo.path,
+      siteName: SITE_NAME,
+      locale: "ja_JP",
+      type: "article",
+      images: [{ url: seo.image, width: 1215, height: 717, alt: seo.heading }],
+    },
+    twitter: { card: "summary_large_image" },
   };
 }
 
@@ -109,9 +127,11 @@ export default async function BotMatchupPage({ params }: PageProps<"/matchups/bo
   }
 
   const glossary = getGlossary();
+  const seo = botMatchupSeo(myAdc, mySup, enemyAdc, enemySup, matchup);
 
   return (
     <main className="mx-auto flex w-full max-w-[1180px] flex-1 flex-col gap-4 px-4 pb-10 pt-5 md:px-12 md:pt-[26px]">
+      <JsonLd data={matchupArticleJsonLd(seo, meta.updatedAt)} />
       <MatchupHeader badge="BOT 2v2" meta={meta} />
 
       <div className="grid gap-4 md:grid-cols-[420px_1fr]">
