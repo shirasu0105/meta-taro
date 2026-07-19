@@ -49,7 +49,8 @@ export type LaneMatchup = {
   enemy: string;
   aiRating: 1 | 2 | 3 | 4 | 5; // AI総合評価（星5段階で表示）
   advantage: string; // 表示ラベル: "有利" | "五分" | "不利" 等
-  winRate: number; // me視点の統計勝率（例 52.4）
+  winRate?: number; // me視点の統計勝率（例 52.4）。統計ソース未整備のため
+  // Phase 1 では生成も表示もしない（09_data_pipeline §2）
   summary: string; // 30秒要約
   gamePlan: { early: string; mid: string; late: string };
   dangerSkills: DangerSkill[];
@@ -73,7 +74,7 @@ export type BotMatchup = {
   enemySup: string;
   aiRating: 1 | 2 | 3 | 4 | 5;
   advantage: string;
-  winRate: number; // ペア統計
+  winRate?: number; // ペア統計。上に同じく Phase 1 では未使用
   views: { adc: BotViewAdvice; sup: BotViewAdvice };
 };
 
