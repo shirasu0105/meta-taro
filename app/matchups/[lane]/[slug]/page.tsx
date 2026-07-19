@@ -120,9 +120,7 @@ export default async function LaneMatchupPage({
         <EvaluationPanel
           aiRating={matchup.aiRating}
           advantage={matchup.advantage}
-          winRate={matchup.winRate}
-          winRateNote={`${me.name.ja}視点 · Gold+ · 直近パッチ`}
-          footnote="AI評価は統計＋対面知識の総合判断。勝率は統計値をそのまま表示しています。"
+          note="AI評価はチャンピオン相性とスキル構成にもとづくAIの判断です。統計上の勝率ではありません。"
         />
       </div>
 

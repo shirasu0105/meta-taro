@@ -152,9 +152,7 @@ export default async function BotMatchupPage({ params }: PageProps<"/matchups/bo
         <EvaluationPanel
           aiRating={matchup.aiRating}
           advantage={matchup.advantage}
-          winRate={matchup.winRate}
-          winRateNote="ペア統計 · Gold+ · 直近パッチ"
-          footnote="評価・勝率は4体の組み合わせ統計。立ち回りは下の視点トグルで切り替え。"
+          note="評価は4体の組み合わせに対するAIの判断です。立ち回りは下の視点トグルで切り替え。"
         />
       </div>
 

@@ -1,4 +1,12 @@
-/** 勝率表示: teal大数字 + ゲージバー + 注記（06_ui §3） */
+/**
+ * 勝率表示: teal大数字 + ゲージバー + 注記（06_ui §3）。
+ *
+ * **Phase 1 では未使用（描画されない）。** 統計ソースが未確定のまま勝率を出すと
+ * AI生成値を統計値として提示することになるため（09_data_pipeline §2 / 06_ui §7）。
+ * 復活条件: 統計ソース確定 → `winRate` をデータに投入すれば
+ * `EvaluationPanel` の分岐（`winRate !== undefined`）が自動的に本コンポーネントを描画する。
+ * そのため本ファイルは削除せず温存すること。
+ */
 export function WinRateBar({ value, note }: { value: number; note?: string }) {
   return (
     <div className="flex flex-col gap-[7px]">
