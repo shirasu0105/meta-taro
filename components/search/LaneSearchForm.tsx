@@ -4,7 +4,9 @@ import { useState } from "react";
 import { buildLaneSlug } from "@/lib/slug";
 import type { Champion, Lane } from "@/lib/types";
 import { ChampionPicker } from "./ChampionPicker";
+import { FrequentChampions } from "./FrequentChampions";
 import { LaneSelect } from "./LaneSelect";
+import { RecentSearches } from "./RecentSearches";
 import { SearchSubmit } from "./SearchSubmit";
 
 /** 通常レーンタブ: レーン選択 + 自分/相手の2ペイン。2体確定で結果へ（06_ui §4.2） */
@@ -33,6 +35,7 @@ export function LaneSearchForm() {
             selected={me}
             onSelect={setMe}
           />
+          <FrequentChampions lane={lane} onSelect={setMe} />
         </div>
         <div className="rounded-[2px] md:border md:border-border md:bg-panel md:p-[18px]">
           <ChampionPicker
@@ -49,6 +52,7 @@ export function LaneSearchForm() {
         disabledLabel="この対面で結果を見る"
         note="自分と相手の2体が確定すると表示できます"
       />
+      <RecentSearches kind="lane" />
     </div>
   );
 }

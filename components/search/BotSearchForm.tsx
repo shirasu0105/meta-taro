@@ -5,6 +5,7 @@ import { buildBotSlug } from "@/lib/slug";
 import type { Champion } from "@/lib/types";
 import { BotProgressBar } from "./BotProgressBar";
 import { BotSlot } from "./BotSlot";
+import { RecentSearches } from "./RecentSearches";
 import { SearchSubmit } from "./SearchSubmit";
 
 type SlotKey = "myAdc" | "mySup" | "enemyAdc" | "enemySup";
@@ -85,6 +86,7 @@ export function BotSearchForm() {
         disabledLabel={`残り${missing.length}体（${missing.map((k) => SLOT_LABELS[k]).join("・")}）を選択してください`}
         note="該当データがない組み合わせは「データがありません」を表示"
       />
+      <RecentSearches kind="bot" />
     </div>
   );
 }
