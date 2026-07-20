@@ -317,15 +317,15 @@ def _check_file_identity(path: Path, obj: dict, errors: list[str]) -> None:
         errors.append(f"未知のレーンディレクトリ: {lane_dir}")
 
 
-def validate_file(path: Path, r: Resolvers, master: dict, glossary_slugs: set[str]) -> list[str]:
-    """1ファイル分の A〜F。エラーメッセージのリストを返す（空なら合格）。"""
-    errors: list[str] = []
-    text = path.read_text(encoding="utf-8")
-    try:
-        obj = json.loads(text)
-    except json.JSONDecodeError as e:
-        return [f"JSONとして読めない: {e}"]
+def validate_object(
+    path: Path, obj: dict, r: Resolvers, master: dict, glossary_slugs: set[str]
+) -> list[str]:
+    """A〜E をJSONオブジェクトに対して実行する（書き出し前の ingest からも使う）。
 
+    path は書き出し先（存在しなくてよい。E のパス自己整合に使う）。
+    F（書式）は含まない — ファイル実体に対する検査のため validate_file 側で行う。
+    """
+    errors: list[str] = []
     is_bot = path.parent.name == "bot"
 
     # E. ファイル自己整合
@@ -339,7 +339,7 @@ def validate_file(path: Path, r: Resolvers, master: dict, glossary_slugs: set[st
         for err in e.errors():
             loc = ".".join(str(x) for x in err["loc"])
             errors.append(f"{loc}: {err['msg']}")
-        return errors  # 形が壊れていたら B/D/F はスキップ
+        return errors  # 形が壊れていたら B/D はスキップ
 
     # B. 参照整合
     if is_bot:
@@ -356,9 +356,20 @@ def validate_file(path: Path, r: Resolvers, master: dict, glossary_slugs: set[st
     # D. 表記
     _check_style(obj, is_bot, errors)
 
-    # F. 正規化
-    _check_normalization(text, obj, errors)
+    return errors
 
+
+def validate_file(path: Path, r: Resolvers, master: dict, glossary_slugs: set[str]) -> list[str]:
+    """1ファイル分の A〜F。エラーメッセージのリストを返す（空なら合格）。"""
+    text = path.read_text(encoding="utf-8")
+    try:
+        obj = json.loads(text)
+    except json.JSONDecodeError as e:
+        return [f"JSONとして読めない: {e}"]
+
+    errors = validate_object(path, obj, r, master, glossary_slugs)
+    # F. 正規化（テキストとJSONが揃えば構造の合否と無関係に検査できる）
+    _check_normalization(text, obj, errors)
     return errors
 
 
