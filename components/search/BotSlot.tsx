@@ -27,14 +27,14 @@ export function BotSlot({
 
   if (selected) {
     return (
-      <div className="flex items-center gap-2 rounded-[2px] border border-border bg-bg p-2.5">
+      <div className="flex items-center gap-1 rounded-[2px] border border-border bg-bg p-2 md:gap-2 md:p-2.5">
         <RoleBadge tone={tone}>{role}</RoleBadge>
         <Image
           src={championIconUrl(selected.ddragonId)}
           alt={selected.name.ja}
           width={28}
           height={28}
-          className="rounded-[2px] bg-icon-bg"
+          className="h-6 w-6 shrink-0 rounded-[2px] bg-icon-bg md:h-7 md:w-7"
         />
         <span className="truncate text-[12px] font-bold text-text-hi md:text-[12.5px]">
           {selected.name.ja}
