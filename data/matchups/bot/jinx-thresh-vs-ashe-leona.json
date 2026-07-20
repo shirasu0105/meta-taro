@@ -1,0 +1,198 @@
+{
+  "myAdc": "jinx",
+  "mySup": "thresh",
+  "enemyAdc": "ashe",
+  "enemySup": "leona",
+  "aiRating": 2,
+  "advantage": "不利",
+  "views": {
+    "adc": {
+      "summary": "序盤はアッシュのWとレオナのEで主導権を取られやすい。ミニオン越しに立ち、スレッシュのフック命中後はEを重ねて攻める。狙われたらランタンで離脱し、後半のスケールまで無理なオールインを避ける。",
+      "dangerSkills": [
+        {
+          "slot": "E",
+          "name": "ゼニスブレード",
+          "tag": "接近スネア",
+          "description": "最後に命中するとレオナが接近し、Qへつながる。ミニオンを間に置き、外れた直後だけ攻め返す。",
+          "icon": "LeonaZenithBlade.png"
+        },
+        {
+          "slot": "R",
+          "name": "ソーラーフレア",
+          "tag": "範囲拘束",
+          "description": "中心部のスタンから連続して狙われる。横に動ける距離を保ち、スレッシュのWで離脱する。",
+          "icon": "LeonaSolarFlare.png"
+        },
+        {
+          "slot": "R",
+          "name": "クリスタルアロー",
+          "tag": "遠距離スタン",
+          "description": "遠距離からスタンを受けるとレオナのエンゲージが重なる。正面に並ばず、見えない位置からの矢を警戒する。",
+          "icon": "EnchantedCrystalArrow.png"
+        }
+      ],
+      "powerSpike": {
+        "me": {
+          "early": "△",
+          "mid": "○",
+          "late": "◎"
+        },
+        "enemy": {
+          "early": "◎",
+          "mid": "○",
+          "late": "△"
+        },
+        "note": "序盤は相手のエンゲージが強い。中盤以降はスレッシュのピールを受けながら、ジンクスの射程とスケールを活かす。"
+      },
+      "recommended": {
+        "runes": {
+          "keystone": "リーサルテンポ",
+          "primary": "栄華",
+          "secondary": "魔道",
+          "icon": "perk-images/Styles/Precision/LethalTempo/LethalTempoTemp.png"
+        },
+        "spells": [
+          "SummonerFlash",
+          "SummonerBoost"
+        ],
+        "build": {
+          "core": [
+            {
+              "id": 6672,
+              "name": "クラーケン スレイヤー"
+            },
+            {
+              "id": 3085,
+              "name": "ルナーン ハリケーン"
+            },
+            {
+              "id": 3031,
+              "name": "インフィニティ エッジ"
+            }
+          ],
+          "boots": {
+            "id": 3006,
+            "name": "バーサーカー ブーツ"
+          },
+          "situational": [
+            {
+              "item": {
+                "id": 3139,
+                "name": "マーキュリアル シミター"
+              },
+              "reason": "行動妨害対策"
+            },
+            {
+              "item": {
+                "id": 3026,
+                "name": "ガーディアン エンジェル"
+              },
+              "reason": "エンゲージ対策"
+            }
+          ]
+        }
+      },
+      "glossaryRefs": [
+        "all-in",
+        "hook",
+        "engage",
+        "peel",
+        "scale"
+      ]
+    },
+    "sup": {
+      "summary": "序盤はアッシュのポークとレオナのエンゲージが強い。ジンクスの横か少し前に立ち、Eで接近を止める。レオナEを外した後かアッシュR使用後に、フックからオールインする。",
+      "dangerSkills": [
+        {
+          "slot": "E",
+          "name": "ゼニスブレード",
+          "tag": "接近始動",
+          "description": "ジンクスに命中するとQまでつながる。射線に立ち、接近した瞬間をEで押し返す。",
+          "icon": "LeonaZenithBlade.png"
+        },
+        {
+          "slot": "R",
+          "name": "クリスタルアロー",
+          "tag": "遠距離スタン",
+          "description": "命中後にレオナのエンゲージが重なる。ジンクスと重ならず、命中時はWで退路を作る。",
+          "icon": "EnchantedCrystalArrow.png"
+        },
+        {
+          "slot": "W",
+          "name": "ボレー",
+          "tag": "範囲スロウ",
+          "description": "スロウを受けるとレオナEの的になりやすい。ミニオン越しに受けて消耗を抑える。",
+          "icon": "Volley.png"
+        }
+      ],
+      "powerSpike": {
+        "me": {
+          "early": "△",
+          "mid": "○",
+          "late": "◎"
+        },
+        "enemy": {
+          "early": "◎",
+          "mid": "○",
+          "late": "△"
+        },
+        "note": "相手は序盤のエンゲージが強い。こちらは集団戦と終盤のスケールで上回りやすい。"
+      },
+      "recommended": {
+        "runes": {
+          "keystone": "アフターショック",
+          "primary": "不滅",
+          "secondary": "天啓",
+          "icon": "perk-images/Styles/Resolve/VeteranAftershock/VeteranAftershock.png"
+        },
+        "spells": [
+          "SummonerFlash",
+          "SummonerDot"
+        ],
+        "build": {
+          "core": [
+            {
+              "id": 3190,
+              "name": "ソラリのロケット"
+            },
+            {
+              "id": 3109,
+              "name": "騎士の誓い"
+            },
+            {
+              "id": 3050,
+              "name": "ジーク コンバージェンス"
+            }
+          ],
+          "boots": {
+            "id": 3111,
+            "name": "マーキュリー ブーツ"
+          },
+          "situational": [
+            {
+              "item": {
+                "id": 3222,
+                "name": "ミカエルの祝福"
+              },
+              "reason": "行動妨害対策"
+            },
+            {
+              "item": {
+                "id": 3110,
+                "name": "フローズン ハート"
+              },
+              "reason": "通常攻撃対策"
+            }
+          ]
+        }
+      },
+      "glossaryRefs": [
+        "hook",
+        "engage",
+        "peel",
+        "all-in",
+        "scale"
+      ]
+    }
+  }
+}

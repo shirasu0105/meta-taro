@@ -63,7 +63,7 @@
 | `dangerSkills` | ちょうど{{ limits.dangerSkills }}件。**相手側2体（{{ enemy_adc.ja }} / {{ enemy_sup.ja }}）のQ/W/E/Rだけ**を挙げる（パッシブ不可）。`champion` にどちらのスキルかを書く |
 | `dangerSkills[].tag` | {{ limits.tag[0] }}〜{{ limits.tag[1] }}字の短いラベル（例: 設置物 / 無力化 / 狙撃） |
 | `dangerSkills[].description` | {{ limits.description[0] }}〜{{ limits.description[1] }}字。危険な理由と対処 |
-| `powerSpike.me` / `.enemy` | 自分側ペア / 相手側ペアの early / mid / late に ◎ ○ △ を割り当てる |
+| `powerSpike.me` / `.enemy` | 自分側ペア / 相手側ペアの early / mid / late に ◎ ○ △ を割り当てる。**個々のチャンピオンではなくペア全体（2体合算）の評価**として書く。ADC視点とSUP視点で同じ結論になるはずの項目なので、視点の都合で変えない |
 | `powerSpike.note` | {{ limits.note[0] }}〜{{ limits.note[1] }}字 |
 | `recommended.spells` | ちょうど{{ limits.spells }}件・重複なし（この視点のチャンピオンのもの） |
 | `recommended.build.core` | ちょうど{{ limits.core }}件のアイテム名（この視点のチャンピオンのもの） |

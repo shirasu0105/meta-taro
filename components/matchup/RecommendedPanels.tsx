@@ -4,7 +4,9 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { itemIconUrl, runeIconUrl, summonerSpellUrl } from "@/lib/ddragon";
 import type { Recommended } from "@/lib/types";
 
-/** サモナースペルIDの表示名（Data Dragon ID → 日本語名。表示専用の対応表） */
+/** サモナースペルIDの表示名（Data Dragon ID → 日本語名。表示専用の対応表）
+ * データ生成パイプラインは summoner.json の CLASSIC 全スペルを出力しうるため、
+ * ここは CLASSIC の9種すべてを網羅すること（09_data_pipeline §3.3 のクローズドリスト）。 */
 const SPELL_NAMES: Record<string, string> = {
   SummonerFlash: "フラッシュ",
   SummonerDot: "イグナイト",
@@ -14,6 +16,7 @@ const SPELL_NAMES: Record<string, string> = {
   SummonerSmite: "スマイト",
   SummonerExhaust: "イグゾースト",
   SummonerBarrier: "バリア",
+  SummonerBoost: "クレンズ",
 };
 
 function spellName(spellId: string): string {

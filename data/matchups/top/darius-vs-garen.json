@@ -1,0 +1,102 @@
+{
+  "lane": "top",
+  "me": "darius",
+  "enemy": "garen",
+  "aiRating": 4,
+  "advantage": "有利",
+  "summary": "序盤は通常攻撃とWで「大出血」を重ね、ガレンのQ使用後にEで引き戻す。ガレンのW発動直後は無理に削り切らず、軽減が弱まってからオールインを狙う。",
+  "gamePlan": {
+    "early": "ミニオンの横に立ち、ガレンが近づいたら通常攻撃からWを当てる。相手のQ使用後にEで引き戻し、Qの刃を当てて「大出血」を重ねる。",
+    "mid": "外側の視界を置いて単独戦を作る。ガレンのWを先に使わせ、軽減が弱まってからゴーストで追い、5スタックからRを狙う。",
+    "late": "集団では先頭から入りすぎず、近づく相手にEとWを使う。ガレンのRを受ける前に距離を取り、味方の近くで戦う。"
+  },
+  "dangerSkills": [
+    {
+      "slot": "Q",
+      "name": "断固たる一撃",
+      "tag": "接近沈黙",
+      "description": "スロウを解除して接近し、次の攻撃でサイレンスを受ける。加速が切れた後にEで引き戻す。",
+      "icon": "GarenQ.png"
+    },
+    {
+      "slot": "W",
+      "name": "勇気の護り",
+      "tag": "耐久上昇",
+      "description": "シールドと行動妨害耐性、長いダメージ軽減でオールインを耐えられる。発動直後はRを急がない。",
+      "icon": "GarenW.png"
+    },
+    {
+      "slot": "R",
+      "name": "デマーシアの正義",
+      "tag": "必殺警戒",
+      "description": "指定した相手へ必殺の一撃を与える。体力を削られた状態では近づかず、先に距離を取る。",
+      "icon": "GarenR.png"
+    }
+  ],
+  "powerSpike": {
+    "me": {
+      "early": "◎",
+      "mid": "◎",
+      "late": "△"
+    },
+    "enemy": {
+      "early": "△",
+      "mid": "○",
+      "late": "◎"
+    },
+    "note": "序盤はダリウスが主導しやすい。中盤は5スタックからのRが強く、終盤はガレンのWによる防御上昇に注意する。"
+  },
+  "recommended": {
+    "runes": {
+      "keystone": "征服者",
+      "primary": "栄華",
+      "secondary": "不滅",
+      "icon": "perk-images/Styles/Precision/Conqueror/Conqueror.png"
+    },
+    "spells": [
+      "SummonerFlash",
+      "SummonerHaste"
+    ],
+    "build": {
+      "core": [
+        {
+          "id": 6631,
+          "name": "ストライドブレイカー"
+        },
+        {
+          "id": 3053,
+          "name": "ステラックの篭手"
+        },
+        {
+          "id": 3742,
+          "name": "デッド マン プレート"
+        }
+      ],
+      "boots": {
+        "id": 3047,
+        "name": "プレート スチールキャップ"
+      },
+      "situational": [
+        {
+          "item": {
+            "id": 3071,
+            "name": "ブラック クリーバー"
+          },
+          "reason": "防御が高い時"
+        },
+        {
+          "item": {
+            "id": 6333,
+            "name": "デス ダンス"
+          },
+          "reason": "物理対策"
+        }
+      ]
+    }
+  },
+  "glossaryRefs": [
+    "all-in",
+    "stack",
+    "power-spike"
+  ]
+}
