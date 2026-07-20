@@ -61,6 +61,26 @@ def load(name: str) -> Any:
     return json.loads(target.read_text(encoding="utf-8"))
 
 
+def load_champion_en() -> dict[str, Any]:
+    """英語表示名（champions.json の name.en 用）。champions sync でのみ使う追加キャッシュ。
+
+    ja_JP の championFull.json には英語名が含まれないため、en_US/champion.json を
+    初回アクセス時に取得してキャッシュする（例: MonkeyKing → "Wukong"、Kaisa → "Kai'Sa"）。
+    """
+    version = ddragon_version()
+    target = cache_dir(version) / "champion_en.json"
+    if not target.exists():
+        url = f"{CDN}/{version}/data/en_US/champion.json"
+        with httpx.Client(timeout=60.0, follow_redirects=True) as client:
+            resp = client.get(url)
+            resp.raise_for_status()
+            json.loads(resp.content)
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(resp.content)
+            print(f"  champion_en.json: 取得 {len(resp.content):,} bytes")
+    return json.loads(target.read_text(encoding="utf-8"))["data"]
+
+
 def load_champion_full() -> dict[str, Any]:
     """championFull.json の data 部（ddragonId → チャンピオン情報）。"""
     return load("championFull.json")["data"]
