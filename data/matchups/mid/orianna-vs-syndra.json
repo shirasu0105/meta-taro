@@ -48,7 +48,7 @@
   },
   "recommended": {
     "runes": {
-      "keystone": "サモンエアリー",
+      "keystone": "エアリー召喚",
       "primary": "魔道",
       "secondary": "天啓",
       "icon": "perk-images/Styles/Sorcery/SummonAery/SummonAery.png"
@@ -61,7 +61,7 @@
       "core": [
         {
           "id": 6655,
-          "name": "ルーデンコンパニオン"
+          "name": "ルーデン コンパニオン"
         },
         {
           "id": 4645,
@@ -69,12 +69,12 @@
         },
         {
           "id": 3089,
-          "name": "ラバドンデスキャップ"
+          "name": "ラバドン デスキャップ"
         }
       ],
       "boots": {
         "id": 3020,
-        "name": "ソーサラーシューズ"
+        "name": "ソーサラー シューズ"
       },
       "situational": [
         {
@@ -87,7 +87,7 @@
         {
           "item": {
             "id": 3102,
-            "name": "バンシーヴェール"
+            "name": "バンシー ヴェール"
           },
           "reason": "対Eスタン"
         }
