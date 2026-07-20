@@ -95,6 +95,18 @@ Phase 2 で手戻りなく復活できるよう、型と `WinRateBar.tsx` は残
 | T-710 | `09_data_pipeline.md` を実装後の実手順に合わせて更新 + `02_architecture.md` の `scripts/` 記述更新 | ドキュメントだけを読んで第三者が1対面を生成できる |
 | T-711 | 新規対面3件を実生成し、プロンプトを1周チューニング | 3件が検証を通過し、レビューCSVで品質が既存モック同等 |
 
+> P7 完了。ChatGPT Plus 実出力から新規4対面（`mid/ahri-vs-zed` / `top/darius-vs-garen` / `jg/vi-vs-leesin` /
+> `bot/jinx-thresh-vs-ashe-leona`）を生成し、`validate --all` 全12件パス・build 成功。
+> **設計からの主な差分**（詳細は 09 の各節を改訂済み）:
+> ① `description` 下限をモック実測に合わせ 28→25字 ② レビューCSVはBOTを視点ごとに1行
+> ③ `champions.json` を全169体へ拡張（`champions sync` 追加。レーン適性は `scripts/champion_lanes.json` で手動管理）
+> ④ モック8件のアイテム/スキル/ルーン名を Data Dragon 正式名へ上書き（旧表記は `aliases.json` に登録）
+> ⑤ UI: `RecommendedPanels.tsx` の `SPELL_NAMES` に `SummonerBoost`(クレンズ) を追加（CLASSIC 9種を網羅。
+> パイプラインはクローズドリストの全スペルを出力しうるため、この対応表の欠落は表示バグになる）。
+> T-711 のチューニング: BOTの powerSpike が視点間で不一致になったため、`bot_v1` に
+> 「ペア全体の評価として視点間で一貫させる」指示を追加（v1内改訂）。既存1件は人手レビューで整合修正。
+> **新規4対面はマージ後に `queue set-status <id> published --patch 26.13` を実行すること。**
+
 ### P8: 品質・法務・公開
 
 | ID | タスク | 完了条件 |

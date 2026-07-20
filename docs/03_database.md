@@ -143,6 +143,7 @@ type GlossaryEntry = {
 | BOT | `ezreal-lux-vs-ashe-leona` | |
 
 - `champions.json` は上記登場チャンピオン + オートコンプリート検証用（アニビア等）の計15体程度
+  （**P7 で全チャンピオン169体へ拡張済み**。`npm run data -- champions sync` が生成する。レーン適性は `scripts/champion_lanes.json` で管理）
 - `glossary.json` はプロトタイプ登場用語（オールイン・ポーク・スケール・フリーズ・フック・エンゲージ・ピール・プッシュ・ローム・スタック等）約10語
 - **データなし検証用**: `mid/yasuo-vs-zed` は意図的に作成しない（08_testing のチェックで使用）
 

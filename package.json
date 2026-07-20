@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "data": "uv run --project scripts metataro"
   },
   "dependencies": {
     "@playwright/mcp": "^0.0.78",

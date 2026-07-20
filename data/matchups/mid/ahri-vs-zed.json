@@ -1,0 +1,104 @@
+{
+  "lane": "mid",
+  "me": "ahri",
+  "enemy": "zed",
+  "aiRating": 3,
+  "advantage": "五分",
+  "summary": "序盤はミニオン越しに立ってQを避け、Wの影が消えるまで短いポークに徹する。Lv6以降はEとRを守り、ゼドのRを受けたら距離を取り直して反撃する。",
+  "gamePlan": {
+    "early": "ミニオンの後ろでQの直撃を避け、Wを使った後だけQと通常攻撃で短く削る。Eは接近への返しに残し、無理に追わない。",
+    "mid": "川と横道に視界を置き、ゼドの位置が見えない時は深くプッシュしない。味方と動き、先に合流してEから人数差を作る。",
+    "late": "単独で横道を進まず、味方の近くでピールを優先する。ゼドが入った後にEを合わせ、Rは追撃より回避に使う。"
+  },
+  "dangerSkills": [
+    {
+      "slot": "Q",
+      "name": "風魔手裏剣",
+      "tag": "二重射線",
+      "description": "影と本体からQが飛ぶ。2つの射線が重ならない位置へ横移動し、同時の命中を避ける。",
+      "icon": "ZedQ.png"
+    },
+    {
+      "slot": "W",
+      "name": "影分身",
+      "tag": "位置交換",
+      "description": "影を置いて接近や離脱に使う。影の位置を見続け、再発動で近づく動きにEを合わせる。",
+      "icon": "ZedW.png"
+    },
+    {
+      "slot": "R",
+      "name": "死の刻印",
+      "tag": "印の爆発",
+      "description": "対象指定されなくなって接近し、3秒後に印が爆発する。Rで距離を取り、追加攻撃を受ける時間を減らす。",
+      "icon": "ZedR.png"
+    }
+  ],
+  "powerSpike": {
+    "me": {
+      "early": "○",
+      "mid": "◎",
+      "late": "○"
+    },
+    "enemy": {
+      "early": "○",
+      "mid": "◎",
+      "late": "△"
+    },
+    "note": "アーリはLv6以降の回避と反撃が強く、ゼドはR取得後のオールインが脅威になる。EとRの有無で戦うか決める。"
+  },
+  "recommended": {
+    "runes": {
+      "keystone": "電撃",
+      "primary": "覇道",
+      "secondary": "魔道",
+      "icon": "perk-images/Styles/Domination/Electrocute/Electrocute.png"
+    },
+    "spells": [
+      "SummonerFlash",
+      "SummonerExhaust"
+    ],
+    "build": {
+      "core": [
+        {
+          "id": 3118,
+          "name": "マリグナンス"
+        },
+        {
+          "id": 4628,
+          "name": "ホライゾン フォーカス"
+        },
+        {
+          "id": 3157,
+          "name": "ゾーニャの砂時計"
+        }
+      ],
+      "boots": {
+        "id": 3020,
+        "name": "ソーサラー シューズ"
+      },
+      "situational": [
+        {
+          "item": {
+            "id": 3089,
+            "name": "ラバドン デスキャップ"
+          },
+          "reason": "火力を伸ばす"
+        },
+        {
+          "item": {
+            "id": 3135,
+            "name": "ヴォイド スタッフ"
+          },
+          "reason": "魔法防御対策"
+        }
+      ]
+    }
+  },
+  "glossaryRefs": [
+    "poke",
+    "push",
+    "all-in",
+    "peel",
+    "power-spike"
+  ]
+}

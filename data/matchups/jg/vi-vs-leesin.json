@@ -1,0 +1,102 @@
+{
+  "lane": "jg",
+  "me": "vi",
+  "enemy": "leesin",
+  "aiRating": 3,
+  "advantage": "五分",
+  "summary": "序盤の1v1はリー・シンのQ再発動と追撃が強い。深い侵入は避け、視界と味方の寄りを確認して戦う。Lv6以降はRから先手を取り、集団戦では敵の主力を狙う。",
+  "gamePlan": {
+    "early": "最初の周回は安定を優先し、川と自陣入口に視界を置く。Qを外したリー・シンだけを追い、味方が寄れない場所では1v1を避ける。",
+    "mid": "Lv6以降はRで逃げにくい敵へエンゲージする。先に川周辺の視界を取り、リー・シンの侵入には味方と挟んで対応する。",
+    "late": "単独で敵陣へ入らず、味方の射程内からRで主力を狙う。リー・シンのRで味方から離されない角度を選び、先にQを構える。"
+  },
+  "dangerSkills": [
+    {
+      "slot": "Q",
+      "name": "響掌/共鳴撃",
+      "tag": "再接近",
+      "description": "響掌を受けると共鳴撃で接近され、減少体力に応じた追撃を受ける。中立モンスターを挟み、外れた直後に前へ出る。",
+      "icon": "LeeSinQOne.png"
+    },
+    {
+      "slot": "E",
+      "name": "破風/縛脚",
+      "tag": "減速追撃",
+      "description": "破風に当たると可視状態になり、縛脚のスロウで逃げにくくなる。接近戦では長居せず、Qで距離を作って追撃を切る。",
+      "icon": "LeeSinEOne.png"
+    },
+    {
+      "slot": "R",
+      "name": "龍の怒り",
+      "tag": "蹴り飛ばし",
+      "description": "龍の怒りで後方へ飛ばされ、味方に衝突すると周囲も崩される。味方と一直線に並ばず、敵側へ蹴られる角度を避ける。",
+      "icon": "LeeSinR.png"
+    }
+  ],
+  "powerSpike": {
+    "me": {
+      "early": "○",
+      "mid": "◎",
+      "late": "○"
+    },
+    "enemy": {
+      "early": "◎",
+      "mid": "○",
+      "late": "△"
+    },
+    "note": "リー・シンは序盤、ヴァイはLv6以降のエンゲージが強い。序盤を安定させ、中盤の集団戦で主導権を取る。"
+  },
+  "recommended": {
+    "runes": {
+      "keystone": "征服者",
+      "primary": "栄華",
+      "secondary": "天啓",
+      "icon": "perk-images/Styles/Precision/Conqueror/Conqueror.png"
+    },
+    "spells": [
+      "SummonerFlash",
+      "SummonerSmite"
+    ],
+    "build": {
+      "core": [
+        {
+          "id": 3078,
+          "name": "トリニティ フォース"
+        },
+        {
+          "id": 3071,
+          "name": "ブラック クリーバー"
+        },
+        {
+          "id": 3053,
+          "name": "ステラックの篭手"
+        }
+      ],
+      "boots": {
+        "id": 3047,
+        "name": "プレート スチールキャップ"
+      },
+      "situational": [
+        {
+          "item": {
+            "id": 6333,
+            "name": "デス ダンス"
+          },
+          "reason": "対物理火力"
+        },
+        {
+          "item": {
+            "id": 3026,
+            "name": "ガーディアン エンジェル"
+          },
+          "reason": "集団戦の保険"
+        }
+      ]
+    }
+  },
+  "glossaryRefs": [
+    "all-in",
+    "engage",
+    "power-spike"
+  ]
+}

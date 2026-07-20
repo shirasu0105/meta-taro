@@ -40,3 +40,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# data pipeline Phase 1 (docs/09_data_pipeline.md §7.1)
+/generated/
+scripts/.cache/
+scripts/.venv/
+__pycache__/
+*.pyc
