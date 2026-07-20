@@ -68,7 +68,7 @@ Phase 1 で web チャットを**手動操作**するのは、月額固定で追
 | 最終スキーマのフィールド | LLMに出力させるもの | Pythonの解決元 |
 |---|---|---|
 | `Item.id` / `Item.name` | 日本語のアイテム名のみ | `item.json`(ja_JP) の `name` → 数値IDキー。`name` も正式名で上書き |
-| `dangerSkills[].icon` / `.name` | `champion`(日本語名) + `slot`(P/Q/W/E/R) | `championFull.json` の `spells[]` / `passive` から導出 |
+| `dangerSkills[].icon` / `.name` | `champion`(日本語名) + `slot`(Q/W/E/R) | `championFull.json` の `spells[]` から導出。**Pはプロンプトで禁止**（`lib/ddragon.ts` の `spellIconUrl` が `/img/spell/` 固定でパッシブ画像を表示できないため。解決器自体はPも解決でき、混入時は warning になる） |
 | `recommended.spells` | 日本語スペル名（例「フラッシュ」） | `summoner.json` の `name` → `id`（例 `SummonerFlash`） |
 | `recommended.runes.icon` | **出力させない**（`keystone` 名のみ） | `runesReforged.json` を走査。最も長いパスであり幻覚しやすいため必ずPython側で解決 |
 | `glossaryRefs` | `glossaryTerms`（日本語の用語） | `data/glossary.json` の `term` → `slug` |
@@ -85,6 +85,7 @@ Phase 1 で web チャットを**手動操作**するのは、月額固定で追
 | アイテム | `/cdn/{ver}/data/ja_JP/item.json` |
 | サモナースペル | `/cdn/{ver}/data/ja_JP/summoner.json` |
 | ルーン | `/cdn/{ver}/data/ja_JP/runesReforged.json` |
+| 英語表示名（`champions sync` 専用） | `/cdn/{ver}/data/en_US/champion.json`（ja_JP に英語名が無いため。初回アクセス時に自動取得） |
 
 #### 名前解決アルゴリズム
 
@@ -130,9 +131,9 @@ Phase 1 で web チャットを**手動操作**するのは、月額固定で追
 |---|---|
 | `summary` | 70–120字 |
 | `gamePlan.early` / `.mid` / `.late` | 各50–90字 |
-| `dangerSkills` | ちょうど3件 |
+| `dangerSkills` | ちょうど3件（相手のQ/W/E/Rのみ。Pは不可） |
 | `dangerSkills[].tag` | 2–8字 |
-| `dangerSkills[].description` | 28–70字 |
+| `dangerSkills[].description` | 25–70字（当初28だったが実測min=25に合わせて改訂） |
 | `powerSpike.note` | 25–70字 |
 | `recommended.build.core` | ちょうど3件 |
 | `recommended.spells` | ちょうど2件・重複なし |
@@ -176,9 +177,9 @@ public化する際は `scripts/` ごと分離する。
 | **A. 構造** | 必須キー・型 / **未知キーの禁止**（`extra="forbid"`。`winRate` 混入をこれで自動検出）/ `aiRating` ∈ 1..5 の整数 / `SpikeMark` ∈ ◎○△ / `slot` ∈ P,Q,W,E,R / `lane` ∈ top,jg,mid / `advantage` の3値 / `aiRating` ↔ `advantage` の整合 |
 | **B. 参照整合** | champion id が `champions.json` に実在 / レーン適性（`lane` ∈ `champion.lanes`）/ 同一チャンピオンの重複なし / `glossaryRefs` ⊆ `glossary.json` の slug・重複なし / `item.id` が `item.json` に実在 / `item.name` が正式名と一致 / `boots` が Boots タグを持つ / `dangerSkills[].icon` が該当スキルの画像と一致 / **`dangerSkills` が敵チャンピオンのスキルであること** / `spells` が `summoner.json` に実在 / `runes` の keystone・ツリーが実在し primary ≠ secondary |
 | **C. 文字数・件数** | §3.3 の表をそのまま実装 |
-| **D. 表記** | 常体違反（文末が「です」「ます」）を検出 / **統計混入の禁止**（`/[%％]|勝率|ピック率/`）/ 断定表現NG（必ず・確実に・絶対に）/ 数字は半角 |
+| **D. 表記** | 常体違反（文末が「です」「ます」）を検出 / **統計混入の禁止**（「勝率」「ピック率」の語を検出。`%` 単体は「HP60%以下」のような本文表現として実在するため機械検出しない。プロンプト側の禁止事項は `%` 込みで厳しいまま）/ 断定表現NG（必ず・確実に・絶対に）/ 全角数字NG。**検査対象は `data/matchups/` のLLM文章フィールドのみ**（UI文言には意図的な打ち消し文があるため。P6評価レポート §2） |
 | **E. ファイル** | 出力パスが `data/matchups/{lane}/{me}-vs-{enemy}.json` と自己整合 / slug が `lib/slug.ts` の規約を満たす / 既存ファイルの上書きは `--force` 必須 |
-| **F. 正規化** | Unicode NFC / 前後空白除去 / `json.dump(indent=2, ensure_ascii=False)` + 末尾改行1つ |
+| **F. 正規化** | Unicode NFC / 前後空白除去 / `json.dump(indent=2, ensure_ascii=False)` + 末尾改行1つ。**改行コードは比較前にLFへ正規化する**（`core.autocrlf=true` のため作業ツリーは CRLF・index は LF。バイト比較をしてはならない。P6評価レポート §2） |
 
 検証失敗した対面は `data/` に書き出さず `generated/rejected/` へ原文を退避し、キューCSVの `notes` に理由を記録する。
 
@@ -223,16 +224,17 @@ pydanticモデルと突き合わせて差分があれば非ゼロ終了する。
 
 ```
 scripts/                       commit（private運用前提）
-  pyproject.toml / uv.lock     uv による依存管理（pydantic / httpx / jinja2）
+  pyproject.toml / uv.lock     uv による依存管理（pydantic / httpx / jinja2 / pyperclip）
   README.md                    人間向け手順書
   aliases.json                 LLMの表記ゆれ → 正式名（運用しながら育てる）
+  champion_lanes.json          チャンピオンのレーン適性 + 追加検索語（手作り。champions sync の入力）
   metataro/                    cli / config / ddragon / resolve / schema /
-                               prompt / ingest / validate / review / queue
+                               prompt / ingest / validate / review / queue / champions
   prompts/*.md.j2              ★機密。public化する場合の分離境界
   queue/matchups.csv           作業キュー兼監査ログ
-  .cache/                      .gitignore（Data Dragon JSON）
+  .cache/                      .gitignore（Data Dragon JSON 4ファイル + champion_en.json）
 generated/                     .gitignore（ディレクトリごと）
-  inbox/{lane}/{slug}.json     ChatGPT応答の貼り付け先
+  inbox/{lane}/{slug}.json     ChatGPT応答の貼り付け先（BOTは {slug}.adc.json / {slug}.sup.json）
   rejected/{lane}/{slug}.json  検証NGの原文（原因調査用）
   review/review-{patch}.csv    レビュー用CSV
 ```
@@ -279,17 +281,24 @@ skip: 生成対象外（意図的な未作成・対面が成立しない組合�
 `package.json` に `"data": "uv run --project scripts metataro"` を追加し、npm から統一的に呼ぶ。
 
 ```bash
-npm run data -- prompt mid/ahri-vs-annie      # プロンプトをクリップボードへ
-npm run data -- ingest mid/ahri-vs-annie      # inbox → 解決 → 検証 → data/
+npm run data -- prompt mid/ahri-vs-annie      # プロンプトをクリップボードへ（--stdout で標準出力）
+npm run data -- prompt bot/{slug} --view adc  # BOTは adc / sup の2回に分けて生成
+npm run data -- ingest mid/ahri-vs-annie      # inbox → 解決 → 検証 → data/（上書きは --force）
 npm run data -- ingest --scan                 # inbox の全ファイルを一括処理
 npm run data -- validate --all                # data/ 全件を再検証（PR前に必須）
-npm run data -- review --patch 26.13          # レビューCSV出力
+npm run data -- review --patch 26.13          # レビューCSV出力（--patch 省略時は meta.json の値）
 npm run data -- queue add --kind lane --lane mid --me ahri --enemy annie --priority 1
 npm run data -- queue list --status todo
 npm run data -- queue set-status mid/ahri-vs-annie published --patch 26.13
 npm run data -- ddragon sync                  # Data Dragon キャッシュ更新
+npm run data -- champions sync                # data/champions.json を全チャンピオンで再生成
 npm run data -- check-drift                   # lib/types.ts ↔ pydantic の整合
+npm run data -- resolve --check-mocks         # 解決器の自己点検（既存全件の識別子を復元照合）
 ```
+
+`champions sync` は `championFull.json`(ja_JP) の全チャンピオンに `scripts/champion_lanes.json` の
+レーン適性を付与して `data/champions.json` を再生成する。**新チャンピオン追加時は
+`champion_lanes.json` への追記が必須**（未収載だと sync がエラーで止まる）。
 
 ### 7.4 1対面あたりの手順
 
@@ -297,6 +306,7 @@ npm run data -- check-drift                   # lib/types.ts ↔ pydantic の整
 1. npm run data -- prompt mid/ahri-vs-annie   （プロンプトがクリップボードに入る）
 2. ChatGPT Plus の web チャットに貼り付けて送信
 3. 返ってきた ```json ブロックを generated/inbox/mid/ahri-vs-annie.json に保存
+   （フェンスや前後の説明文が混ざったままでよい。ingest が除去する）
 4. npm run data -- ingest mid/ahri-vs-annie
      OK → data/matchups/mid/ahri-vs-annie.json 生成、status=valid
      NG → エラー内容を表示し generated/rejected/ へ退避、status=invalid
@@ -305,12 +315,18 @@ npm run data -- check-drift                   # lib/types.ts ↔ pydantic の整
 7. data/{patch} ブランチでPR → Vercel Preview → マージ → status=published
 ```
 
+BOT対面は手順1〜3を視点ごとに2回行う（`--view adc` → `{slug}.adc.json`、`--view sup` → `{slug}.sup.json`）。
+`ingest bot/{slug}` は両ファイルが揃ってから1回でよい（片方だけでは取り込まない）。
+ペア全体の `aiRating` / `advantage` はADC視点の出力から取る。
+
 `ingest` は ```json フェンス付きのテキストをそのまま受け取れるようにする（人が余計な整形をせずに貼れるように）。
 フェンス除去・前後の説明文除去は取り込み時の前処理で行う。
 
 ### 7.5 レビューCSV
 
-`status ∈ {valid, published}` の対面を `data/` から読み直し、1行1対面で出力する（inboxではなく確定データを見る）。
+`status ∈ {valid, published}` の対面を `data/` から読み直して出力する（inboxではなく確定データを見る）。
+通常レーンは1対面1行、**BOTは視点（adc/sup）ごとに1行**にする — 列構成を通常レーンと揃えることで、
+同一チャンピオンのソートや `ai_rating` のピボットが視点をまたいで機能するため。
 
 | 見たいこと | 使う列 | Excelでの確認方法 |
 |---|---|---|

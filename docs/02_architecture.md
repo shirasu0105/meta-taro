@@ -64,9 +64,15 @@ app/                     ルーティング（Server Components 基本）
   sitemap.ts robots.ts   SEO（ファイル規約）
 lib/                     データアクセス・ドメインロジック（04_api.md）
 data/                    事前生成静的JSON（03_database.md）
-scripts/                 データ生成パイプライン Phase 1（Python・ローカル手動実行、09_data_pipeline.md）
+scripts/                 データ生成パイプライン Phase 1（Python + uv・ローカル手動実行、09_data_pipeline.md）
+  metataro/              CLI本体（prompt / ingest / validate / queue / review / ddragon / champions）
+  prompts/               プロンプトテンプレート（★機密。09 §3.4）
+  queue/matchups.csv     作業キュー兼監査ログ（Excel互換CSV）
+generated/               gitignore（ChatGPT応答のinbox・検証NG退避・レビューCSV）
 docs/                    本ドキュメント群・UIプロトタイプ
 ```
+
+`npm run data -- <command>` で `scripts/` のCLIを呼ぶ（`uv run --project scripts metataro`）。
 
 ## 6. URL設計
 
@@ -86,7 +92,7 @@ docs/                    本ドキュメント群・UIプロトタイプ
 
 - **Data Dragon CDN**（`ddragon.leagueoflegends.com`）
   - アプリ実行時: 画像のみ利用。`next/image` の `remotePatterns` に登録
-  - データ生成時（`scripts/`）: `ja_JP` のチャンピオン・アイテム・スペル・ルーンJSONを取得し、LLM出力の日本語名を正規IDへ解決する（09_data_pipeline.md §3.2）。バージョンは `lib/ddragon.ts` の `DDRAGON_VERSION` を唯一の正とする
+  - データ生成時（`scripts/`）: `ja_JP` のチャンピオン・アイテム・スペル・ルーンJSON（+ `champions.json` の英語表示名用に `en_US/champion.json`）を取得し、LLM出力の日本語名を正規IDへ解決する（09_data_pipeline.md §3.2）。バージョンは `lib/ddragon.ts` の `DDRAGON_VERSION` を唯一の正とする。チャンピオンのレーン適性は Data Dragon に存在しないため `scripts/champion_lanes.json` で手動管理する
 - **Google Fonts**: Noto Sans JP / Cinzel。`next/font` で読み込み
 - Riot公式APIはMVPでは未使用（統計取得方式は技術調査事項、[09_data_pipeline.md](./09_data_pipeline.md)）
 
