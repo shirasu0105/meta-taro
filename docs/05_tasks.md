@@ -127,6 +127,20 @@ Phase 2 で手戻りなく復活できるよう、型と `WinRateBar.tsx` は残
 > **T-806 / T-807 に着手する際の注意**: T-801 で `ChampionPicker` に「候補 N件」行を常時確保したため、
 > BOTスロットの編集状態が約21px高くなっている。390pxのBOTスクリーンショットは T-807 実施時に撮り直すこと。
 
+> T-803 / T-804 / T-806 / T-807 / T-808 完了（各PRで `main` にマージ済み）。**設計からの主な差分**:
+> ① T-804: mainブランチ保護APIがprivateリポジトリ + GitHub Freeプランで403を返したため、
+> リポジトリを**公開化**（事前にgit全履歴をシークレットパターンで監査しヒットなし）した上で
+> `required_status_checks`（`lint-build`）+ `required_pull_request_reviews`（承認数0・PR必須）を適用。
+> CIのNodeバージョンはローカル実測（v24.11.1）に合わせ `24` に固定。
+> ② T-804着手時、既存の `package-lock.json` がCI環境（npm 11.16.0）で `npm ci` がEUSAGEエラーになる
+> 不整合を含んでいたため、lockファイルを完全再生成して解消（T-808と無関係の既存潜在バグ）。
+> ③ T-808: `playwright`/`@playwright/mcp` のdevDependencies化に加え、Tailwind v4 oxideのWASMバインディングが
+> 要求する `@emnapi/core` / `@emnapi/wasi-threads` のバージョン衝突（`npm ci --omit=dev` がEUSAGEで失敗）を
+> `package.json` の `overrides` で解消。
+> ④ T-807: 実測で名前のtruncateが1px残っていたため、モバイルの `gap` をさらに1段階（`gap-1`）詰めて対応。
+> ⑤ T-803: 運営者表記は「shirasu」（ハンドルネーム）、問い合わせ手段は当面記載なしでユーザー確認済み。
+> 制定日は2026-07-20。`06_ui.md` §4.7 に法務ページの節を追加。
+
 **依存関係**: P6 → P7（T-703 のスキーマは勝率撤去後の型を前提とする）。P8 は P6 / P7 と並行可能。
 T-805 は T-803 完了後が望ましい（公開時に規約がない状態を避ける）。
 
