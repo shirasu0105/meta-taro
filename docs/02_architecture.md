@@ -83,6 +83,9 @@ docs/                    本ドキュメント群・UIプロトタイプ
 | `/matchups/{lane}/{me}-vs-{enemy}` | 通常レーン結果 | `/matchups/mid/ahri-vs-annie` |
 | `/matchups/bot/{myAdc}-{mySup}-vs-{enAdc}-{enSup}` | BOT結果 | `/matchups/bot/jinx-thresh-vs-caitlyn-lulu` |
 | `/glossary` | 用語集 | |
+| `/legal/terms` | 利用規約 | |
+| `/legal/privacy` | プライバシーポリシー | |
+| `/legal/disclaimer` | 免責事項 | |
 
 - チャンピオンslugは **Data Dragon 英語IDの小文字**（`Ahri`→`ahri`、`LeeSin`→`leesin`）
 - 通常レーンは「自分視点」でURLが分かれる（`ahri-vs-annie` と `annie-vs-ahri` は別ページ）
