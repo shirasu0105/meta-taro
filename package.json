@@ -10,20 +10,24 @@
     "data": "uv run --project scripts metataro"
   },
   "dependencies": {
-    "@playwright/mcp": "^0.0.78",
     "next": "16.2.10",
-    "playwright": "^1.62.0-alpha-1783623505000",
     "react": "19.2.4",
     "react-dom": "19.2.4"
   },
   "devDependencies": {
+    "@playwright/mcp": "^0.0.78",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.10",
+    "playwright": "^1.62.0-alpha-1783623505000",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "overrides": {
+    "@emnapi/core": "^1.11.1",
+    "@emnapi/wasi-threads": "^1.2.2"
   }
 }
