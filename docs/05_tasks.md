@@ -141,6 +141,15 @@ Phase 2 で手戻りなく復活できるよう、型と `WinRateBar.tsx` は残
 > ⑤ T-803: 運営者表記は「shirasu」（ハンドルネーム）、問い合わせ手段は当面記載なしでユーザー確認済み。
 > 制定日は2026-07-20。`06_ui.md` §4.7 に法務ページの節を追加。
 
+> T-805 完了。**P8 全タスク完了・本番公開済み**。独自ドメイン **`meta.tar00.com`**（Cloudflareで取得・DNSも
+> Cloudflareに一元化）でSSL有効、`https://meta.tar00.com` が200配信。Production環境変数 `NEXT_PUBLIC_SITE_URL`
+> 設定済みで、canonical / og:url / sitemap / robots がすべて本番ドメインに追従（`meta-taro-*.vercel.app` 仮URLは
+> 露出なし）。Google Search Console 登録・サイトマップ送信済み。**設計からの差分**:
+> ⑥ DNS管理を当初計画のHostingerからCloudflareへ一元化（PR #14。Vercel配信・外部DB/APIなしのためHostinger不要）。
+> ⑦ Search Console のドメイン所有権確認は、Cloudflare自動連携が **CNAME化されたサブドメイン `meta.tar00.com` の
+> DNS-TXT確認に失敗**したため、手動TXTレコード方式で確認した（CNAMEレコードとTXTは同一名で共存しづらいのが原因）。
+> ⑧ 本番コスト前提を Vercel Pro（$20/月・利用クレジット$20同梱）に統一（別PR、`02_architecture` §8 / `10_operations` §2）。
+
 **依存関係**: P6 → P7（T-703 のスキーマは勝率撤去後の型を前提とする）。P8 は P6 / P7 と並行可能。
 T-805 は T-803 完了後が望ましい（公開時に規約がない状態を避ける）。
 
