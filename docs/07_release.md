@@ -7,15 +7,14 @@
 | 役割 | サービス | 備考 |
 |---|---|---|
 | アプリ配信（本番 / Preview） | Vercel | GitHubリポジトリ連携で自動デプロイ |
-| ドメイン取得 | Cloudflare | |
-| DNS管理 | Hostinger | ネームサーバーをHostingerに向け、VercelへのCNAME/Aレコードを設定 |
+| ドメイン取得・DNS管理 | Cloudflare | 登録時に自動作成されるDNSゾーンでVercel指定のCNAME/Aレコードを管理（一元化。ネームサーバー変更は不要） |
 
 ### 初期セットアップ手順
 
 1. GitHubリポジトリをVercelプロジェクトに接続（Production Branch = `main`）
 2. **★ドメイン確定まで本番を検索エンジンに晒さない** — Vercel の Deployment Protection を Production にも有効化する（または `app/robots.ts` を一時的に noindex にする）
-3. Cloudflareでドメイン取得
-4. ドメインのネームサーバーをHostingerに設定し、Hostinger側でVercel指定のDNSレコード（A / CNAME）を登録
+3. Cloudflareでドメイン取得（登録と同時にCloudflare DNSゾーンが自動作成される）
+4. Cloudflare DNSゾーンでVercel指定のDNSレコード（CNAME）を登録
 5. Vercelにカスタムドメインを追加し、SSL発行を確認
 6. Vercel の Production 環境変数に `NEXT_PUBLIC_SITE_URL = https://{確定ドメイン}` を設定
 7. 再デプロイし、canonical / og:url / sitemap / robots が新ドメインに揃うことを確認

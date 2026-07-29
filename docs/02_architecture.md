@@ -16,7 +16,7 @@
 | スタイリング | Tailwind CSS v4 | `@theme` でデザイントークン定義（[06_ui.md](./06_ui.md)） |
 | データ | リポジトリ内静的JSON | DBなし（[03_database.md](./03_database.md)） |
 | ホスティング | Vercel | Production / Preview |
-| ドメイン | Cloudflare（取得）+ Hostinger（DNS管理） | |
+| ドメイン | Cloudflare（取得 + DNS管理） | 登録時に自動作成されるCloudflare DNSゾーンをそのまま使用 |
 
 > **重要**: この Next.js は学習データと異なる破壊的変更を含む。実装前に必ず
 > `node_modules/next/dist/docs/` の該当ガイドを読むこと（AGENTS.md 参照）。
@@ -25,7 +25,7 @@
 
 ```
 [ユーザー]
-   │  ドメイン: Cloudflareで取得 / DNS: Hostingerで管理
+   │  ドメイン: Cloudflareで取得・DNS管理（一元化）
    ▼
 [Vercel CDN] ──── 静的シェル（全ページビルド時プリレンダー）
    │
