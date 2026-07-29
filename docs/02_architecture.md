@@ -103,5 +103,5 @@ docs/                    本ドキュメント群・UIプロトタイプ
 
 - **パフォーマンス**: 全ページ静的シェル配信。ランタイム処理ほぼゼロ
 - **SEO**: Metadata API・sitemap・JSON-LD で対面ページを検索流入の入口にする（詳細は 04 / 08）
-- **コスト**: Vercel無料枠内で開始。DBなしのため固定費ゼロ（[10_operations.md](./10_operations.md)）
+- **コスト**: Vercel Pro（$20/月・利用クレジット$20同梱）+ ドメイン更新費が固定費。DB・実行時APIなしのため従量分は軽微でクレジット内に収まる見込み（[10_operations.md](./10_operations.md)）
 - **可用性**: 静的配信のため障害点はVercelのみ。ロールバックは [07_release.md](./07_release.md)
