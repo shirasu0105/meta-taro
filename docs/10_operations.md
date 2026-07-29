@@ -44,7 +44,7 @@ LoLのパッチ適用（約2週間ごと）と週次更新（01_requirements §9
 | 本番表示崩れ・不具合 | Vercel Instant Rollback（[07_release.md](./07_release.md) §5）→ 原因調査 |
 | データ内容の誤り | 該当データの `git revert` PR |
 | Data Dragon 画像切れ | `lib/ddragon.ts` のバージョン定数を更新 |
-| ドメイン/DNS障害 | Hostinger側レコード確認 → Cloudflare側ステータス確認 |
+| ドメイン/DNS障害 | Cloudflareダッシュボードでレコード・ステータスを確認 |
 
 ## 5. 定期見直し
 
