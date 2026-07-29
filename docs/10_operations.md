@@ -8,7 +8,7 @@ LoLのパッチ適用（約2週間ごと）と週次更新（01_requirements §9
 
 | タイミング | 作業 |
 |---|---|
-| パッチ適用後 | データ更新（MVP: モック手動更新 / 将来: [09_data_pipeline.md](./09_data_pipeline.md) 実行） |
+| パッチ適用後 | データ更新（[09_data_pipeline.md](./09_data_pipeline.md) §1 の Phase 1 CLI 手順で実施。`DDRAGON_VERSION` 更新 → `ddragon sync` / `champions sync` → `validate --all` → `data/{patch}` PR） |
 | PR作成後 | Vercel Preview確認・内容レビュー・マージ（[07_release.md](./07_release.md) §4） |
 | マージ後 | 本番表示確認（代表対面1件 + パッチバッジ表記）・タグ付与・古いタグ整理（直近4パッチ） |
 | 随時 | Data Dragonバージョン追従（新チャンピオン・アイテム画像） |
