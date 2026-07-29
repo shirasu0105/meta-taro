@@ -21,6 +21,15 @@
 8. Deployment Protection を解除
 9. Google Search Console にサイト登録 + sitemap送信（[10_operations.md](./10_operations.md)）
 
+> **実施記録（2026-07・T-805）**: 確定ドメインは **`meta.tar00.com`**（Cloudflareで取得・DNS一元化）。
+> `NEXT_PUBLIC_SITE_URL = https://meta.tar00.com` を Production に設定済みで、sitemap / robots / canonical / og:url
+> はすべて本番ドメインに追従済み。
+> - 手順2の Deployment Protection は今回は使わず、DNS切替→環境変数設定→再デプロイを短時間で実施して仮URL露出を最小化した。
+>   仮URL `meta-taro-*.vercel.app` はインデックス対象の200を返さない（redirect / 404）ことを確認済み。
+> - 手順9の所有権確認は、**CNAME化されたサブドメイン（`meta.tar00.com`）ではCloudflare自動連携のDNS-TXT確認が失敗する**。
+>   CNAMEと同一名のTXTは共存しづらいため。**apexドメイン（`tar00.com`）での確認**か**手動TXTレコード方式**を使うこと
+>   （今回は手動TXT方式で確認）。DNSに依らない代替は URLプレフィックスプロパティ + HTMLタグ（`metadata.verification.google`）。
+
 > **手順2が必須である理由**: `lib/seo.ts` の `siteUrl()` は `NEXT_PUBLIC_SITE_URL` 未設定時に
 > `VERCEL_PROJECT_PRODUCTION_URL`（= `*.vercel.app`）へフォールバックし、`app/robots.ts` は全許可である。
 > この状態で公開すると `*.vercel.app` のURLがcanonical付きでインデックスされ、
