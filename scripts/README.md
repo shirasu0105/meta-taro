@@ -1,7 +1,7 @@
 # Metaたろう データ生成パイプライン（Phase 1）
 
 ChatGPT Plus の web チャットで対面アドバイスを生成し、Python で検証して `data/matchups/` に書き出す半自動パイプライン。
-設計は [docs/09_data_pipeline.md](../docs/09_data_pipeline.md) を正とする。**このディレクトリ（特に `prompts/`）は機密**（09 §3.4）。
+設計は [docs/09_data_pipeline.md](../docs/09_data_pipeline.md) を正とする。プロンプトの中身は対外発信では説明しないが、リポジトリ上は公開している（09 §3.4）。
 
 ## 前提
 

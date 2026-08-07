@@ -3,8 +3,6 @@
 キューCSVの対面情報 + Data Dragon のチャンピオン事実をテンプレートに注入し、
 クリップボードへコピーする。ChatGPT Plus の web チャットに人手で貼り付けて使う
 （UIの自動操作は行わない。09 §3.1）。
-
-★このモジュールと scripts/prompts/ は機密（09 §3.4）。public化する場合は scripts/ ごと分離する。
 """
 
 from __future__ import annotations

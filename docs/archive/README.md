@@ -17,12 +17,10 @@
 | `bot/data/jg/*.json` | JG対面3件（`leesin-vs-vi` / `vi-vs-leesin` / `graves-vs-kayn`） |
 | `bot/ui/` | BOT専用のルート・コンポーネント・型・データアクセス・slug・SEOヘルパー |
 | `bot/queue-rows.csv` | `scripts/queue/matchups.csv` から削除した `kind=bot` の行 |
+| `bot/bot_v1.md.j2` | BOT用プロンプトテンプレート（`scripts/prompts/` から移動） |
 
-### ここに置かないもの
-
-**`scripts/prompts/bot_v1.md.j2` は置かない。** プロンプトは PRD §6 の機密であり、
-本リポジトリは PUBLIC のため、公開アーカイブに戻すと T-905（プロンプト機密の除去）の目的を打ち消す。
-**BOTプロンプトは T-905 で構築する private マスタ側に保管する**（[09_data_pipeline.md](../09_data_pipeline.md) §3.4）。
+> プロンプトも他のBOT資産と同様にここへ退避する。生成方式はリポジトリ上で秘匿しない方針
+> （PRD §6・[09_data_pipeline.md](../09_data_pipeline.md) §3.4。2026-08-08 明確化。旧 T-905 は廃番）。
 
 ## 復活手順
 
@@ -32,7 +30,7 @@
 1. `bot/data/` のJSONを `data/matchups/{bot,jg}/` へ戻す
 2. `bot/ui/` のコードを元の位置へ戻し、`lib/types.ts` / `sitemap.ts` / pydanticモデルを復元する
 3. `bot/queue-rows.csv` の行を `scripts/queue/matchups.csv` へ戻す
-4. private マスタから `bot_v1.md.j2` を戻す
+4. `bot/bot_v1.md.j2` を `scripts/prompts/` へ戻す
 5. **プロンプトは lane 側の最新版に合わせて作り直す** — アーカイブ版は v1 系で、P13（T-1307）の改訂を反映していない
 6. 09 §9.3 の復活チェックリストを実行する
 
