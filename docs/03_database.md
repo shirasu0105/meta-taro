@@ -20,13 +20,18 @@ data/
   glossary.json             用語集
   matchups/
     top/{me}-vs-{enemy}.json
-    jg/{me}-vs-{enemy}.json
     mid/{me}-vs-{enemy}.json
-    bot/{myAdc}-{mySup}-vs-{enAdc}-{enSup}.json
+    jg/                     空（未対応。ディレクトリのみ残す）
+    bot/                    空（スコープ外。ディレクトリのみ残す）
 ```
 
 - ファイル名のslugはURL設計（02_architecture §6）と同一: Data Dragon 英語IDの小文字
-- 通常レーンは自分視点で1ファイル。逆視点（`annie-vs-ahri`）は別ファイル
+- 自分視点で1ファイル。逆視点（`annie-vs-ahri`）は別ファイル
+
+> **`jg/` `bot/` は空でもディレクトリを削除しないこと**（T-1300）。
+> `lib/data.ts` の `listLaneMatchups()` / `listBotMatchups()` が `readdirSync` で走査しており、
+> **ディレクトリが存在しないと例外を投げてビルドが落ちる**。
+> 退避したJSONは `docs/archive/bot/data/` にある。
 
 ## 3. スキーマ
 
@@ -91,8 +96,23 @@ type LaneMatchup = {
   glossaryRefs: string[];        // 用語集slug
 };
 
+type GlossaryEntry = {
+  slug: string;        // 例 "all-in"
+  term: string;        // 例 "オールイン"
+  description: string;
+};
+```
+
+> **`LaneMatchup` の項目は P13 の T-1301 で見直す。** 表示項目の増減がそのままスキーマに反映される（T-1404）。
+> 変更時は `lib/types.ts` と pydantic モデルの両方を更新し、`check-drift` を通すこと（09 §4.1）。
+
+### 3.1 アーカイブ: BOTのスキーマ
+
+BOT（2v2）は 2026-08-07 に当面のスコープ外とした（T-1300）。復活時に参照するための型定義を残す。
+
+```ts
 type BotViewAdvice = {           // ADC / SUP 視点別
-  summary: string;
+  summary: string;               // gamePlan は持たない（視点別の立ち回りは summary に含める）
   dangerSkills: DangerSkill[];
   powerSpike: PowerSpike;
   recommended: Recommended;
@@ -104,16 +124,15 @@ type BotMatchup = {
   enemyAdc: string; enemySup: string;
   aiRating: 1 | 2 | 3 | 4 | 5;   // 4体の組み合わせ評価
   advantage: string;
-  winRate?: number;              // ペア統計。上に同じく Phase 1 では未使用
+  winRate?: number;              // ペア統計。上に同じく未使用
   views: { adc: BotViewAdvice; sup: BotViewAdvice };
 };
-
-type GlossaryEntry = {
-  slug: string;        // 例 "all-in"
-  term: string;        // 例 "オールイン"
-  description: string;
-};
 ```
+
+### 3.2 フィードバック（P15 で確定）
+
+収集項目・保存先・保持期間は **T-1501 で設計する**。本節はプレースホルダ。
+静的JSONではなくマネージドDBに置く唯一のデータであり、`data/` には含めない（02_architecture §3）。
 
 ## 4. データなし判定
 
@@ -129,18 +148,19 @@ type GlossaryEntry = {
 
 ## 6. モックデータ計画（MVP）
 
-実データパイプラインは将来実装（[09_data_pipeline.md](./09_data_pipeline.md)）。MVPでは以下を手作りする。
+MVPで手作りしたモック8件 + P7 のパイプラインで生成した4件のうち、**TOP / MID の6件のみが現行データ**。
+JG 3件・BOT 3件は T-1300 で `docs/archive/bot/data/` へ退避した。
 
-| レーン | 対面 | 備考 |
+| レーン | 対面 | 状態 |
 |---|---|---|
-| MID | `ahri-vs-annie` | プロトタイプ再現（必須） |
-| MID | `orianna-vs-syndra` | |
-| TOP | `garen-vs-darius` | |
-| TOP | `aatrox-vs-malphite` | |
-| JG | `leesin-vs-vi` | |
-| JG | `graves-vs-kayn` | |
-| BOT | `jinx-thresh-vs-caitlyn-lulu` | プロトタイプ再現（必須） |
-| BOT | `ezreal-lux-vs-ashe-leona` | |
+| MID | `ahri-vs-annie` | 現行（プロトタイプ再現） |
+| MID | `ahri-vs-zed` | 現行（P7生成） |
+| MID | `orianna-vs-syndra` | 現行 |
+| TOP | `garen-vs-darius` | 現行 |
+| TOP | `darius-vs-garen` | 現行（P7生成） |
+| TOP | `aatrox-vs-malphite` | 現行 |
+| JG | `leesin-vs-vi` / `vi-vs-leesin` / `graves-vs-kayn` | **退避**（T-1300） |
+| BOT | `jinx-thresh-vs-caitlyn-lulu` / `jinx-thresh-vs-ashe-leona` / `ezreal-lux-vs-ashe-leona` | **退避**（T-1300） |
 
 - `champions.json` は上記登場チャンピオン + オートコンプリート検証用（アニビア等）の計15体程度
   （**P7 で全チャンピオン169体へ拡張済み**。`npm run data -- champions sync` が生成する。レーン適性は `scripts/champion_lanes.json` で管理）
