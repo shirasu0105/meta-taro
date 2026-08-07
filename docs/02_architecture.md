@@ -71,7 +71,7 @@ lib/                     データアクセス・ドメインロジック（04_a
 data/                    事前生成静的JSON（03_database.md）
 scripts/                 データ生成パイプライン Phase 1（Python + uv・ローカル手動実行、09_data_pipeline.md）
   metataro/              CLI本体（prompt / ingest / validate / queue / review / ddragon / champions）
-  prompts/               プロンプトテンプレート（★機密。T-905 で private マスタへ移行。09 §3.4）
+  prompts/               プロンプトテンプレート（Jinja2。09 §3.3）
   queue/matchups.csv     作業キュー兼監査ログ（Excel互換CSV）
 generated/               gitignore（ChatGPT応答のinbox・検証NG退避・レビューCSV）
 docs/                    本ドキュメント群・UIプロトタイプ

@@ -7,7 +7,7 @@
 > 統計取得（§2）とAPI自動化（§6 Phase 2）は **P13（要素技術開発）で判断・実装する**。
 
 > **2026-08-07 のスコープ変更**: 生成対象を **TOP / MID に限定**した（[05_tasks.md](./05_tasks.md) T-1300）。
-> BOT（2v2）の生成は当面行わず、`bot_v1.md.j2` は T-905 の private マスタへ退避した。
+> BOT（2v2）の生成は当面行わず、`bot_v1.md.j2` は `docs/archive/bot/` へ退避する（T-1300）。
 > 本書の BOT に関する記述は **アーカイブ（§9）** に集約し、本文からは外している。復活の判断は T-1308。
 
 本書は 01_requirements §9「データ更新」の詳細設計。実装タスクは [05_tasks.md](./05_tasks.md) P7（T-701〜T-711）と
@@ -161,24 +161,25 @@ Phase 1 で web チャットを**手動操作**するのは、月額固定で追
 
 > BOT対面のプロンプト設計は §9（アーカイブ）へ移した。
 
-### 3.4 機密の取り扱い
+### 3.4 生成方式の開示方針とシークレット管理
 
-**生成方式はユーザーへ公開しない**（PRD §6）。プロンプトと生成ロジックを公開リポジトリに置かないこと。
+**開示方針**（PRD §6。2026-08-08 に明確化）:
 
-> **⚠ 現状の違反と是正（T-905）**: T-804 の対応でリポジトリを **PUBLIC 化**したため、
-> `scripts/prompts/lane_v1.md.j2` / `bot_v1.md.j2` が公開状態にある。これは本節と PRD §6 に違反している。
-> **T-905 でこれを是正する**（追跡から除外し、マスタを private 管理へ移行）。
-> 本フェーズ（P13）はプロンプトへ本格投資するため、**T-905 完了が P13 の前提条件**である。
+- **対外発信では説明しない** — 生成方式（プロンプト・LLM・生成ロジック）を LP・UI・法務ページ・
+  広告審査のサイト説明などで訴求文句にしない
+- **リポジトリでは秘匿しない** — リポジトリは public のままとし、`scripts/prompts/` も追跡を継続する。
+  public 化は T-804 のブランチ保護を掛けるための手段（GitHub Free では public のみ対応）であり、
+  生成方式の秘匿はプロダクト価値の条件ではない
 
-機密は `scripts/prompts/` と `scripts/metataro/prompt.py` の2箇所に閉じ込める。
-public リポジトリ側にはこれらを置かず、private マスタ側に保管して手元でのみ結合する。
+> 旧方針「生成方式はユーザーへ公開しない＝リポジトリに置かない」に基づく **T-905（プロンプトの
+> 追跡除外・private マスタ移行）は前提が誤りのため廃番**（05_tasks.md P9 参照）。
 
-**private マスタの保管対象**（T-905 / T-1300）:
+**本当に秘匿すべきもの**は APIキー・トークン類。`.gitignore` の `.env*` で担保し、
+ローカルは `.env.local`、本番は Vercel の環境変数へ置く。**リポジトリには一切コミットしない**。
 
-- `scripts/prompts/lane_v1.md.j2`（現行の生成プロンプト）
-- `scripts/prompts/bot_v1.md.j2`（**T-1300 で退避。`docs/archive/` には置かない**。公開アーカイブに機密を戻すと T-905 の目的を打ち消すため）
-- P13 の T-1307 で確定する v2 系プロンプト
-- 表記ゆれ辞書 `scripts/aliases.json`（生成の癖が読み取れるため）
+現時点でリポジトリに秘匿対象は存在しない（2026-08-08 監査。全履歴に `.env` / 鍵ファイルの追加なし・
+APIキーパターンの走査ヒット0・アプリ参照の環境変数は公開URL 2件のみ）。
+シークレットが初めて登場するのは T-904（GA4）と T-1306（LLM API）であり、着手時に上記の置き場所を守ること。
 
 ## 4. 自動検証
 
@@ -241,21 +242,21 @@ pydanticモデルと突き合わせて差分があれば非ゼロ終了する。
 ### 7.1 ディレクトリ構成
 
 ```
-scripts/                       commit（private運用前提）
+scripts/                       commit（public。§3.4）
   pyproject.toml / uv.lock     uv による依存管理（pydantic / httpx / jinja2 / pyperclip）
   README.md                    人間向け手順書
   aliases.json                 LLMの表記ゆれ → 正式名（運用しながら育てる）
   champion_lanes.json          チャンピオンのレーン適性 + 追加検索語（手作り。champions sync の入力）
   metataro/                    cli / config / ddragon / resolve / schema /
                                prompt / ingest / validate / review / queue / champions
-  prompts/*.md.j2              ★機密。T-905 で追跡から除外し private マスタへ（§3.4）
+  prompts/*.md.j2              プロンプトテンプレート（Jinja2）。T-1307 で v2 系へ
   queue/matchups.csv           作業キュー兼監査ログ
   .cache/                      .gitignore（Data Dragon JSON 4ファイル + champion_en.json）
 generated/                     .gitignore（ディレクトリごと）
   inbox/{lane}/{slug}.json     ChatGPT応答の貼り付け先
   rejected/{lane}/{slug}.json  検証NGの原文（原因調査用）
   review/review-{patch}.csv    レビュー用CSV
-docs/archive/bot/              BOTのデータ・UIコード退避先（T-1300。プロンプトは含まない）
+docs/archive/bot/              BOTのデータ・UIコード・プロンプト退避先（T-1300）
 ```
 
 Python資産はすべて `scripts/` 配下に置き、リポジトリルートを汚さない。
@@ -389,8 +390,8 @@ npm run data -- resolve --check-mocks         # 解決器の自己点検（既�
 
 ## 9. アーカイブ: BOT（2v2）対面
 
-> **2026-08-07 に当面のスコープ外とした**（T-1300）。データ・UIコードは `docs/archive/bot/`、
-> プロンプトテンプレート `bot_v1.md.j2` は T-905 の private マスタに退避してある。
+> **2026-08-07 に当面のスコープ外とした**（T-1300）。データ・UIコード・プロンプトテンプレート
+> `bot_v1.md.j2` は `docs/archive/bot/` に退避する。
 > 復活の判断は T-1308。以下は復活時に参照するための設計メモ。
 
 ### 9.1 プロンプト設計
@@ -414,7 +415,7 @@ T-711 のチューニングで、`powerSpike` が視点間で不一致になる�
 ### 9.3 復活時のチェックリスト
 
 - [ ] `docs/archive/bot/` から UIコードとデータJSONを戻す（`docs/archive/README.md` の手順）
-- [ ] private マスタから `bot_v1.md.j2` を戻す
+- [ ] `docs/archive/bot/` から `bot_v1.md.j2` を `scripts/prompts/` へ戻す
 - [ ] **プロンプトは lane 側の v2 に合わせて作り直す**（アーカイブ版は v1 系で、P13 の改訂を反映していない）
 - [ ] pydantic の Bot モデル・queueCSV の bot 行・`sitemap.ts` のBOT節を復元
 - [ ] §8 のゴールドセットに BOT 対面を追加する（BOTは4体の組合せで難度が異なるため、lane のスコアが流用できない）
