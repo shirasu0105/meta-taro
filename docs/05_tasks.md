@@ -240,9 +240,11 @@ LLMの **調査 → 仮説 → 実装 → 検証** サイクルを回して生�
 > `prompt --view` は廃止。CSVの `my_adc` 等の列と `view` 列は復活に備えて残してある。
 > ⑤ 検索履歴が通常レーンのみになったため `RecentSearches` の `kind` prop を廃止した。
 > 既存端末に残るBOT履歴は `isValidEntry` が落とすので、localStorage のキーは据え置きでよい。
-> ⑥ 検索画面は**最小変更**（レーン2択 TOP / MID + 注記「JG / ADC / SUP は順次対応予定です」）。
-> **[08_testing.md](./08_testing.md) §4 の「レーン5択」「準備中で `disabled`」は T-1401 の完了条件**であり、
-> 現時点では未達で正しい。
+> ⑥ 検索画面は当初「レーン2択（TOP / MID）」の最小変更としたが、**PR #20 のレビューでユーザーから
+> 「全5レーンのボタンを用意し、TOP / MID のみ活性化する」と指摘があり、T-1401 のレーン5択を先行実施した**。
+> 06_ui §4.2 のとおり JG / ADC / SUP は「準備中」バッジ付きの `disabled`（star-off系の淡色）。
+> これにより **T-1401 は本PRで完了**（下記 P14 参照）。5ボタンでも注記が折り返さないよう、
+> PCのボタン幅を 130px → 104px に詰めている。
 > ⑦ **ビルド時の注意**: `.next/dev/types/` に旧 `matchups/bot/[slug]` の型が残っていると
 > `next build` の type check が「Cannot find module」で落ちる。ルートを消したら `.next` を削除して再ビルドする。
 
@@ -263,6 +265,11 @@ T-1303 / T-1304 は T-1301 完了後に並行可能。
 | T-1406 | ロゴ刷新（要求⑥-1）: HEXTECH DARK トークン準拠のSVG案を複数提示 → 選定 → `components/layout/SiteHeader.tsx` の「対」ボックスを差し替え | 390px / 1280px で崩れず、ヘッダー高が現状以下 |
 | T-1407 | アイコン整備（要求⑥-2）: `app/icon.svg` / `apple-icon` / LP用 `opengraph-image` を新ロゴで作成。Next.js初期の `app/favicon.ico` と `public/*.svg`（next / vercel / globe / file / window）を撤去 | ブラウザタブ・ホーム追加・SNSシェアで新ロゴが出る。対面ページのOG画像はスプラッシュのまま維持（訴求力優先） |
 | T-1408 | ドキュメント改訂 + Playwright MCP 再評価 → `reports/P14_evaluation.md` | 08_testing 改訂版チェックリスト全項目パス（390px / 1280px） |
+
+> **T-1401 は T-1300 のPR（#20）で先行実施・完了**。レビュー指摘「全5レーンのボタンを用意し
+> TOP / MID のみ活性化」への対応で、タブ廃止・1ページ完結・レーン5択・未対応レーンの `disabled` が
+> すべて満たされた。390px / 1280px で [08_testing.md](./08_testing.md) §4 の該当項目を確認済み
+> （`components/search/LaneSelect.tsx`）。**T-1402 以降は未着手**で、入力欄の16px化は含まない。
 
 **依存関係**: T-1404 は T-1301 完了後。T-1407 は T-1406 完了後。T-1408 は最後。他は並行可能。
 
