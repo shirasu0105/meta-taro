@@ -225,6 +225,27 @@ LLMの **調査 → 仮説 → 実装 → 検証** サイクルを回して生�
 | T-1308 | 判断ゲート（旧T-1003）: API化の go/no-go・`winRate` 表示復活の可否・カバレッジ拡大の対象基準（ピック率◯%等）・BOT復活の可否を決定 | 決定内容が 09 §2 / §6 と本書に反映され、P11 の対象対面リストの根拠になる |
 | T-1309 | パイプライン確定: 09_data_pipeline を実態に合わせ全面改訂 | ドキュメントだけを読んで第三者が1対面を生成・採点できる |
 
+> T-1300 完了。BOT・JG を現行コードから外し、`docs/archive/bot/` へ退避した。
+> `npm run lint` / `npm run build` 成功（全ルート Static / PPR 維持）、`validate --all` は TOP / MID の6件でパス、
+> sitemap から BOT・JG の6URLが消え、検索画面から JG / ADC / SUP へ到達できない。
+> **設計からの主な差分**:
+> ① 退避したUIコードを `.tsx` の実拡張子のまま置くため、`docs/archive/**` を **`tsconfig.json` の `exclude` と
+> `eslint.config.mjs` の `globalIgnores` の両方**に追加した（片方だけでは型エラー / Lintエラーになる）。
+> ② 空ディレクトリの保持は `.gitkeep` で行う（Gitは空ディレクトリを追跡しないため、指示どおり「残す」だけでは
+> クローン先で `readdirSync` が落ちる）。
+> ③ **JG のキュー行は削除せず `status=skip` + notes に退避先**を記録した。`published` のまま残すと
+> `review` が存在しないJSONを探して警告を出し続けるため。BOT行のみ `docs/archive/bot/queue-rows.csv` へ移した。
+> ④ pydanticの Bot モデルを消すと `validate` / `ingest` / `prompt` / `review` / `queue` / `cli` / `config` / `resolve` の
+> BOT分岐がすべて壊れるため、**Python側のBOT経路は一括で除去**した。`queue add --kind` は `lane` のみ、
+> `prompt --view` は廃止。CSVの `my_adc` 等の列と `view` 列は復活に備えて残してある。
+> ⑤ 検索履歴が通常レーンのみになったため `RecentSearches` の `kind` prop を廃止した。
+> 既存端末に残るBOT履歴は `isValidEntry` が落とすので、localStorage のキーは据え置きでよい。
+> ⑥ 検索画面は**最小変更**（レーン2択 TOP / MID + 注記「JG / ADC / SUP は順次対応予定です」）。
+> **[08_testing.md](./08_testing.md) §4 の「レーン5択」「準備中で `disabled`」は T-1401 の完了条件**であり、
+> 現時点では未達で正しい。
+> ⑦ **ビルド時の注意**: `.next/dev/types/` に旧 `matchups/bot/[slug]` の型が残っていると
+> `next build` の type check が「Cannot find module」で落ちる。ルートを消したら `.next` を削除して再ビルドする。
+
 **依存関係**: T-1300 / T-1301 → 他すべて（スコープと表示項目が全タスクの前提）。T-1302 → T-1305 → T-1306 / T-1307 → T-1308 → T-1309。
 T-1303 / T-1304 は T-1301 完了後に並行可能。
 

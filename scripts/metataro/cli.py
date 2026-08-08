@@ -28,7 +28,7 @@ def _cmd_champions(args: argparse.Namespace) -> int:
 def _cmd_prompt(args: argparse.Namespace) -> int:
     from . import prompt
 
-    return prompt.run(args.id, view=args.view, stdout=args.stdout)
+    return prompt.run(args.id, stdout=args.stdout)
 
 
 def _cmd_ingest(args: argparse.Namespace) -> int:
@@ -105,8 +105,7 @@ def build_parser() -> argparse.ArgumentParser:
     p_csync.set_defaults(func=_cmd_champions)
 
     p = sub.add_parser("prompt", help="プロンプト生成（クリップボードへ）")
-    p.add_argument("id", help="対面ID（例 mid/ahri-vs-annie, bot/jinx-thresh-vs-caitlyn-lulu）")
-    p.add_argument("--view", choices=["adc", "sup"], help="BOT対面の視点（BOTでは必須）")
+    p.add_argument("id", help="対面ID（例 mid/ahri-vs-annie）")
     p.add_argument("--stdout", action="store_true", help="クリップボードでなく標準出力へ")
     p.set_defaults(func=_cmd_prompt)
 
@@ -128,14 +127,11 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("queue", help="作業キューCSVの操作")
     ps = p.add_subparsers(dest="action", required=True)
     p_add = ps.add_parser("add", help="キューへ行を追加")
-    p_add.add_argument("--kind", choices=["lane", "bot"], required=True)
-    p_add.add_argument("--lane", choices=["top", "jg", "mid"], help="kind=lane で必須")
-    p_add.add_argument("--me", help="kind=lane: 自分の champion id")
-    p_add.add_argument("--enemy", help="kind=lane: 相手の champion id")
-    p_add.add_argument("--my-adc", dest="my_adc", help="kind=bot")
-    p_add.add_argument("--my-sup", dest="my_sup", help="kind=bot")
-    p_add.add_argument("--enemy-adc", dest="enemy_adc", help="kind=bot")
-    p_add.add_argument("--enemy-sup", dest="enemy_sup", help="kind=bot")
+    # kind=bot は T-1300 で削除（CSVの列と `bot` という値そのものは復活に備えて残す。09 §7.2）
+    p_add.add_argument("--kind", choices=["lane"], default="lane")
+    p_add.add_argument("--lane", choices=["top", "jg", "mid"], required=True)
+    p_add.add_argument("--me", required=True, help="自分の champion id")
+    p_add.add_argument("--enemy", required=True, help="相手の champion id")
     p_add.add_argument("--priority", type=int, default=3, help="1(最優先)〜5")
     p_add.set_defaults(func=_cmd_queue)
     p_list = ps.add_parser("list", help="キューの一覧表示")
@@ -151,7 +147,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.set_defaults(func=_cmd_check_drift)
 
     p = sub.add_parser("resolve", help="名前解決の点検")
-    p.add_argument("--check-mocks", action="store_true", help="モック8件の識別子を復元して照合")
+    p.add_argument("--check-mocks", action="store_true", help="data/matchups/ 全件の識別子を復元して照合")
     p.set_defaults(func=_cmd_resolve)
 
     return parser

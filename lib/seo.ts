@@ -1,8 +1,8 @@
 // 対面ページのSEOメタデータ・JSON-LDの共通ロジック（docs/04_api.md §3）。
 // generateMetadata と JSON-LD の双方で使い、文言の二重管理を防ぐ。fs には依存しない。
 import { splashUrl } from "@/lib/ddragon";
-import { buildBotSlug, buildLaneSlug } from "@/lib/slug";
-import type { BotMatchup, Champion, Lane, LaneMatchup } from "@/lib/types";
+import { buildLaneSlug } from "@/lib/slug";
+import type { Champion, Lane, LaneMatchup } from "@/lib/types";
 
 export const SITE_NAME = "Metaたろう";
 
@@ -69,24 +69,5 @@ export function matchupArticleJsonLd(seo: MatchupSeo, updatedAt: string) {
   };
 }
 
-export function botMatchupSeo(
-  myAdc: Champion,
-  mySup: Champion,
-  enemyAdc: Champion,
-  enemySup: Champion,
-  matchup: BotMatchup,
-): MatchupSeo {
-  const mine = `${myAdc.name.ja} + ${mySup.name.ja}`;
-  const theirs = `${enemyAdc.name.ja} + ${enemySup.name.ja}`;
-  const heading = `${mine} vs ${theirs} BOT対面攻略`;
-  return {
-    heading,
-    title: `${heading} | ${SITE_NAME}`,
-    description: truncate(
-      `${mine} vs ${theirs}（BOT 2v2）対面のAIアドバイス。${matchup.views.adc.summary}`,
-      DESCRIPTION_MAX,
-    ),
-    path: `/matchups/bot/${buildBotSlug(myAdc.id, mySup.id, enemyAdc.id, enemySup.id)}`,
-    image: splashUrl(myAdc.ddragonId),
-  };
-}
+// botMatchupSeo は T-1300 で削除した
+// （docs/archive/bot/ui/lib/bot-fragments.ts に退避。復活の判断は T-1308）。

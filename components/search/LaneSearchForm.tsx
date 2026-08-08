@@ -9,7 +9,8 @@ import { LaneSelect } from "./LaneSelect";
 import { RecentSearches } from "./RecentSearches";
 import { SearchSubmit } from "./SearchSubmit";
 
-/** 通常レーンタブ: レーン選択 + 自分/相手の2ペイン。2体確定で結果へ（06_ui §4.2） */
+/** 検索フォーム: レーン選択 + 自分/相手の2ペイン。2体確定で結果へ（06_ui §4.2）。
+ * T-1300 でタブが無くなり、このフォームが検索画面の本体になった（レーン5択への統合は T-1401） */
 export function LaneSearchForm() {
   const [lane, setLane] = useState<Lane>("mid");
   const [me, setMe] = useState<Champion | null>(null);
@@ -52,7 +53,7 @@ export function LaneSearchForm() {
         disabledLabel="この対面で結果を見る"
         disabledNote="自分と相手の2体が確定すると表示できます"
       />
-      <RecentSearches kind="lane" />
+      <RecentSearches />
     </div>
   );
 }

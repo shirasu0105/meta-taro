@@ -21,7 +21,7 @@ from . import queue as queue_mod
 from . import validate as validate_mod
 from .config import CHAMPIONS_JSON, INBOX_DIR, MATCHUPS_DIR, REJECTED_DIR
 from .resolve import ResolveError, Resolvers
-from .schema import BotAdcLLMOutput, BotSupLLMOutput, LaneLLMOutput
+from .schema import LaneLLMOutput
 
 _FENCE_RE = re.compile(r"```(?:json)?\s*\n(.*?)```", re.DOTALL)
 
@@ -68,10 +68,9 @@ def _validate_llm(model: type, obj: Any) -> Any:
 
 def _resolve_advice(
     r: Resolvers,
-    llm: LaneLLMOutput | BotSupLLMOutput,
+    llm: LaneLLMOutput,
     enemy_ddragon_ids: set[str],
     warnings: list[str],
-    include_game_plan: bool,
 ) -> dict:
     """LLM出力1視点分を最終スキーマの形へ解決する（09 §3.2 の表）。"""
     errors: list[str] = []
@@ -136,9 +135,7 @@ def _resolve_advice(
     if errors:
         raise IngestError(errors)
 
-    advice = {"summary": llm.summary}
-    if include_game_plan:
-        advice["gamePlan"] = llm.gamePlan.model_dump()
+    advice: dict = {"summary": llm.summary, "gamePlan": llm.gamePlan.model_dump()}
     advice.update(
         dangerSkills=danger_skills,
         powerSpike=llm.powerSpike.model_dump(),
@@ -158,57 +155,37 @@ def _read_inbox(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
 
-def _build_final(row: dict, r: Resolvers, warnings: list[str]) -> tuple[dict, Path, list[Path]]:
-    """キュー行から inbox を読み、最終スキーマの dict と書き出し先を組み立てる。"""
-    master = {c["id"]: c for c in json.loads(CHAMPIONS_JSON.read_text(encoding="utf-8"))}
-
-    if row["kind"] == "lane":
-        inbox = INBOX_DIR / row["lane"] / f"{row['slug']}.json"
-        raw = _normalize(_extract_json(_read_inbox(inbox)))
-        llm = _validate_llm(LaneLLMOutput, raw)
-        enemy_ids = {master[row["enemy"]]["ddragonId"]}
-        advice = _resolve_advice(r, llm, enemy_ids, warnings, include_game_plan=True)
-        final = {
-            "lane": row["lane"],
-            "me": row["me"],
-            "enemy": row["enemy"],
-            "aiRating": llm.aiRating,
-            "advantage": llm.advantage,
-            **advice,
-        }
-        out_path = MATCHUPS_DIR / row["lane"] / f"{row['slug']}.json"
-        return final, out_path, [inbox]
-
-    inbox_adc = INBOX_DIR / "bot" / f"{row['slug']}.adc.json"
-    inbox_sup = INBOX_DIR / "bot" / f"{row['slug']}.sup.json"
-    missing = [str(p) for p in (inbox_adc, inbox_sup) if not p.exists()]
-    if missing:
+def _require_lane_row(row: dict) -> None:
+    """T-1300 以降、取り込めるのは kind=lane のみ（09 §7.2）。"""
+    if row["kind"] != "lane":
         raise IngestError(
-            [f"BOTは両視点が揃ってから取り込む。不足: {' / '.join(missing)}"]
+            [f"kind={row['kind']} は取り込めない。生成対象は TOP / MID の通常レーンのみ（T-1300）"]
         )
-    adc_llm = _validate_llm(BotAdcLLMOutput, _normalize(_extract_json(_read_inbox(inbox_adc))))
-    sup_llm = _validate_llm(BotSupLLMOutput, _normalize(_extract_json(_read_inbox(inbox_sup))))
-    enemy_ids = {
-        master[row["enemy_adc"]]["ddragonId"],
-        master[row["enemy_sup"]]["ddragonId"],
-    }
-    adc_warnings: list[str] = []
-    sup_warnings: list[str] = []
-    adc_view = _resolve_advice(r, adc_llm, enemy_ids, adc_warnings, include_game_plan=False)
-    sup_view = _resolve_advice(r, sup_llm, enemy_ids, sup_warnings, include_game_plan=False)
-    warnings.extend(f"adc: {w}" for w in adc_warnings)
-    warnings.extend(f"sup: {w}" for w in sup_warnings)
+
+
+def _build_final(row: dict, r: Resolvers, warnings: list[str]) -> tuple[dict, Path, list[Path]]:
+    """キュー行から inbox を読み、最終スキーマの dict と書き出し先を組み立てる。
+
+    BOT（`kind=bot`）の2視点取り込みは T-1300 で削除した（09 §9.2 / §9.3）。
+    """
+    master = {c["id"]: c for c in json.loads(CHAMPIONS_JSON.read_text(encoding="utf-8"))}
+    _require_lane_row(row)
+
+    inbox = INBOX_DIR / row["lane"] / f"{row['slug']}.json"
+    raw = _normalize(_extract_json(_read_inbox(inbox)))
+    llm = _validate_llm(LaneLLMOutput, raw)
+    enemy_ids = {master[row["enemy"]]["ddragonId"]}
+    advice = _resolve_advice(r, llm, enemy_ids, warnings)
     final = {
-        "myAdc": row["my_adc"],
-        "mySup": row["my_sup"],
-        "enemyAdc": row["enemy_adc"],
-        "enemySup": row["enemy_sup"],
-        "aiRating": adc_llm.aiRating,
-        "advantage": adc_llm.advantage,
-        "views": {"adc": adc_view, "sup": sup_view},
+        "lane": row["lane"],
+        "me": row["me"],
+        "enemy": row["enemy"],
+        "aiRating": llm.aiRating,
+        "advantage": llm.advantage,
+        **advice,
     }
-    out_path = MATCHUPS_DIR / "bot" / f"{row['slug']}.json"
-    return final, out_path, [inbox_adc, inbox_sup]
+    out_path = MATCHUPS_DIR / row["lane"] / f"{row['slug']}.json"
+    return final, out_path, [inbox]
 
 
 def _reject(row: dict, inboxes: list[Path], messages: list[str]) -> None:
@@ -235,13 +212,8 @@ def run(matchup_id: str, force: bool = False) -> int:
 def _ingest_row(row: dict, force: bool) -> int:
     r = Resolvers()
     warnings: list[str] = []
-    if row["kind"] == "lane":
-        inboxes = [INBOX_DIR / row["lane"] / f"{row['slug']}.json"]
-    else:
-        inboxes = [
-            INBOX_DIR / "bot" / f"{row['slug']}.adc.json",
-            INBOX_DIR / "bot" / f"{row['slug']}.sup.json",
-        ]
+    # _build_final が失敗しても原文を退避できるよう、先に inbox のパスを決めておく
+    inboxes = [INBOX_DIR / row["lane"] / f"{row['slug']}.json"] if row["kind"] == "lane" else []
 
     try:
         final, out_path, inboxes = _build_final(row, r, warnings)
@@ -294,11 +266,7 @@ def scan(force: bool = False) -> int:
         return 1
     ids: list[str] = []
     for path in sorted(INBOX_DIR.rglob("*.json")):
-        lane = path.parent.name
-        stem = path.stem
-        if lane == "bot":
-            stem = re.sub(r"\.(adc|sup)$", "", stem)
-        matchup_id = f"{lane}/{stem}"
+        matchup_id = f"{path.parent.name}/{path.stem}"
         if matchup_id not in ids:
             ids.append(matchup_id)
     if not ids:

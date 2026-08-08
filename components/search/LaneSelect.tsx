@@ -2,13 +2,14 @@
 
 import type { Lane } from "@/lib/types";
 
+// T-1300 で対応レーンを TOP / MID に絞った（05_tasks §3）。
+// JG / ADC / SUP を「準備中」として5択で並べる形は T-1401（06_ui §4.2）。
 const LANES: { value: Lane; label: string }[] = [
   { value: "top", label: "TOP" },
-  { value: "jg", label: "JG" },
   { value: "mid", label: "MID" },
 ];
 
-/** レーン選択 3ボタン（06_ui §4.2。選択中=gold枠+薄gold背景） */
+/** レーン選択（06_ui §4.2。選択中=gold枠+薄gold背景） */
 export function LaneSelect({
   value,
   onChange,
@@ -36,7 +37,7 @@ export function LaneSelect({
         ))}
       </div>
       <span className="text-[9.5px] text-text-faint md:text-[10.5px]">
-        ADC / SUP は「BOT（2v2）」タブへ
+        JG / ADC / SUP は順次対応予定です
       </span>
     </div>
   );

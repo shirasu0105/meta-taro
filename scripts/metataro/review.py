@@ -1,10 +1,10 @@
 """レビューCSV出力（docs/09_data_pipeline.md §7.5）。
 
 status ∈ {valid, published} の対面を data/ から読み直して出力する（inboxではなく確定データを見る）。
-列構成は通常レーンとBOTで統一し、**BOTは視点（adc/sup）ごとに1行**にする。
-同一チャンピオンのソート・ai_rating のピボットが視点をまたいで素直に機能するようにするため。
 
 Excel互換の要件（utf-8-sig / CRLF）はキューCSVと同じ。
+BOTを視点（adc/sup）ごとに1行で出す扱いは T-1300 で削除した（09 §9.2）。
+`view` 列は復活時に備えて残してあり、通常レーンでは常に空。
 """
 
 from __future__ import annotations
@@ -71,8 +71,7 @@ def run(patch: str | None = None) -> int:
 
     out_rows: list[dict[str, str]] = []
     for row in targets:
-        lane = "bot" if row["kind"] == "bot" else row["lane"]
-        path = MATCHUPS_DIR / lane / f"{row['slug']}.json"
+        path = MATCHUPS_DIR / row["lane"] / f"{row['slug']}.json"
         if not path.exists():
             print(f"警告: {row['id']} は {row['status']} だが {path} が存在しない。スキップ")
             continue
@@ -86,15 +85,9 @@ def run(patch: str | None = None) -> int:
             "prompt_version": row["prompt_version"],
             "warnings": row["notes"],
         }
-        if row["kind"] == "bot":
-            for view in ("adc", "sup"):
-                cells = {name: "" for name in FIELDNAMES}
-                cells.update(base, view=view, **_advice_cells(obj["views"][view]))
-                out_rows.append(cells)
-        else:
-            cells = {name: "" for name in FIELDNAMES}
-            cells.update(base, view="", **_advice_cells(obj))
-            out_rows.append(cells)
+        cells = {name: "" for name in FIELDNAMES}
+        cells.update(base, view="", **_advice_cells(obj))
+        out_rows.append(cells)
 
     REVIEW_DIR.mkdir(parents=True, exist_ok=True)
     out_path = REVIEW_DIR / f"review-{patch}.csv"

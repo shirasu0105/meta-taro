@@ -71,37 +71,27 @@ def _vocab() -> dict:
 LANE_LABELS = {"top": "TOP（トップレーン）", "jg": "JG（ジャングル）", "mid": "MID（ミッドレーン）"}
 
 
-def run(matchup_id: str, view: str | None = None, stdout: bool = False) -> int:
+def run(matchup_id: str, stdout: bool = False) -> int:
+    """BOT対面の視点別生成（`--view adc|sup` / `bot_v1.md.j2`）は T-1300 で削除した（09 §9.1）。"""
     row = queue_mod.find_row(queue_mod.read_queue()[1], matchup_id)
     if row["status"] == "skip":
         raise SystemExit(f"エラー: {matchup_id} は skip（意図的な未作成）。生成しない")
+    if row["kind"] != "lane":
+        raise SystemExit(
+            f"エラー: kind={row['kind']} は生成対象外。TOP / MID の通常レーンのみ（T-1300）"
+        )
 
     master = {c["id"]: c for c in json.loads(CHAMPIONS_JSON.read_text(encoding="utf-8"))}
     champs_full = ddragon.load_champion_full()
     ctx: dict = {"limits": LIMITS, **_vocab()}
 
-    if row["kind"] == "lane":
-        if view:
-            raise SystemExit("エラー: --view は BOT 対面専用")
-        template_name = "lane_v1.md.j2"
-        ctx.update(
-            lane_label=LANE_LABELS[row["lane"]],
-            me=_champion_facts(master[row["me"]], champs_full),
-            enemy=_champion_facts(master[row["enemy"]], champs_full),
-        )
-        inbox = INBOX_DIR / row["lane"] / f"{row['slug']}.json"
-    else:
-        if view not in ("adc", "sup"):
-            raise SystemExit("エラー: BOT対面は --view adc または --view sup を指定する（2回に分けて生成）")
-        template_name = "bot_v1.md.j2"
-        ctx.update(
-            view=view,
-            my_adc=_champion_facts(master[row["my_adc"]], champs_full),
-            my_sup=_champion_facts(master[row["my_sup"]], champs_full),
-            enemy_adc=_champion_facts(master[row["enemy_adc"]], champs_full),
-            enemy_sup=_champion_facts(master[row["enemy_sup"]], champs_full),
-        )
-        inbox = INBOX_DIR / "bot" / f"{row['slug']}.{view}.json"
+    template_name = "lane_v1.md.j2"
+    ctx.update(
+        lane_label=LANE_LABELS[row["lane"]],
+        me=_champion_facts(master[row["me"]], champs_full),
+        enemy=_champion_facts(master[row["enemy"]], champs_full),
+    )
+    inbox = INBOX_DIR / row["lane"] / f"{row['slug']}.json"
 
     env = Environment(
         loader=FileSystemLoader(PROMPTS_DIR),

@@ -75,7 +75,7 @@ scripts/                 データ生成パイプライン Phase 1（Python + uv
   queue/matchups.csv     作業キュー兼監査ログ（Excel互換CSV）
 generated/               gitignore（ChatGPT応答のinbox・検証NG退避・レビューCSV）
 docs/                    本ドキュメント群・UIプロトタイプ
-  archive/bot/           スコープ外にしたBOTのデータ・UIコード（T-1300。プロンプトは含まない）
+  archive/bot/           スコープ外にしたBOTのデータ・UIコード・プロンプト（T-1300。ビルド対象外）
 ```
 
 > **BOT（2v2）は 2026-08-07 に当面のスコープ外**（T-1300）。ルート `matchups/bot/` と BOT 専用

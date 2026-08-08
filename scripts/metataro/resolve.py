@@ -206,7 +206,7 @@ class Resolvers:
 
 
 # ---------------------------------------------------------------------------
-# check-mocks: モック8件の識別子を人間可読名から復元して照合（T-704 完了条件）
+# check-mocks: data/matchups/ 全件の識別子を人間可読名から復元して照合（T-704 完了条件）
 # ---------------------------------------------------------------------------
 
 
@@ -293,12 +293,7 @@ def check_mocks() -> int:
     for path in sorted(MATCHUPS_DIR.rglob("*.json")):
         obj = json.loads(path.read_text(encoding="utf-8"))
         where = f"{path.parent.name}/{path.stem}"
-        if path.parent.name == "bot":
-            enemies = [obj["enemyAdc"], obj["enemySup"]]
-            problems = _check_advice(r, obj["views"]["adc"], enemies, f"{where}:adc")
-            problems += _check_advice(r, obj["views"]["sup"], enemies, f"{where}:sup")
-        else:
-            problems = _check_advice(r, obj, [obj["enemy"]], where)
+        problems = _check_advice(r, obj, [obj["enemy"]], where)
         if problems:
             total_problems += len(problems)
             print(f"NG   {where}")

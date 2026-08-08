@@ -268,7 +268,8 @@ Python資産はすべて `scripts/` 配下に置き、リポジトリルート�
 列: `id, kind, lane, me, enemy, my_adc, my_sup, enemy_adc, enemy_sup, slug, priority, status, prompt_version, generated_at, validated_at, published_patch, notes`
 
 > **`kind=bot` は当面未使用**（T-1300 でBOTをスコープ外にしたため）。列そのものは復活時に備えて残す。
-> 既存の bot 行は T-1300 で削除し、`docs/archive/bot/` に退避する。
+> 既存の bot 行は T-1300 で `docs/archive/bot/queue-rows.csv` へ退避した（`queue add` も `lane` のみ受け付ける）。
+> **JG の行は残してあるが `status=skip`** にした（JG も当面の対象外。生成済みJSONは `docs/archive/bot/data/jg/`）。
 
 | 列 | 意味 |
 |---|---|
@@ -309,7 +310,7 @@ npm run data -- ingest mid/ahri-vs-annie      # inbox → 解決 → 検証 → 
 npm run data -- ingest --scan                 # inbox の全ファイルを一括処理
 npm run data -- validate --all                # data/ 全件を再検証（PR前に必須）
 npm run data -- review --patch 26.13          # レビューCSV出力（--patch 省略時は meta.json の値）
-npm run data -- queue add --kind lane --lane mid --me ahri --enemy annie --priority 1
+npm run data -- queue add --lane mid --me ahri --enemy annie --priority 1
 npm run data -- queue list --status todo
 npm run data -- queue set-status mid/ahri-vs-annie published --patch 26.13
 npm run data -- ddragon sync                  # Data Dragon キャッシュ更新

@@ -32,8 +32,7 @@ QUEUE_CSV = SCRIPTS_DIR / "queue" / "matchups.csv"
 ALIASES_JSON = SCRIPTS_DIR / "aliases.json"
 CHAMPION_LANES_JSON = SCRIPTS_DIR / "champion_lanes.json"
 
-LANES = ("top", "jg", "mid")
-BOT = "bot"
+LANES = ("top", "jg", "mid")  # jg はデータ未提供（T-1300）。bot は同タスクでスコープ外にした
 
 _VERSION_RE = re.compile(r'DDRAGON_VERSION\s*=\s*"([^"]+)"')
 

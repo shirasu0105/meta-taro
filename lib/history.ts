@@ -1,25 +1,23 @@
 // 検索履歴（localStorage・直近10件）のクライアント用ユーティリティ（04_api §2 / 06_ui §6）。
 // チャンピオン名は保存せず id のみ持つ。表示時に getChampion で解決する。
 
-import { buildBotSlug, buildLaneSlug, isChampionSlug } from "@/lib/slug";
+import { buildLaneSlug, isChampionSlug } from "@/lib/slug";
 import type { Lane } from "@/lib/types";
 
 const STORAGE_KEY = "metataro:search-history:v1";
 const LIMIT = 10;
 const LANES: readonly Lane[] = ["top", "jg", "mid"];
 
-export type HistoryEntry =
-  | { kind: "lane"; lane: Lane; me: string; enemy: string }
-  | { kind: "bot"; myAdc: string; mySup: string; enemyAdc: string; enemySup: string };
+// BOT（`kind: "bot"`）は T-1300 で削除した（docs/archive/bot/ui/lib/bot-fragments.ts に退避）。
+// 保存キーは据え置きでよい — 既存端末に残る BOT エントリは isValidEntry が落とす。
+export type HistoryEntry = { kind: "lane"; lane: Lane; me: string; enemy: string };
 
 /** 結果ページのURL。重複判定キーも兼ねる */
 export function entryHref(entry: HistoryEntry): string {
-  return entry.kind === "lane"
-    ? `/matchups/${entry.lane}/${buildLaneSlug(entry.me, entry.enemy)}`
-    : `/matchups/bot/${buildBotSlug(entry.myAdc, entry.mySup, entry.enemyAdc, entry.enemySup)}`;
+  return `/matchups/${entry.lane}/${buildLaneSlug(entry.me, entry.enemy)}`;
 }
 
-/** 保存済みデータの検証。古い・壊れたエントリで画面を落とさない */
+/** 保存済みデータの検証。古い・壊れたエントリ（旧BOT履歴を含む）で画面を落とさない */
 function isValidEntry(value: unknown): value is HistoryEntry {
   if (typeof value !== "object" || value === null) return false;
   const e = value as Record<string, unknown>;
@@ -31,10 +29,6 @@ function isValidEntry(value: unknown): value is HistoryEntry {
       isChampionSlug(e.me) &&
       isChampionSlug(e.enemy)
     );
-  }
-  if (e.kind === "bot") {
-    const ids = [e.myAdc, e.mySup, e.enemyAdc, e.enemySup];
-    return ids.every((id) => typeof id === "string" && isChampionSlug(id));
   }
   return false;
 }
@@ -99,8 +93,7 @@ export function getHistoryServerSnapshot(): HistoryEntry[] {
 export function frequentChampionIds(entries: HistoryEntry[]): string[] {
   const counts = new Map<string, number>();
   for (const entry of entries) {
-    const ids = entry.kind === "lane" ? [entry.me] : [entry.myAdc, entry.mySup];
-    for (const id of ids) counts.set(id, (counts.get(id) ?? 0) + 1);
+    counts.set(entry.me, (counts.get(entry.me) ?? 0) + 1);
   }
   return [...counts.entries()].sort((a, b) => b[1] - a[1]).map(([id]) => id);
 }
