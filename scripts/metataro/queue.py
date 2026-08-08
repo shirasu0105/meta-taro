@@ -101,33 +101,19 @@ def new_row(**values: str) -> dict[str, str]:
 
 
 def cmd_add(args: argparse.Namespace) -> int:
+    """kind=bot の追加は T-1300 で削除した。`my_adc` 等の列は復活に備えて残す（09 §7.2）。"""
     master = _load_master()
-    if args.kind == "lane":
-        if args.lane not in LANES:
-            raise SystemExit("エラー: --lane top|jg|mid を指定する")
-        me = _require_champion(master, args.me, args.lane, "--me")
-        enemy = _require_champion(master, args.enemy, args.lane, "--enemy")
-        if me == enemy:
-            raise SystemExit("エラー: --me と --enemy が同一")
-        slug = f"{me}-vs-{enemy}"
-        row = new_row(
-            id=f"{args.lane}/{slug}", kind="lane", lane=args.lane, me=me, enemy=enemy,
-            slug=slug, priority=str(args.priority), status="todo",
-        )
-    else:
-        my_adc = _require_champion(master, args.my_adc, "adc", "--my-adc")
-        my_sup = _require_champion(master, args.my_sup, "sup", "--my-sup")
-        enemy_adc = _require_champion(master, args.enemy_adc, "adc", "--enemy-adc")
-        enemy_sup = _require_champion(master, args.enemy_sup, "sup", "--enemy-sup")
-        four = [my_adc, my_sup, enemy_adc, enemy_sup]
-        if len(set(four)) != 4:
-            raise SystemExit(f"エラー: チャンピオンが重複している {four}")
-        slug = f"{my_adc}-{my_sup}-vs-{enemy_adc}-{enemy_sup}"
-        row = new_row(
-            id=f"bot/{slug}", kind="bot",
-            my_adc=my_adc, my_sup=my_sup, enemy_adc=enemy_adc, enemy_sup=enemy_sup,
-            slug=slug, priority=str(args.priority), status="todo",
-        )
+    if args.lane not in LANES:
+        raise SystemExit("エラー: --lane top|jg|mid を指定する")
+    me = _require_champion(master, args.me, args.lane, "--me")
+    enemy = _require_champion(master, args.enemy, args.lane, "--enemy")
+    if me == enemy:
+        raise SystemExit("エラー: --me と --enemy が同一")
+    slug = f"{me}-vs-{enemy}"
+    row = new_row(
+        id=f"{args.lane}/{slug}", kind="lane", lane=args.lane, me=me, enemy=enemy,
+        slug=slug, priority=str(args.priority), status="todo",
+    )
     if not 1 <= args.priority <= 5:
         raise SystemExit("エラー: --priority は 1〜5")
 

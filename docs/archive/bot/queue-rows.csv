@@ -1,0 +1,8 @@
+﻿id,kind,lane,me,enemy,my_adc,my_sup,enemy_adc,enemy_sup,slug,priority,status,prompt_version,generated_at,validated_at,published_patch,notes
+bot/jinx-thresh-vs-caitlyn-lulu,bot,,,,jinx,thresh,caitlyn,lulu,jinx-thresh-vs-caitlyn-lulu,1,published,,,,26.13,MVP手作りモック
+bot/ezreal-lux-vs-ashe-leona,bot,,,,ezreal,lux,ashe,leona,ezreal-lux-vs-ashe-leona,2,published,,,,26.13,MVP手作りモック
+bot/jinx-thresh-vs-ashe-leona,bot,,,,jinx,thresh,ashe,leona,jinx-thresh-vs-ashe-leona,2,published,bot_v1,2026-07-20,2026-07-20,26.13,
+bot/caitlyn-lux-vs-ezreal-thresh,bot,,,,caitlyn,lux,ezreal,thresh,caitlyn-lux-vs-ezreal-thresh,2,todo,,,,,
+bot/kaisa-thresh-vs-jinx-lulu,bot,,,,kaisa,thresh,jinx,lulu,kaisa-thresh-vs-jinx-lulu,2,todo,bot_v1,,,,
+bot/ezreal-leona-vs-caitlyn-lux,bot,,,,ezreal,leona,caitlyn,lux,ezreal-leona-vs-caitlyn-lux,3,todo,,,,,
+bot/ashe-braum-vs-jinx-thresh,bot,,,,ashe,braum,jinx,thresh,ashe-braum-vs-jinx-thresh,3,todo,,,,,

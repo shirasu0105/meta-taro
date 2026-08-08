@@ -14,6 +14,9 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // UIプロトタイプ（デザイン資産。アプリコードではないため対象外）
     "docs/design/**",
+    // スコープ外にした機能の退避先（T-1300）。ビルド対象外なので型・Lintの対象にもしない
+    // （tsconfig.json の exclude と対に保つこと）
+    "docs/archive/**",
   ]),
 ]);
 

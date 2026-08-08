@@ -10,11 +10,14 @@ ChatGPT Plus の web チャットで対面アドバイスを生成し、Python �
 
 ## 1対面を生成する手順
 
+生成対象は **TOP / MID の通常レーンのみ**（T-1300）。BOT（2v2）の視点別生成と JG は当面行わない。
+BOT のプロンプト・データ・UIコードは `docs/archive/bot/` に退避してある（復活の判断は T-1308。09 §9）。
+
 ### 通常レーン（例: `mid/ahri-vs-zed`）
 
 ```bash
 # 0. キューにない対面なら先に追加する
-npm run data -- queue add --kind lane --lane mid --me ahri --enemy zed --priority 1
+npm run data -- queue add --lane mid --me ahri --enemy zed --priority 1
 
 # 1. プロンプト生成（クリップボードに入る）
 npm run data -- prompt mid/ahri-vs-zed
@@ -31,16 +34,6 @@ npm run data -- ingest mid/ahri-vs-zed
 
 # 5. 表示確認
 npm run dev   # → http://localhost:3000/matchups/mid/ahri-vs-zed
-```
-
-### BOT（2v2。例: `bot/jinx-thresh-vs-ashe-leona`）
-
-視点ごとに2回生成し、両方揃ってから ingest する。
-
-```bash
-npm run data -- prompt bot/jinx-thresh-vs-ashe-leona --view adc   # → {slug}.adc.json に保存
-npm run data -- prompt bot/jinx-thresh-vs-ashe-leona --view sup   # → {slug}.sup.json に保存
-npm run data -- ingest bot/jinx-thresh-vs-ashe-leona
 ```
 
 ## レビューと公開

@@ -4,8 +4,8 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import glossaryJson from "@/data/glossary.json";
 import metaJson from "@/data/meta.json";
-import { isChampionSlug, parseBotSlug, parseLaneSlug } from "@/lib/slug";
-import type { BotMatchup, GlossaryEntry, Lane, LaneMatchup, Meta } from "@/lib/types";
+import { isChampionSlug, parseLaneSlug } from "@/lib/slug";
+import type { GlossaryEntry, Lane, LaneMatchup, Meta } from "@/lib/types";
 
 const LANES: Lane[] = ["top", "jg", "mid"];
 const matchupsDir = join(process.cwd(), "data", "matchups");
@@ -27,21 +27,9 @@ export function getLaneMatchup(lane: Lane, me: string, enemy: string): LaneMatch
   return JSON.parse(readFileSync(file, "utf8")) as LaneMatchup;
 }
 
-/** BOT対面。データなしは null */
-export function getBotMatchup(
-  myAdc: string,
-  mySup: string,
-  enemyAdc: string,
-  enemySup: string,
-): BotMatchup | null {
-  const ids = [myAdc, mySup, enemyAdc, enemySup];
-  if (!ids.every(isChampionSlug)) return null;
-  const file = join(matchupsDir, "bot", `${myAdc}-${mySup}-vs-${enemyAdc}-${enemySup}.json`);
-  if (!existsSync(file)) return null;
-  return JSON.parse(readFileSync(file, "utf8")) as BotMatchup;
-}
-
-/** generateStaticParams / sitemap 用の全対面列挙 */
+/** generateStaticParams / sitemap 用の全対面列挙。
+ * `jg/` は T-1300 でデータを退避したが、**空ディレクトリは消さないこと**
+ * （readdirSync が例外を投げる。03_database §2） */
 export function listLaneMatchups(): { lane: Lane; me: string; enemy: string }[] {
   return LANES.flatMap((lane) =>
     readdirSync(join(matchupsDir, lane))
@@ -53,16 +41,5 @@ export function listLaneMatchups(): { lane: Lane; me: string; enemy: string }[] 
   );
 }
 
-export function listBotMatchups(): {
-  myAdc: string;
-  mySup: string;
-  enemyAdc: string;
-  enemySup: string;
-}[] {
-  return readdirSync(join(matchupsDir, "bot"))
-    .filter((f) => f.endsWith(".json"))
-    .flatMap((f) => {
-      const parsed = parseBotSlug(f.replace(/\.json$/, ""));
-      return parsed ? [parsed] : [];
-    });
-}
+// getBotMatchup / listBotMatchups は T-1300 で削除した
+// （docs/archive/bot/ui/lib/bot-fragments.ts に退避。復活の判断は T-1308）。

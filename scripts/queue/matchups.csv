@@ -3,10 +3,8 @@ mid/ahri-vs-annie,lane,mid,ahri,annie,,,,,ahri-vs-annie,1,published,,,,26.13,MVP
 mid/orianna-vs-syndra,lane,mid,orianna,syndra,,,,,orianna-vs-syndra,2,published,,,,26.13,MVP手作りモック
 top/garen-vs-darius,lane,top,garen,darius,,,,,garen-vs-darius,1,published,,,,26.13,MVP手作りモック
 top/aatrox-vs-malphite,lane,top,aatrox,malphite,,,,,aatrox-vs-malphite,2,published,,,,26.13,MVP手作りモック
-jg/leesin-vs-vi,lane,jg,leesin,vi,,,,,leesin-vs-vi,1,published,,,,26.13,MVP手作りモック
-jg/graves-vs-kayn,lane,jg,graves,kayn,,,,,graves-vs-kayn,2,published,,,,26.13,MVP手作りモック
-bot/jinx-thresh-vs-caitlyn-lulu,bot,,,,jinx,thresh,caitlyn,lulu,jinx-thresh-vs-caitlyn-lulu,1,published,,,,26.13,MVP手作りモック
-bot/ezreal-lux-vs-ashe-leona,bot,,,,ezreal,lux,ashe,leona,ezreal-lux-vs-ashe-leona,2,published,,,,26.13,MVP手作りモック
+jg/leesin-vs-vi,lane,jg,leesin,vi,,,,,leesin-vs-vi,1,skip,,,,26.13,T-1300 でJGを対象外にした。生成済みJSONは docs/archive/bot/data/jg/ へ退避（復活は T-1308）
+jg/graves-vs-kayn,lane,jg,graves,kayn,,,,,graves-vs-kayn,2,skip,,,,26.13,T-1300 でJGを対象外にした。生成済みJSONは docs/archive/bot/data/jg/ へ退避（復活は T-1308）
 mid/yasuo-vs-zed,lane,mid,yasuo,zed,,,,,yasuo-vs-zed,5,skip,,,,,データなし検証用に意図的に未作成（08_testing §4）。生成しないこと
 mid/ahri-vs-zed,lane,mid,ahri,zed,,,,,ahri-vs-zed,1,published,lane_v1,2026-07-20,2026-07-20,26.13,
 mid/yasuo-vs-akali,lane,mid,yasuo,akali,,,,,yasuo-vs-akali,1,todo,,,,,
@@ -20,11 +18,6 @@ top/garen-vs-teemo,lane,top,garen,teemo,,,,,garen-vs-teemo,1,todo,,,,,
 top/aatrox-vs-fiora,lane,top,aatrox,fiora,,,,,aatrox-vs-fiora,1,todo,,,,,
 top/malphite-vs-garen,lane,top,malphite,garen,,,,,malphite-vs-garen,2,todo,,,,,
 top/mordekaiser-vs-darius,lane,top,mordekaiser,darius,,,,,mordekaiser-vs-darius,2,todo,,,,,
-jg/vi-vs-leesin,lane,jg,vi,leesin,,,,,vi-vs-leesin,2,published,lane_v1,2026-07-20,2026-07-20,26.13,
-jg/leesin-vs-khazix,lane,jg,leesin,khazix,,,,,leesin-vs-khazix,2,todo,,,,,
-jg/kayn-vs-viego,lane,jg,kayn,viego,,,,,kayn-vs-viego,3,todo,,,,,
-bot/jinx-thresh-vs-ashe-leona,bot,,,,jinx,thresh,ashe,leona,jinx-thresh-vs-ashe-leona,2,published,bot_v1,2026-07-20,2026-07-20,26.13,
-bot/caitlyn-lux-vs-ezreal-thresh,bot,,,,caitlyn,lux,ezreal,thresh,caitlyn-lux-vs-ezreal-thresh,2,todo,,,,,
-bot/kaisa-thresh-vs-jinx-lulu,bot,,,,kaisa,thresh,jinx,lulu,kaisa-thresh-vs-jinx-lulu,2,todo,bot_v1,,,,
-bot/ezreal-leona-vs-caitlyn-lux,bot,,,,ezreal,leona,caitlyn,lux,ezreal-leona-vs-caitlyn-lux,3,todo,,,,,
-bot/ashe-braum-vs-jinx-thresh,bot,,,,ashe,braum,jinx,thresh,ashe-braum-vs-jinx-thresh,3,todo,,,,,
+jg/vi-vs-leesin,lane,jg,vi,leesin,,,,,vi-vs-leesin,2,skip,lane_v1,2026-07-20,2026-07-20,26.13,T-1300 でJGを対象外にした。生成済みJSONは docs/archive/bot/data/jg/ へ退避（復活は T-1308）
+jg/leesin-vs-khazix,lane,jg,leesin,khazix,,,,,leesin-vs-khazix,2,skip,,,,,T-1300 でJGを対象外にした。生成済みJSONは docs/archive/bot/data/jg/ へ退避（復活は T-1308）
+jg/kayn-vs-viego,lane,jg,kayn,viego,,,,,kayn-vs-viego,3,skip,,,,,T-1300 でJGを対象外にした。生成済みJSONは docs/archive/bot/data/jg/ へ退避（復活は T-1308）

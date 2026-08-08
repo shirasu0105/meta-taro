@@ -2,7 +2,10 @@
 
 2段構成:
 - LLM出力モデル（*LLMOutput）: 識別子を含まない。日本語名だけを受け取る
-- 最終モデル（LaneMatchup / BotMatchup）: lib/types.ts §3 を写したもの。data/ に書かれる形
+- 最終モデル（LaneMatchup）: lib/types.ts §3 を写したもの。data/ に書かれる形
+
+BOT（2v2）のモデル（BotMatchup / BotViewAdvice / BotViews / BotAdcLLMOutput / BotSupLLMOutput）は
+T-1300 で削除した。型は docs/03_database.md §3.1、復活手順は 09 §9.3。
 
 どちらも extra="forbid"。最終モデルは `winRate` を意図的に宣言しない
 （Phase 1 では混入自体をエラーにする。09 §4-A。check-drift 側の除外リストと対応）。
@@ -25,7 +28,7 @@ from pydantic import (
 
 # ---------------------------------------------------------------------------
 # 制約数値（09 §3.3。モック8件の実測値から導出）
-# description の下限は §3.3 の表では 28 だが、実測 min=25（BOT対面）のため 25 に改訂。
+# description の下限は §3.3 の表では 28 だが、実測 min=25（当時のBOT対面。T-1300 で退避）のため 25 に改訂。
 # T-710 でドキュメント側を合わせる。
 # ---------------------------------------------------------------------------
 
@@ -208,43 +211,11 @@ class LaneMatchup(_Base):
         return self
 
 
-class BotViewAdvice(_Base):
-    summary: SummaryStr
-    dangerSkills: list[DangerSkill]
-    powerSpike: PowerSpike
-    recommended: Recommended
-    glossaryRefs: list[str]
-
-    _ds = field_validator("dangerSkills")(_check_danger_skills)
-    _gl = field_validator("glossaryRefs")(_check_glossary)
-
-
-class BotViews(_Base):
-    adc: BotViewAdvice
-    sup: BotViewAdvice
-
-
-class BotMatchup(_Base):
-    myAdc: ChampionId
-    mySup: ChampionId
-    enemyAdc: ChampionId
-    enemySup: ChampionId
-    aiRating: AiRating
-    advantage: Advantage
-    views: BotViews
-
-    @model_validator(mode="after")
-    def _cross(self) -> "BotMatchup":
-        _require_rating_advantage(self.aiRating, self.advantage, "BotMatchup")
-        return self
-
-
 # check-drift（validate.py）が lib/types.ts と突き合わせる対応表。
 # winRate は Phase 1 で意図的に除外している（09 §2 / §4-A）。
+# BotViewAdvice / BotMatchup は T-1300 で lib/types.ts 側ごと削除したため対象外。
 TS_TYPE_TO_MODEL = {
     "LaneMatchup": LaneMatchup,
-    "BotViewAdvice": BotViewAdvice,
-    "BotMatchup": BotMatchup,
     "DangerSkill": DangerSkill,
     "PowerSpike": PowerSpike,
     "Item": Item,
@@ -327,30 +298,5 @@ class LaneLLMOutput(_Base):
 
     @model_validator(mode="after")
     def _cross(self) -> "LaneLLMOutput":
-        _require_rating_advantage(self.aiRating, self.advantage, "LLM出力")
-        return self
-
-
-class BotSupLLMOutput(_Base):
-    """BOT対面のSUP視点。views.sup のみを出力させる（09 §3.3）。"""
-
-    summary: SummaryStr
-    dangerSkills: list[LLMDangerSkill]
-    powerSpike: PowerSpike
-    recommended: LLMRecommended
-    glossaryTerms: list[str]
-
-    _ds = field_validator("dangerSkills")(_check_danger_skills)
-    _gl = field_validator("glossaryTerms")(_check_glossary)
-
-
-class BotAdcLLMOutput(BotSupLLMOutput):
-    """BOT対面のADC視点。ペア全体の評価（aiRating / advantage）もここで出力させる。"""
-
-    aiRating: AiRating
-    advantage: Advantage
-
-    @model_validator(mode="after")
-    def _cross(self) -> "BotAdcLLMOutput":
         _require_rating_advantage(self.aiRating, self.advantage, "LLM出力")
         return self

@@ -20,26 +20,5 @@ export function parseLaneSlug(slug: string): { me: string; enemy: string } | nul
   return { me, enemy };
 }
 
-/** BOT: `{myAdc}-{mySup}-vs-{enAdc}-{enSup}` */
-export function buildBotSlug(
-  myAdc: string,
-  mySup: string,
-  enemyAdc: string,
-  enemySup: string,
-): string {
-  return `${myAdc}-${mySup}-vs-${enemyAdc}-${enemySup}`;
-}
-
-export function parseBotSlug(
-  slug: string,
-): { myAdc: string; mySup: string; enemyAdc: string; enemySup: string } | null {
-  const sides = slug.split("-vs-");
-  if (sides.length !== 2) return null;
-  const mine = sides[0].split("-");
-  const theirs = sides[1].split("-");
-  if (mine.length !== 2 || theirs.length !== 2) return null;
-  const [myAdc, mySup] = mine;
-  const [enemyAdc, enemySup] = theirs;
-  if (![myAdc, mySup, enemyAdc, enemySup].every(isChampionSlug)) return null;
-  return { myAdc, mySup, enemyAdc, enemySup };
-}
+// BOT: `{myAdc}-{mySup}-vs-{enAdc}-{enSup}` の buildBotSlug / parseBotSlug は T-1300 で削除した
+// （docs/archive/bot/ui/lib/bot-fragments.ts に退避）。復活の判断は T-1308。

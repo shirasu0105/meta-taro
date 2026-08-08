@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
-import { getMeta, listBotMatchups, listLaneMatchups } from "@/lib/data";
+import { getMeta, listLaneMatchups } from "@/lib/data";
 import { siteUrl } from "@/lib/seo";
-import { buildBotSlug, buildLaneSlug } from "@/lib/slug";
+import { buildLaneSlug } from "@/lib/slug";
 
 /** 法務ページの制定日（app/legal/{terms,privacy,disclaimer}/page.tsx と同じ日付） */
 const LEGAL_LAST_MODIFIED = "2026-07-20";
@@ -42,12 +42,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  const botMatchups: MetadataRoute.Sitemap = listBotMatchups().map((m) => ({
-    url: `${base}/matchups/bot/${buildBotSlug(m.myAdc, m.mySup, m.enemyAdc, m.enemySup)}`,
-    lastModified,
-    changeFrequency: "weekly",
-    priority: 0.8,
-  }));
-
-  return [...statics, ...laneMatchups, ...botMatchups];
+  // BOT節は T-1300 で削除した（docs/archive/bot/ui/lib/bot-fragments.ts に退避）。
+  // JG はデータを退避したため listLaneMatchups() から自然に落ちる。
+  return [...statics, ...laneMatchups];
 }

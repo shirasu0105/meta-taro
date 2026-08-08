@@ -12,32 +12,24 @@ type Chip = { href: string; champions: Champion[]; label: string };
 
 /** チップ1件分の表示内容。未知チャンピオンが混じるエントリは描画しない */
 function toChip(entry: HistoryEntry): Chip | null {
-  const ids =
-    entry.kind === "lane"
-      ? [entry.me, entry.enemy]
-      : [entry.myAdc, entry.mySup, entry.enemyAdc, entry.enemySup];
   const champions: Champion[] = [];
-  for (const id of ids) {
+  for (const id of [entry.me, entry.enemy]) {
     const champion = getChampion(id);
     if (!champion) return null;
     champions.push(champion);
   }
   const names = champions.map((c) => c.name.ja);
-  const label =
-    entry.kind === "lane"
-      ? `${entry.lane.toUpperCase()} · ${names[0]} vs ${names[1]}`
-      : `BOT · ${names[0]}・${names[1]} vs ${names[2]}・${names[3]}`;
+  const label = `${entry.lane.toUpperCase()} · ${names[0]} vs ${names[1]}`;
   return { href: entryHref(entry), champions, label };
 }
 
-/** 「最近の検索」チップ列（06_ui §4.2 / T-402）。履歴が無ければ行ごと出さない */
-export function RecentSearches({ kind }: { kind: HistoryEntry["kind"] }) {
-  const chips = useSearchHistory()
-    .filter((e) => e.kind === kind)
-    .flatMap((entry) => {
-      const chip = toChip(entry);
-      return chip ? [chip] : [];
-    });
+/** 「最近の検索」チップ列（06_ui §4.2 / T-402）。履歴が無ければ行ごと出さない。
+ * T-1300 で履歴が通常レーンのみになったため kind による絞り込みは廃止した */
+export function RecentSearches() {
+  const chips = useSearchHistory().flatMap((entry) => {
+    const chip = toChip(entry);
+    return chip ? [chip] : [];
+  });
 
   if (chips.length === 0) return null;
 

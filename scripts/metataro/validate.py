@@ -22,7 +22,7 @@ from pydantic import ValidationError
 from . import ddragon
 from .config import CHAMPIONS_JSON, GLOSSARY_JSON, LANES, LIB_TYPES_TS, MATCHUPS_DIR
 from .resolve import Resolvers
-from .schema import INTENTIONALLY_OMITTED, TS_TYPE_TO_MODEL, BotMatchup, LaneMatchup
+from .schema import INTENTIONALLY_OMITTED, TS_TYPE_TO_MODEL, LaneMatchup
 
 SLUG_RE = re.compile(r"^[a-z0-9]+$")  # lib/slug.ts の ID_PATTERN と同一
 
@@ -228,31 +228,22 @@ def _check_advice_refs(
             errors.append(f"{where}.glossaryRefs: 「{slug}」が glossary.json に存在しない")
 
 
-def _prose_fields(obj: dict, is_bot: bool) -> list[tuple[str, str]]:
+def _prose_fields(obj: dict) -> list[tuple[str, str]]:
     """D検査の対象（LLMが書く文章フィールド）を (場所, 文字列) で列挙する。"""
-
-    def advice_fields(a: dict, prefix: str) -> list[tuple[str, str]]:
-        out = [(f"{prefix}summary", a["summary"])]
-        if "gamePlan" in a:
-            out += [(f"{prefix}gamePlan.{k}", v) for k, v in a["gamePlan"].items()]
-        for i, ds in enumerate(a["dangerSkills"]):
-            out.append((f"{prefix}dangerSkills[{i}].tag", ds["tag"]))
-            out.append((f"{prefix}dangerSkills[{i}].description", ds["description"]))
-        out.append((f"{prefix}powerSpike.note", a["powerSpike"]["note"]))
-        for i, s in enumerate(a["recommended"]["build"]["situational"]):
-            out.append((f"{prefix}situational[{i}].reason", s["reason"]))
-        return out
-
-    if is_bot:
-        return advice_fields(obj["views"]["adc"], "adc.") + advice_fields(
-            obj["views"]["sup"], "sup."
-        )
-    return advice_fields(obj, "")
+    out = [("summary", obj["summary"])]
+    out += [(f"gamePlan.{k}", v) for k, v in obj["gamePlan"].items()]
+    for i, ds in enumerate(obj["dangerSkills"]):
+        out.append((f"dangerSkills[{i}].tag", ds["tag"]))
+        out.append((f"dangerSkills[{i}].description", ds["description"]))
+    out.append(("powerSpike.note", obj["powerSpike"]["note"]))
+    for i, s in enumerate(obj["recommended"]["build"]["situational"]):
+        out.append((f"situational[{i}].reason", s["reason"]))
+    return out
 
 
-def _check_style(obj: dict, is_bot: bool, errors: list[str]) -> None:
+def _check_style(obj: dict, errors: list[str]) -> None:
     """D. 表記。"""
-    for where, text in _prose_fields(obj, is_bot):
+    for where, text in _prose_fields(obj):
         if _STATS_RE.search(text):
             errors.append(f"{where}: 統計語（勝率/ピック率）が混入している: 「{text}」")
         if _ASSERTIVE_RE.search(text):
@@ -292,29 +283,21 @@ def _check_file_identity(path: Path, obj: dict, errors: list[str]) -> None:
     """E. ファイルパスとJSON内容の自己整合。"""
     lane_dir = path.parent.name
     stem = path.stem
-    if lane_dir == "bot":
-        ids = [obj.get("myAdc"), obj.get("mySup"), obj.get("enemyAdc"), obj.get("enemySup")]
-        if not all(isinstance(x, str) and SLUG_RE.match(x) for x in ids):
-            errors.append(f"champion id が slug 規約（{SLUG_RE.pattern}）を満たさない: {ids}")
-            return
-        expected = f"{ids[0]}-{ids[1]}-vs-{ids[2]}-{ids[3]}"
-        if stem != expected:
-            errors.append(f"ファイル名「{stem}」が内容から導かれる「{expected}」と一致しない")
-        if len(set(ids)) != 4:
-            errors.append(f"同一チャンピオンが重複している: {ids}")
-    elif lane_dir in LANES:
-        me, enemy = obj.get("me"), obj.get("enemy")
-        if obj.get("lane") != lane_dir:
-            errors.append(f"lane「{obj.get('lane')}」がディレクトリ「{lane_dir}」と一致しない")
-        if not all(isinstance(x, str) and SLUG_RE.match(x) for x in (me, enemy)):
-            errors.append(f"champion id が slug 規約を満たさない: {me}, {enemy}")
-            return
-        if stem != f"{me}-vs-{enemy}":
-            errors.append(f"ファイル名「{stem}」が「{me}-vs-{enemy}」と一致しない")
-        if me == enemy:
-            errors.append(f"me と enemy が同一: {me}")
-    else:
+    # bot/ はスコープ外（T-1300）。空ディレクトリだけ残しているので、
+    # JSONが置かれていたら未知ディレクトリと同じくエラーにする
+    if lane_dir not in LANES:
         errors.append(f"未知のレーンディレクトリ: {lane_dir}")
+        return
+    me, enemy = obj.get("me"), obj.get("enemy")
+    if obj.get("lane") != lane_dir:
+        errors.append(f"lane「{obj.get('lane')}」がディレクトリ「{lane_dir}」と一致しない")
+    if not all(isinstance(x, str) and SLUG_RE.match(x) for x in (me, enemy)):
+        errors.append(f"champion id が slug 規約（{SLUG_RE.pattern}）を満たさない: {me}, {enemy}")
+        return
+    if stem != f"{me}-vs-{enemy}":
+        errors.append(f"ファイル名「{stem}」が「{me}-vs-{enemy}」と一致しない")
+    if me == enemy:
+        errors.append(f"me と enemy が同一: {me}")
 
 
 def validate_object(
@@ -326,15 +309,13 @@ def validate_object(
     F（書式）は含まない — ファイル実体に対する検査のため validate_file 側で行う。
     """
     errors: list[str] = []
-    is_bot = path.parent.name == "bot"
 
     # E. ファイル自己整合
     _check_file_identity(path, obj, errors)
 
     # A + C. 構造・文字数（pydantic 最終モデル）
-    model = BotMatchup if is_bot else LaneMatchup
     try:
-        model.model_validate(obj)
+        LaneMatchup.model_validate(obj)
     except ValidationError as e:
         for err in e.errors():
             loc = ".".join(str(x) for x in err["loc"])
@@ -342,19 +323,12 @@ def validate_object(
         return errors  # 形が壊れていたら B/D はスキップ
 
     # B. 参照整合
-    if is_bot:
-        for role, key in [("adc", "myAdc"), ("sup", "mySup"), ("adc", "enemyAdc"), ("sup", "enemySup")]:
-            _check_champion(master, obj[key], role, key, errors)
-        enemies = [obj["enemyAdc"], obj["enemySup"]]
-        _check_advice_refs(r, master, glossary_slugs, obj["views"]["adc"], enemies, "adc", errors)
-        _check_advice_refs(r, master, glossary_slugs, obj["views"]["sup"], enemies, "sup", errors)
-    else:
-        _check_champion(master, obj["me"], obj["lane"], "me", errors)
-        _check_champion(master, obj["enemy"], obj["lane"], "enemy", errors)
-        _check_advice_refs(r, master, glossary_slugs, obj, [obj["enemy"]], "", errors)
+    _check_champion(master, obj["me"], obj["lane"], "me", errors)
+    _check_champion(master, obj["enemy"], obj["lane"], "enemy", errors)
+    _check_advice_refs(r, master, glossary_slugs, obj, [obj["enemy"]], "", errors)
 
     # D. 表記
-    _check_style(obj, is_bot, errors)
+    _check_style(obj, errors)
 
     return errors
 

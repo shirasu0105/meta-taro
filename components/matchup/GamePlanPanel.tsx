@@ -9,7 +9,7 @@ const PHASES: { key: keyof LaneMatchup["gamePlan"]; label: string }[] = [
   { key: "late", label: "終盤" },
 ];
 
-/** 詳細立ち回り GAME PLAN パネル。通常レーン専用（BotViewAdvice に gamePlan は無い） */
+/** 詳細立ち回り GAME PLAN パネル。通常レーン専用（BOTの視点別アドバイスは gamePlan を持たない。03 §3.1） */
 export function GamePlanPanel({
   gamePlan,
   refs,

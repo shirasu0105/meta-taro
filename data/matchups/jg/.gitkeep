@@ -1,0 +1,3 @@
+# JG は未対応（T-1300）。データは docs/archive/bot/data/jg/ に退避してある。
+# このディレクトリを消すと lib/data.ts の listLaneMatchups() の readdirSync が例外を投げてビルドが落ちる
+# （03_database.md §2）。Git は空ディレクトリを追跡しないため、このファイルで存在を保証する。

@@ -59,24 +59,8 @@ export type LaneMatchup = {
   glossaryRefs: string[]; // 用語集slug
 };
 
-export type BotViewAdvice = {
-  summary: string;
-  dangerSkills: DangerSkill[];
-  powerSpike: PowerSpike;
-  recommended: Recommended;
-  glossaryRefs: string[];
-};
-
-export type BotMatchup = {
-  myAdc: string;
-  mySup: string;
-  enemyAdc: string;
-  enemySup: string;
-  aiRating: 1 | 2 | 3 | 4 | 5;
-  advantage: string;
-  winRate?: number; // ペア統計。上に同じく Phase 1 では未使用
-  views: { adc: BotViewAdvice; sup: BotViewAdvice };
-};
+// BOT（2v2）の BotViewAdvice / BotMatchup は T-1300 で削除した。
+// 型定義は docs/03_database.md §3.1（アーカイブ）にあり、復活の判断は T-1308。
 
 export type GlossaryEntry = {
   slug: string; // 例 "all-in"
